@@ -315,46 +315,46 @@ Desenforme e sirva em seguida.', null, 0, 0, 0, 'receita1', 1);
 --receitasIngredientes
 
 --arroz
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 1, 1, 1, null, 1);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 1, 2, 2, null, 250);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 1, 3, 3, null, 2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 1, 4, 4, null, 1);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 1, 5, 2, null, 250);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 1, 6, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 1, 1, null, 1);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 2, 2, null, 250);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 3, 3, null, 2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 4, 4, null, 1);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 5, 2, null, 250);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 6, 5, null, 0);
 
 --cebola
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 2, 7, 6, null, 2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 2, 8, 2, null, 500);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 2, 6, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 2, 9, 12, null, 500);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 2, 7, 6, null, 2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 2, 8, 2, null, 500);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 2, 6, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 2, 9, 12, null, 500);
 
 --torta
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 4, 12, null, 60);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 10, 2, null, 40);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 7, 2, null, 40);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 11, 8, null, 1);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 12, 6, null, 2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 13, 2, null, 100);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 14, 2, null, 85);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 15, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 8, 2, null, 150);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 6, 8, null, 1/2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 16, 8, null, 1/2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 13, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 17, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 12, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 18, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 19, 5, null, 0);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 3, 4, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 4, 12, null, 60);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 10, 2, null, 40);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 7, 2, null, 40);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 11, 8, null, 1);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 12, 6, null, 2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 13, 2, null, 100);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 14, 2, null, 85);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 15, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 8, 2, null, 150);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 6, 8, null, 1/2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 16, 8, null, 1/2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 13, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 17, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 12, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 18, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 19, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 3, 4, 5, null, 0);
 
 --petit
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 20, 8, null, 5);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 21, 11, null, 4);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 22, 8, null, 4);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 23, 8, null, 5);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 12, 6, null, 2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 24, 6, null, 2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 8, 8, null, 2);
-insert into receitas_ingredientes values(receita_seq.NEXTVAL, 4, 6, 5, null, 0);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 20, 8, null, 5);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 21, 11, null, 4);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 22, 8, null, 4);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 23, 8, null, 5);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 12, 6, null, 2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 24, 6, null, 2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 8, 8, null, 2);
+insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 6, 5, null, 0);
 
 commit;

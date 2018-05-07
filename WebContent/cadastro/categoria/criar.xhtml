@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>Insert title here</title>
+	</h:head>
+	<h:body>
+		<h:form>
+			<section>
+				<h:messages globalOnly="true" errorClass="error" />
+				<div class="f-row">
+					<h:message for="nome" errorClass="error" />
+		
+					<h:inputText id="nome" value="#{categoriaBean.model.nome}" size="80"
+						required="true" a:placeholder="Nome"
+						validatorMessage="Nome deve ter no máximo 80 caracteres"
+						requiredMessage="Nome é obrigatório">
+						<f:validateLength minimum="1" maximum="80" />
+					</h:inputText>
+				</div>
+		
+				<div class="f-row">
+					<label> É uma subcategoria: <h:selectBooleanCheckbox
+							value="#{categoriaBean.model.selecionavel}" />
+					</label>
+				</div>
+			</section>
+			<div class="f-row submit">
+				<h:commandButton action="#{categoriaBean.incluir()}"
+					value="Cadastrar" />
+				<h:commandLink immediate="true" action="#{categoriaBean.listar()}"
+					value="Cancelar" />
+			</div>
+		</h:form>
+	</h:body>
+</html>

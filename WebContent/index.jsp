@@ -8,7 +8,7 @@
 </head>
 <body>
 	<%
-		response.sendRedirect("pages/homepage.jsf");
+		response.sendRedirect("cadastro/categoria/index.jsf");
 	%>
 </body>
 </html>

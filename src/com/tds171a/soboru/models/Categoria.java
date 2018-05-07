@@ -22,7 +22,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "CATEGORIAS")
+@Table(name = "categorias")
 public class Categoria implements Serializable, Cloneable {
 
     /**
@@ -42,25 +42,25 @@ public class Categoria implements Serializable, Cloneable {
     /**
      * Parï¿½metro nome do Categoria
      */
-	@Column(name = "NOME", length = 80, nullable = false)
+	@Column(name = "nome", length = 80, nullable = false)
     private String nome;
     
 	/**
 	 * Informa que está selecionável
 	 */
-	@Column(name = "SELECIONAVEL", length = 1, nullable = false)
+	@Column(name = "selecionavel", length = 1, nullable = false)
     private boolean selecionavel;
     
 	/**
 	 * Informa o id da Super
 	 */
-	@Column(name = "ID_SUPER_CATEGORIA", length = 11, nullable = true)
+	@Column(name = "id_usper_categoria", length = 11, nullable = true)
     private int idSuperCategoria;
     
 	/**
 	 * Cria a slug do endereço
 	 */
-	@Column(name = "SLUG", length = 80, nullable = false)
+	@Column(name = "slug", length = 80, nullable = false)
     private String slug;
 
     /**
