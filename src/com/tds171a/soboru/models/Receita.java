@@ -81,7 +81,7 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * Parametro nome da receita
 	 */
-	@Column(name = "IMG_PATH", length=80, nullable = false)
+	@Column(name = "IMG_PATH", length=80, nullable = true)
 	private String imgPath;
 
 	/**
