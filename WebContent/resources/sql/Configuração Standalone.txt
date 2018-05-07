@@ -1,0 +1,24 @@
+C:\wildfly\wildfly-11.0.0.Final\standalone\configuration\standalone.xml
+
+<datasource jndi-name="java:jboss/datasources/Soboru" pool-name="Soboru">
+                    <connection-url>jdbc:oracle:thin:@localhost:1521:XE</connection-url>
+                    <driver>oracle</driver>
+                    <pool>
+                        <min-pool-size>10</min-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <security>
+                        <user-name>soboru</user-name>
+                        <password>opet</password>
+                    </security>
+                    <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
+                        <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleStaleConnectionChecker"/>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
+                    </validation>
+                    <statement>
+                        <prepared-statement-cache-size>32</prepared-statement-cache-size>
+                        <share-prepared-statements>true</share-prepared-statements>
+                    </statement>
+                </datasource>
