@@ -3,45 +3,78 @@
  */
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 /**
  * @author Sony
  *
  */
-public class ReceitaIngrediente {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "RECEITAS_INGREDIENTES")
+public class ReceitaIngrediente implements Serializable, Cloneable {
 	
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -2634424320049000000L;
+
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_receita_ingrediente")
+	@SequenceGenerator(name = "entity_sequence_generator_receita_ingrediente", sequenceName = "receita_ingrediente_seq")
+	@Column(name = "id", nullable = false)
 	private int id;
 	
 	/**
 	 * 
 	 */
+	@Column(name = "ID_RECEITA", precision= 11, nullable = false)
 	private int id_receita;
 	
 	/**
 	 * 
 	 */
+	@Column(name = "ID_INGREDIENTE", precision= 11, nullable = false)
 	private int id_ingrediente;
 	
 	/**
 	 * 
 	 */
+	@Column(name = "ID_MEDIDA", precision= 11, nullable = false)
 	private int id_medida;
 	
 	/**
 	 * 
 	 */
+	@Column(name = "SUB_SESSAO", length=80, nullable = false)
 	private String sub_sessao;
 	
 	/**
 	 * 
 	 */
+	@Column(name = "QTY", precision=11 , scale=2, nullable = false)
 	private double qty;
 	
 	/**
 	 * 
 	 */
+	
 	private Medida medida;
 	
 	/**

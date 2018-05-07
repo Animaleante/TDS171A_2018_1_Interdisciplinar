@@ -1,73 +1,119 @@
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Receita {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+/**
+ * Model responsável pelas receitas
+ * @author Luiz
+ *
+ */
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "RECEITAS")
+public class Receita implements Serializable, Cloneable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5640581957542916967L;
 
 	/**
 	 * Parametro id da Receita
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_receita")
+	@SequenceGenerator(name = "entity_sequence_generator_receita", sequenceName = "receita_seq")
+	@Column(name = "id", nullable = false)
 	private int id;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "NOME", length = 80, nullable = false)
 	private String nome;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "ID_CATEGORIA", precision = 11, nullable = false)
 	private int categoriaId;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "ID_USUARIO", precision= 11, nullable = false)
 	private int usuarioId;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "PORCAO", precision= 11, nullable = false)
 	private Integer porcao;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "TEMPO_PREPARO", precision= 11 , scale=2, nullable = false)
 	private Double tempoPreparo;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Lob
+	@Column(name = "MODO_PREPARO",  nullable = false)
 	private String modoPreparo;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "IMG_PATH", length=80, nullable = false)
 	private String imgPath;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "PONTUACAO_MEDIA", precision=11 , scale=2, nullable = false)
 	private double pontuacaoMedia;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "VIEWS", precision= 11, nullable = false)
 	private int views;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "FAVS", precision= 11, nullable = false)
 	private int favs;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "SLUG", length=80, nullable = false)
 	private String slug;
 
 	/**
 	 * Parametro nome da receita
 	 */
+	@Column(name = "APROVADO", precision= 1, nullable = false)
 	private boolean aprovado;
+	
 	
 	private boolean reportou;
 	private boolean pontuou;

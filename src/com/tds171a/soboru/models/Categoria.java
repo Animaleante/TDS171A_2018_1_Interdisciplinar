@@ -1,26 +1,66 @@
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 /**
  * Classe de ValueObject do Categoria
  * @author Diogo
  *
  */
-public class Categoria {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "CATEGORIAS")
+public class Categoria implements Serializable, Cloneable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8522841498909464541L;
+
+	/**
      * Parï¿½metro id do Categoria
      */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_categoria")
+	@SequenceGenerator(name = "entity_sequence_generator_categoria", sequenceName = "categoria_seq")
+	@Column(name = "id", nullable = false)
     private int id;
 
     /**
      * Parï¿½metro nome do Categoria
      */
+	@Column(name = "NOME", length = 80, nullable = false)
     private String nome;
     
+	/**
+	 * Informa que está selecionável
+	 */
+	@Column(name = "SELECIONAVEL", length = 1, nullable = false)
     private boolean selecionavel;
     
+	/**
+	 * Informa o id da Super
+	 */
+	@Column(name = "ID_SUPER_CATEGORIA", length = 11, nullable = true)
     private int idSuperCategoria;
     
+	/**
+	 * Cria a slug do endereço
+	 */
+	@Column(name = "SLUG", length = 80, nullable = false)
     private String slug;
 
     /**

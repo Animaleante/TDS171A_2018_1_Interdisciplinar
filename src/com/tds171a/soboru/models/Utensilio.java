@@ -1,25 +1,54 @@
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 /**
  * Classe de ValueObject do Utensilio
  * @author Diogo
  *
  */
-public class Utensilio {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "UTENSILIOS")
+public class Utensilio implements Serializable, Cloneable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7436593408826235662L;
 
 	/**
 	 * Par�metro de id do Utensilio
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_utensilio")
+	@SequenceGenerator(name = "entity_sequence_generator_utensilio", sequenceName = "utensilio_seq")
+	@Column(name = "id", nullable = false)
 	private int id;
 
 	/**
 	 * Par�metro de nome do Utensilio
 	 */
+	@Column(name = "NOME", length = 80, nullable = false)
 	private String nome;
 
 	/**
 	 * Construtor da classe de Utensilio
 	 */
+	
 	public Utensilio() {
 
 	    id = -1;

@@ -3,22 +3,52 @@
  */
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 /**
  * @author Diogo
  *
  */
-public class Role {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "ROLES")
+public class Role implements Serializable, Cloneable {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -5205218445919955814L;
+
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_role")
+	@SequenceGenerator(name = "entity_sequence_generator_role", sequenceName = "role_seq")
+	@Column(name = "id", nullable = false)
 	private int id;
 	
 	/**
 	 * 
 	 */
+	@Column(name = "NOME", length = 80, nullable = false)
 	private String nome;
 	
+	@Column(name = "IS_ADMIN", precision= 1, nullable = false)
 	private boolean isAdmin;
+	
 	
 	public Role() {
 	    id = -1;

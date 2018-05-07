@@ -1,23 +1,72 @@
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * 
  * @author Diogo
  *
  */
-public class Usuario {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "USUARIOS")
+public class Usuario implements Serializable, Cloneable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 538500355617517725L;
+	
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_usuario")
+	@SequenceGenerator(name = "entity_sequence_generator_usuario", sequenceName = "usuario_seq")
+	@Column(name = "id", nullable = false)
 	private int id;
+	
+	@Column(name = "NOME", length = 80, nullable = false)
 	private String nome;
+	
+	@Column(name = "EMAIL", length = 80, nullable = false)
 	private String email;
+	
+	
+	@Column(name = "SENHA", length = 80, nullable = false)
 	private String senha;
-	private String tipo;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "NASC", columnDefinition="DATE", nullable = false)
 	private Date nasc;
+	
+	@Column(name = "SEXO", precision = 1, nullable = false)
 	private int sexo;
+	
+	@Column(name = "ID_ROLE", precision = 11, nullable = false)
 	private int roleId;
+	
+	@Column(name = "NOTIFICACAO_EMAIL", precision = 1, nullable = false)
 	private boolean notificacaoEmail;
+	
+	
 	private Role role;
+	
 	private String senhaConfirmacao;
 	
 	
@@ -84,20 +133,6 @@ public class Usuario {
 	 */
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	/**
-	 * @return the tipo
-	 */
-	public String getTipo() {
-		return tipo;
-	}
-
-	/**
-	 * @param tipo the tipo to set
-	 */
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	/**

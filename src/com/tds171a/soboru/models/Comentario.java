@@ -3,22 +3,76 @@
  */
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+
+import java.sql.Clob;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 /**
  * @author Diogo
  *
  */
-public class Comentario {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "COMENTARIOS")
+public class Comentario implements Serializable, Cloneable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7272795930725483134L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_comentario")
+	@SequenceGenerator(name = "entity_sequence_generator_comentario", sequenceName = "comentario_seq")
+	@Column(name = "id", nullable = false)
 	private int id;
+	
+	/**
+	 * Id da receita
+	 */
+	@Column(name = "ID_RECEITA", length = 11, nullable = false)
 	private int receitaId;
+	
+	/**
+	 * Id do usuário
+	 */
+	@Column(name = "ID_USUARIO", length = 11, nullable = false)
 	private int usuarioId;
+	
+	/**
+	 * Corpo do comentário
+	 */
+	//TODO: Perguntar ao Baracho 
+	@Lob
+	@Column(name = "BODY", nullable = false)
 	private String body;
 	
+	//TODO: Ver com Diogo
 	private String receitaNome;
 	private String usuarioNome;
 	
+	@ManyToOne
 	private Receita receita;
+	@ManyToOne
 	private Usuario usuario;
 	
+	/**
+	 * Construtor padrão que seta todos os dados nulos.
+	 */
 	public Comentario() {
 		id = -1;
 		receitaId = -1;
@@ -28,6 +82,7 @@ public class Comentario {
 		receita = null;
 		usuario = null;
 	}
+	
 	
 	/**
 	 * @return the id

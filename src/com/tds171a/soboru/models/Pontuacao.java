@@ -3,13 +3,37 @@
  */
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * @author Diogo
  *
  */
-public class Pontuacao {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "PONTUACOES")
+public class Pontuacao implements Serializable, Cloneable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4630807191096222379L;
+	
+	@Column(name = "id_receita", length = 11, nullable = false)	
 	private int receitaId;
+	
+	@Column(name = "id_usuario", length = 11, nullable = false)
 	private int usuarioId;
+	
+	@Column(name = "QTY", length = 1, nullable = false)
 	private Double qty;
 	
 	private String receitaNome;

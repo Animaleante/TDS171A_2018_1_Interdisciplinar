@@ -3,15 +3,43 @@
  */
 package com.tds171a.soboru.models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * @author Diogo
  *
  */
-public class Report {
+
+/**
+ * Trandormando a model em entidade.
+ * @author Luiz
+ *
+ */
+@Entity
+@Table(name = "reports")
+public class Report implements Serializable, Cloneable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5064897314637013653L;
+	
+	@Column(name = "ID_RECEITA", precision= 11, nullable = false)
 	private int receitaId;
+	
+	@Column(name = "ID_USUARIO", precision= 11, nullable = false)
 	private int usuarioId;
+	
+	
 	private String receitaNome;
+	
+	
 	private String usuarioNome;
+	
+	
 	
 	public Report() {
 		// TODO Auto-generated constructor stub
