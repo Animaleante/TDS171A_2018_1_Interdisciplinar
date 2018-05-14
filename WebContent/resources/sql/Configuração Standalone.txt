@@ -1,6 +1,6 @@
 C:\wildfly\wildfly-11.0.0.Final\standalone\configuration\standalone.xml
 
-<datasource jndi-name="java:jboss/datasources/Soboru" pool-name="Soboru">
+				<datasource jndi-name="java:jboss/datasources/Soboru" pool-name="Soboru">
                     <connection-url>jdbc:oracle:thin:@localhost:1521:XE</connection-url>
                     <driver>oracle</driver>
                     <pool>
@@ -23,6 +23,8 @@ C:\wildfly\wildfly-11.0.0.Final\standalone\configuration\standalone.xml
                     </statement>
                 </datasource>
 
-                    <driver name="oracle" module="com.oracle.jdbc">
-                        <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
-                    </driver>
+                <driver name="oracle" module="com.oracle.jdbc">
+                    <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+                </driver>
+
+Colocar pasta oracle em C:\wildfly\wildfly-11.0.0.Final\modules\system\layers\base\com
