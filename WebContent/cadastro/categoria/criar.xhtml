@@ -8,6 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 		<title>Insert title here</title>
 	</h:head>
+	
 	<h:body>
 		<h:form>
 			<section>
@@ -28,6 +29,15 @@
 							value="#{categoriaBean.model.selecionavel}" />
 					</label>
 				</div>
+
+				<div class="f-row">
+					<h:selectOneMenu value="#{categoriaBean.model.idSuperCategoria}">
+						<f:selectItem itemValue="-1" itemLabel="Selecione uma categoria"
+							a:disabled="disabled" a:selected="selected" />
+						<f:selectItems value="#{categoriaBean.categorias}" />
+					</h:selectOneMenu>
+				</div>
+				
 			</section>
 			<div class="f-row submit">
 				<h:commandButton action="#{categoriaBean.incluir()}"

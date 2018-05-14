@@ -79,7 +79,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable {
 	@SuppressWarnings("unchecked")
 	public List<Categoria> listarSelecionaveis() {
 		return this.session.createCriteria(Categoria.class)
-				.add(Restrictions.eq("selecionavel", 1)).list();
+				.add(Restrictions.eq("selecionavel", true)).list();
 	}
 
 	/**
@@ -90,6 +90,6 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable {
 	@SuppressWarnings("unchecked")
 	public List<Categoria> listarGrupos() {
 		return this.session.createCriteria(Categoria.class)
-				.add(Restrictions.eq("selecionavel", 0)).list();
+				.add(Restrictions.eq("selecionavel", false)).list();
 	}
 }

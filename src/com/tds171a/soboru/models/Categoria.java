@@ -55,7 +55,7 @@ public class Categoria implements Serializable, Cloneable {
 	 * Informa o id da Super
 	 */
 	@Column(name = "id_super_categoria", length = 11, nullable = true)
-    private int idSuperCategoria;
+    private Integer idSuperCategoria;
     
 	/**
 	 * Cria a slug do endereço
@@ -70,7 +70,7 @@ public class Categoria implements Serializable, Cloneable {
         id = -1;
         nome = "";
         selecionavel = true;
-        idSuperCategoria = -1;
+//        idSuperCategoria = -1;
         slug = "";
     }
 
@@ -126,14 +126,14 @@ public class Categoria implements Serializable, Cloneable {
 	/**
 	 * @return the idSuperCategoria
 	 */
-	public int getIdSuperCategoria() {
+	public Integer getIdSuperCategoria() {
 		return idSuperCategoria;
 	}
 
 	/**
 	 * @param idSuperCategoria the idSuperCategoria to set
 	 */
-	public void setIdSuperCategoria(int idSuperCategoria) {
+	public void setIdSuperCategoria(Integer idSuperCategoria) {
 		this.idSuperCategoria = idSuperCategoria;
 	}
 

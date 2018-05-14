@@ -51,7 +51,8 @@ public class CategoriaBean extends BeanBase<Categoria> {
         controller = PersistenceFactory.getCategoriaPersistanceFactory();
     	setCategorias(((CategoriaPersistence) controller).listarGrupos());
 
-	    return route_base + CRIAR_PAGE + FACES_REDIRECT;
+//    	return route_base + CRIAR_PAGE + FACES_REDIRECT;
+	    return route_base + CRIAR_PAGE;
     }
     
     /**

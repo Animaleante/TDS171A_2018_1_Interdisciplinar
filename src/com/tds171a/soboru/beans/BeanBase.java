@@ -58,7 +58,8 @@ public abstract class BeanBase<T> implements Serializable {
 	    
 		setLista(controller.listar());
 
-		return route_base + INDEX_PAGE + FACES_REDIRECT;
+//		return route_base + INDEX_PAGE + FACES_REDIRECT;
+		return route_base + INDEX_PAGE;
 	}
 
 	/**
@@ -66,7 +67,8 @@ public abstract class BeanBase<T> implements Serializable {
 	 */
 	public String criar() {
 		limparModel();
-	    return route_base + CRIAR_PAGE + FACES_REDIRECT;
+//		return route_base + CRIAR_PAGE + FACES_REDIRECT;
+	    return route_base + CRIAR_PAGE;
 	}
 
 //	public abstract String incluir();
@@ -96,7 +98,8 @@ public abstract class BeanBase<T> implements Serializable {
 	 */
 	public String exibir(T model) {
 		setModel(model);
-	    return route_base + EXIBIR_PAGE + FACES_REDIRECT;
+//		return route_base + EXIBIR_PAGE + FACES_REDIRECT;
+	    return route_base + EXIBIR_PAGE;
 	}
 
 	/**
@@ -104,7 +107,8 @@ public abstract class BeanBase<T> implements Serializable {
 	 */
 	public String editar(T model) {
 		setModel(model);
-		return route_base + EDITAR_PAGE + FACES_REDIRECT;
+//		return route_base + EDITAR_PAGE + FACES_REDIRECT;
+		return route_base + EDITAR_PAGE;
 	}
 
 	/**
@@ -135,7 +139,8 @@ public abstract class BeanBase<T> implements Serializable {
 	 */
 	public String deletar(T model) {
 		setModel(model);
-		return route_base + DELETAR_PAGE + FACES_REDIRECT;
+//		return route_base + DELETAR_PAGE + FACES_REDIRECT;
+		return route_base + DELETAR_PAGE;
 	}
 
 	/**
