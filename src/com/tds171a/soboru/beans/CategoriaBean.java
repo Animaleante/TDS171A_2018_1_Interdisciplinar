@@ -66,8 +66,6 @@ public class CategoriaBean extends BeanBase<Categoria> {
     	if(!getModel().getSelecionavel())
     		getModel().setIdSuperCategoria(-1);
 
-		System.out.println("1 - Slug: " + getModel().getSlug());
-		
         controller = PersistenceFactory.getCategoriaPersistanceFactory();
     	return super.incluir();
     }
@@ -113,7 +111,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	        return route_base + CRIAR_PAGE;
 	    }
 
-		if(controller.remover(getModel().getId())) {
+		if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));

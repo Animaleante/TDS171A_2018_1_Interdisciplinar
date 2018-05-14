@@ -54,7 +54,7 @@ public class Categoria implements Serializable, Cloneable {
 	/**
 	 * Informa o id da Super
 	 */
-	@Column(name = "id_usper_categoria", length = 11, nullable = true)
+	@Column(name = "id_super_categoria", length = 11, nullable = true)
     private int idSuperCategoria;
     
 	/**

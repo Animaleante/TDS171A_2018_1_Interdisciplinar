@@ -17,7 +17,6 @@ public class CategoriaPersistence implements IDAO<Categoria> {
 
 	@Override
 	public boolean incluir(Categoria model) {
-		System.out.println("2 - Slug: " + model.getSlug());
 		return ((CategoriaDAO) dao).incluir(model);
 	}
 
@@ -32,8 +31,8 @@ public class CategoriaPersistence implements IDAO<Categoria> {
 	}
 
 	@Override
-	public boolean remover(int modelId) {
-		return ((CategoriaDAO) dao).remover(modelId);
+	public boolean remover(Categoria model) {
+		return ((CategoriaDAO) dao).remover(model);
 	}
 
 	@Override

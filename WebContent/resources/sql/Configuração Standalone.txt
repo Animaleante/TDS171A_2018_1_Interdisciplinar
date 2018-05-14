@@ -22,3 +22,7 @@ C:\wildfly\wildfly-11.0.0.Final\standalone\configuration\standalone.xml
                         <share-prepared-statements>true</share-prepared-statements>
                     </statement>
                 </datasource>
+
+                    <driver name="oracle" module="com.oracle.jdbc">
+                        <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+                    </driver>
