@@ -2,13 +2,17 @@ package com.tds171a.soboru.models;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -151,7 +155,13 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * 
 	 */
-	private List<Report> reports;
+	@ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            },
+            mappedBy = "receitasReportadas")
+	private Set<Report> usuariosQueReportaram;
 	
 	/**
 	 * 
@@ -190,7 +200,7 @@ public class Receita implements Serializable, Cloneable {
 		this.tags = null;
 		this.receitaIngredientes = null;
 		this.comentarios = null;
-		this.reports = null;
+		this.setUsuariosQueReportaram(null);
 		this.pontuacoes = null;
 		this.usuariosFavoritaram = null;
 		
@@ -464,20 +474,6 @@ public class Receita implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the reports
-	 */
-	public List<Report> getReports() {
-		return reports;
-	}
-
-	/**
-	 * @param reports the reports to set
-	 */
-	public void setReports(List<Report> reports) {
-		this.reports = reports;
-	}
-
-	/**
 	 * @return the pontuacoes
 	 */
 	public List<Pontuacao> getPontuacoes() {
@@ -545,5 +541,19 @@ public class Receita implements Serializable, Cloneable {
 	 */
 	public void setPontuou(boolean pontuou) {
 		this.pontuou = pontuou;
+	}
+
+	/**
+	 * @return the usuariosQueReportaram
+	 */
+	public Set<Report> getUsuariosQueReportaram() {
+		return usuariosQueReportaram;
+	}
+
+	/**
+	 * @param usuariosQueReportaram the usuariosQueReportaram to set
+	 */
+	public void setUsuariosQueReportaram(Set<Report> usuariosQueReportaram) {
+		this.usuariosQueReportaram = usuariosQueReportaram;
 	}
 }

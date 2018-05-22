@@ -9,7 +9,7 @@ import com.tds171a.soboru.persistence.IDAO;
 
 public class CategoriaPersistence implements IDAO<Categoria> {
 	
-	private IDAO<Categoria> dao;
+	private CategoriaDAO dao;
 	
 	public CategoriaPersistence(Session session) {
 		dao = new CategoriaDAO(session);
@@ -17,27 +17,27 @@ public class CategoriaPersistence implements IDAO<Categoria> {
 
 	@Override
 	public boolean incluir(Categoria model) {
-		return ((CategoriaDAO) dao).incluir(model);
+		return dao.incluir(model);
 	}
 
 	@Override
 	public List<Categoria> listar() {
-		return ((CategoriaDAO) dao).listar(); 
+		return dao.listar(); 
 	}
 
 	@Override
 	public boolean atualizar(Categoria model) {
-		return ((CategoriaDAO) dao).atualizar(model);
+		return dao.atualizar(model);
 	}
 
 	@Override
 	public boolean remover(Categoria model) {
-		return ((CategoriaDAO) dao).remover(model);
+		return dao.remover(model);
 	}
 
 	@Override
 	public Categoria selecionar(int modelId) {
-		return ((CategoriaDAO) dao).selecionar(modelId);
+		return dao.selecionar(modelId);
 	}
     
     /**
@@ -46,7 +46,7 @@ public class CategoriaPersistence implements IDAO<Categoria> {
      * @return
      */
     public List<Categoria> listarSelecionaveis() {
-    	return ((CategoriaDAO) dao).listarSelecionaveis();
+    	return dao.listarSelecionaveis();
     }
 
     /**
@@ -55,7 +55,7 @@ public class CategoriaPersistence implements IDAO<Categoria> {
      * @return
      */
 	public List<Categoria> listarGrupos() {
-		return ((CategoriaDAO) dao).listarGrupos();
+		return dao.listarGrupos();
 	}
 
 }
