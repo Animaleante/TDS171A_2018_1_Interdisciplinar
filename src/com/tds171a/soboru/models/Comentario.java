@@ -58,11 +58,7 @@ public class Comentario implements Serializable, Cloneable {
 	@Lob
 	@Column(name = "BODY", nullable = false)
 	private String body;
-	
-	//TODO: Ver com Diogo
-	private String receitaNome;
-	private String usuarioNome;
-	
+		
 	@ManyToOne
 	private Receita receita;
 	@ManyToOne
@@ -75,8 +71,6 @@ public class Comentario implements Serializable, Cloneable {
 		id = -1;
 		receitaId = -1;
 		usuarioId = -1;
-		receitaNome = "";
-		usuarioNome = "";
 		receita = null;
 		usuario = null;
 	}
@@ -157,33 +151,5 @@ public class Comentario implements Serializable, Cloneable {
 	 */
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	/**
-	 * @return the receitaNome
-	 */
-	public String getReceitaNome() {
-		return receitaNome;
-	}
-
-	/**
-	 * @param receitaNome the receitaNome to set
-	 */
-	public void setReceitaNome(String receitaNome) {
-		this.receitaNome = receitaNome;
-	}
-
-	/**
-	 * @return the usuarioNome
-	 */
-	public String getUsuarioNome() {
-		return usuarioNome;
-	}
-
-	/**
-	 * @param usuarioNome the usuarioNome to set
-	 */
-	public void setUsuarioNome(String usuarioNome) {
-		this.usuarioNome = usuarioNome;
 	}
 }
