@@ -11,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -54,14 +56,22 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * Parametro nome da receita
 	 */
-	@Column(name = "ID_CATEGORIA", precision = 11, nullable = false)
-	private int categoriaId;
+//	@Column(name = "ID_CATEGORIA", precision = 11, nullable = false)
+//	private int categoriaId;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_categoria")
+	private Categoria categoria;
 
 	/**
 	 * Parametro nome da receita
 	 */
-	@Column(name = "ID_USUARIO", precision= 11, nullable = false)
-	private int usuarioId;
+//	@Column(name = "ID_USUARIO", precision= 11, nullable = false)
+//	private int usuarioId;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
 
 	/**
 	 * Parametro nome da receita
@@ -125,17 +135,24 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * 
 	 */
-	private Categoria categoria;
+//	private Categoria categoria;
 	
 	/**
 	 * 
 	 */
-	private Usuario usuario;
+//	private Usuario usuario;
 	
 	/**
 	 * 
 	 */
-	private List<Utensilio> utensilios;
+//	private List<Utensilio> utensilios;
+	@ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            },
+            mappedBy = "receitasReportadas")
+	private Set<Utensilio> utensilios;
 	
 	/**
 	 * 
@@ -160,8 +177,8 @@ public class Receita implements Serializable, Cloneable {
                 CascadeType.PERSIST,
                 CascadeType.MERGE
             },
-            mappedBy = "receitasReportadas")
-	private Set<Report> usuariosQueReportaram;
+            mappedBy = "receitas")
+	private Set<Usuario> usuariosQueReportaram;
 	
 	/**
 	 * 
@@ -178,8 +195,8 @@ public class Receita implements Serializable, Cloneable {
 	public Receita() {
 		this.id = -1;
 		this.nome = "";
-		this.categoriaId = -1;
-		this.usuarioId = -1;
+//		this.categoriaId = -1;
+//		this.usuarioId = -1;
 		this.porcao = null;
 		this.tempoPreparo = null;
 		this.modoPreparo = "";
@@ -238,30 +255,30 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * @return the id_categoria
 	 */
-	public int getCategoriaId() {
-		return categoriaId;
-	}
+//	public int getCategoriaId() {
+//		return categoriaId;
+//	}
 
 	/**
 	 * @param categoriaId the id_categoria to set
 	 */
-	public void setCategoriaId(int categoriaId) {
-		this.categoriaId = categoriaId;
-	}
+//	public void setCategoriaId(int categoriaId) {
+//		this.categoriaId = categoriaId;
+//	}
 
 	/**
 	 * @return the id_usuario
 	 */
-	public int getUsuarioId() {
+	/*public int getUsuarioId() {
 		return usuarioId;
 	}
 
-	/**
+	*//**
 	 * @param usuarioId the id_usuario to set
-	 */
+	 *//*
 	public void setUsuarioId(int usuarioId) {
 		this.usuarioId = usuarioId;
-	}
+	}*/
 
 	/**
 	 * @return the porcao
@@ -420,14 +437,14 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * @return the utensilios
 	 */
-	public List<Utensilio> getUtensilios() {
+	public Set<Utensilio> getUtensilios() {
 		return utensilios;
 	}
 
 	/**
 	 * @param utensilios the utensilios to set
 	 */
-	public void setUtensilios(List<Utensilio> utensilios) {
+	public void setUtensilios(Set<Utensilio> utensilios) {
 		this.utensilios = utensilios;
 	}
 
@@ -546,14 +563,14 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * @return the usuariosQueReportaram
 	 */
-	public Set<Report> getUsuariosQueReportaram() {
+	public Set<Usuario> getUsuariosQueReportaram() {
 		return usuariosQueReportaram;
 	}
 
 	/**
 	 * @param usuariosQueReportaram the usuariosQueReportaram to set
 	 */
-	public void setUsuariosQueReportaram(Set<Report> usuariosQueReportaram) {
+	public void setUsuariosQueReportaram(Set<Usuario> usuariosQueReportaram) {
 		this.usuariosQueReportaram = usuariosQueReportaram;
 	}
 }
