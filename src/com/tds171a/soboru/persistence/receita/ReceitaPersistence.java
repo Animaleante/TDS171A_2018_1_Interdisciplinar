@@ -18,11 +18,11 @@ import com.tds171a.soboru.persistence.IDAO;
  * @version 1.0
  *
  */
-public class ReceitaPersistance implements IDAO<Receita> {
+public class ReceitaPersistence implements IDAO<Receita> {
 	
 	private ReceitaDAO dao;
 	
-	public ReceitaPersistance(Session session) {
+	public ReceitaPersistence(Session session) {
 		dao = new ReceitaDAO(session);
 	}
 
