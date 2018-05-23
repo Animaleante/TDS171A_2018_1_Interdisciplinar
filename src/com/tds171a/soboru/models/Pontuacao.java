@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,85 +25,62 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PONTUACOES")
 public class Pontuacao implements Serializable, Cloneable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4630807191096222379L;
-	
-	@Column(name = "id_receita", length = 11, nullable = false)	
-	private int receitaId;
-	
-	@Column(name = "id_usuario", length = 11, nullable = false)
-	private int usuarioId;
-	
+	private static final long serialVersionUID = 6034009323929753926L;
+
 	@Column(name = "QTY", length = 1, nullable = false)
 	private Double qty;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_receita")
+	private Receita receita;
 	
-	private String receitaNome;
-	private String usuarioNome;
-	
-	public Pontuacao() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
-	 * @return the receitaId
-	 */
-	public int getReceitaId() {
-		return receitaId;
-	}
-	/**
-	 * @param receitaId the receitaId to set
-	 */
-	public void setReceitaId(int receitaId) {
-		this.receitaId = receitaId;
-	}
-	/**
-	 * @return the usuarioId
-	 */
-	public int getUsuarioId() {
-		return usuarioId;
-	}
-	/**
-	 * @param usuarioId the usuarioId to set
-	 */
-	public void setUsuarioId(int usuarioId) {
-		this.usuarioId = usuarioId;
-	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
+
 	/**
 	 * @return the qty
 	 */
 	public Double getQty() {
 		return qty;
 	}
+
 	/**
 	 * @param qty the qty to set
 	 */
 	public void setQty(Double qty) {
 		this.qty = qty;
 	}
+
 	/**
-	 * @return the receitaNome
+	 * @return the receita
 	 */
-	public String getReceitaNome() {
-		return receitaNome;
+	public Receita getReceita() {
+		return receita;
 	}
+
 	/**
-	 * @param receitaNome the receitaNome to set
+	 * @param receita the receita to set
 	 */
-	public void setReceitaNome(String receitaNome) {
-		this.receitaNome = receitaNome;
+	public void setReceita(Receita receita) {
+		this.receita = receita;
 	}
+
 	/**
-	 * @return the usuarioNome
+	 * @return the usuario
 	 */
-	public String getUsuarioNome() {
-		return usuarioNome;
+	public Usuario getUsuario() {
+		return usuario;
 	}
+
 	/**
-	 * @param usuarioNome the usuarioNome to set
+	 * @param usuario the usuario to set
 	 */
-	public void setUsuarioNome(String usuarioNome) {
-		this.usuarioNome = usuarioNome;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

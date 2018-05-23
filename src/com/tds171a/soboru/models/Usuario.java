@@ -82,6 +82,12 @@ public class Usuario implements Serializable, Cloneable {
 	@OneToMany(mappedBy="usuario")
 	private Set<Receita> receitas;
 	
+	@OneToMany(mappedBy="usuario")
+	private Set<Pontuacao> pontuacoes;
+	
+	@OneToMany(mappedBy="usuario")
+	private Set<Comentario> comentarios;
+	
 	public Usuario() {
 		id = -1;
 		sexo = 3;
