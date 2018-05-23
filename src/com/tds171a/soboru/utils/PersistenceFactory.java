@@ -5,9 +5,9 @@ import com.tds171a.soboru.persistence.comentario.ComentarioPersistence;
 import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
 import com.tds171a.soboru.persistence.medida.MedidaPersistence;
 import com.tds171a.soboru.persistence.pontuacao.PontuacaoPersistence;
-import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
-import com.tds171a.soboru.persistence.role.RolePersistance;
-import com.tds171a.soboru.persistence.usuario.UsuarioPersistance;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.persistence.role.RolePersistence;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.persistence.utensilio.UtensilioPersistence;
 
 public class PersistenceFactory {
@@ -32,16 +32,16 @@ public class PersistenceFactory {
 		return new PontuacaoPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static ReceitaPersistance getReceitaPersistanceFactory() {
-		return new ReceitaPersistance(HibernateUtil.getSessionFactory().getCurrentSession());
+	public static ReceitaPersistence getReceitaPersistanceFactory() {
+		return new ReceitaPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static RolePersistance getRolePersistanceFactory() {
-		return new RolePersistance(HibernateUtil.getSessionFactory().getCurrentSession());
+	public static RolePersistence getRolePersistanceFactory() {
+		return new RolePersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static UsuarioPersistance getUsuarioPersistanceFactory() {
-		return new UsuarioPersistance(HibernateUtil.getSessionFactory().getCurrentSession());
+	public static UsuarioPersistence getUsuarioPersistanceFactory() {
+		return new UsuarioPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
 	public static UtensilioPersistence getUtensilioPersistanceFactory() {

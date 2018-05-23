@@ -18,11 +18,11 @@ import com.tds171a.soboru.persistence.IDAO;
  * @version 1.0
  *
  */
-public class RolePersistance implements IDAO<Role> {
+public class RolePersistence implements IDAO<Role> {
 	
 	private RoleDAO dao;
 	
-	public RolePersistance(Session session) {
+	public RolePersistence(Session session) {
 		dao = new RoleDAO(session);
 	}
 

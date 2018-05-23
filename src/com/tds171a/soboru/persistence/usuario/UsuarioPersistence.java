@@ -18,11 +18,11 @@ import com.tds171a.soboru.persistence.IDAO;
  * @version 1.0
  *
  */
-public class UsuarioPersistance implements IDAO<Usuario> {
+public class UsuarioPersistence implements IDAO<Usuario> {
 
 	private UsuarioDAO dao;
 	
-	public UsuarioPersistance(Session session) {
+	public UsuarioPersistence(Session session) {
 		dao = new UsuarioDAO(session);
 	}
 
