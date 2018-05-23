@@ -1,12 +1,18 @@
 package com.tds171a.soboru.models;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -44,6 +50,10 @@ public class Utensilio implements Serializable, Cloneable {
 	 */
 	@Column(name = "NOME", length = 80, nullable = false)
 	private String nome;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinTable(name = "receita_utensilio", joinColumns = { @JoinColumn(name = "id_utensilio") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
+	private Set<Receita> receitas;
 
 	/**
 	 * Construtor da classe de Utensilio

@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -76,7 +77,10 @@ public class Usuario implements Serializable, Cloneable {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinTable(name = "reports", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
-	private Set<Report> receitasReportadas;
+	private Set<Receita> receitasReportadas;
+	
+	@OneToMany(mappedBy="usuario")
+	private Set<Receita> receitas;
 	
 	public Usuario() {
 		id = -1;
@@ -225,5 +229,13 @@ public class Usuario implements Serializable, Cloneable {
 	 */
 	public void setSenhaConfirmacao(String senhaConfirmacao) {
 		this.senhaConfirmacao = senhaConfirmacao;
+	}
+
+	public Set<Receita> getReceitas() {
+		return receitas;
+	}
+
+	public void setReceitas(Set<Receita> receitas) {
+		this.receitas = receitas;
 	}
 }
