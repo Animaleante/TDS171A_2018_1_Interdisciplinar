@@ -1,6 +1,5 @@
 package com.tds171a.soboru.beans;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -9,9 +8,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.UsuarioController;
+import com.tds171a.soboru.models.Usuario;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistance;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
-import com.tds171a.soboru.vos.Usuario;
+import java.io.Serializable;
 
 @Named("registroBean")
 @SessionScoped
@@ -19,7 +20,7 @@ import com.tds171a.soboru.vos.Usuario;
  * Criação do bean herando de beanbase passando
  * o vo utilizada.
  */
-public class RegistroBean implements Serializable {
+public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 	
 	/**
      *criando o serial do bean
@@ -34,7 +35,7 @@ public class RegistroBean implements Serializable {
 	/**
 	 * controller do usuário 
 	 */
-	private UsuarioController controller;
+	private UsuarioPersistance controller;
 	
 	//Declaração de variáveis
 	private String nome;
@@ -58,7 +59,6 @@ public class RegistroBean implements Serializable {
 		setSexo(1);
 		setNotificacaoEmail(true);
 		
-		controller = new UsuarioController();
 	}
 	
 	/**
@@ -89,8 +89,10 @@ public class RegistroBean implements Serializable {
 				return route_base + "index";
 			}
 			
-			Usuario usuario = new Usuario();
-			usuario.setNome(nome);
+			controller = PersistenceFactory.getUsuarioPersistanceFactory();
+			return super. incluir();
+			
+		/*	usuario.setNome(nome);
 			usuario.setEmail(email);
 			usuario.setSenha(senha);
 			usuario.setNasc(formattedDate);
@@ -112,7 +114,7 @@ public class RegistroBean implements Serializable {
 				setSenha("");
 				setSenhaConfirmacao("");
 		        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel registrar um usuario!", null));
-			}
+			}*/
 		}
 		
 		return route_base + "index";
@@ -214,6 +216,18 @@ public class RegistroBean implements Serializable {
 	 */
 	public void setNotificacaoEmail(boolean notificacaoEmail) {
 		this.notificacaoEmail = notificacaoEmail;
+	}
+
+	@Override
+	public String deletar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void limparModel() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import com.tds171a.soboru.controllers.ReceitaController;
 import com.tds171a.soboru.controllers.UtensilioController;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.vos.Receita;
 import com.tds171a.soboru.vos.Utensilio;
 
@@ -29,8 +30,8 @@ public class ReceitaUtensilioBean implements Serializable {
 
 	//Declaração das variáveis utilizadas no bean.
 	private Receita receita;
-	private ReceitaController receitaController;
-	private UtensilioController utensilioController;
+	private ReceitaPersistence receitaPersistence;
+	private UtensilioPersistence utensilioPersistence;
 	//Declaração de listas.
 	private List<Utensilio> lista;
 	private List<Utensilio> listaUtensilios;
@@ -39,8 +40,8 @@ public class ReceitaUtensilioBean implements Serializable {
 	 * Construtor que inicia as controllers.
 	 */
 	public ReceitaUtensilioBean() {
-		receitaController = new ReceitaController();
-		utensilioController = new UtensilioController();
+		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
+		utensilioPersistence = PersistenceFactory.getUtensilioPersistanceFactory();
 		lista = new ArrayList<Utensilio>();
 		listaUtensilios = new ArrayList<Utensilio>();
 	}
@@ -52,9 +53,9 @@ public class ReceitaUtensilioBean implements Serializable {
 	 * @return
 	 */
 	public String criar(int receitaId) {
-		setReceita(receitaController.selecionar(receitaId));
-		setLista(receitaController.listarUtensilios(getReceita()));
-		setListaUtensilios(utensilioController.listar());
+		setReceita(receitaPersistence.selecionar(receitaId));
+		setLista(receitaPersistence.listarUtensilios(getReceita()));
+		setListaUtensilios(utensilioPersistence.listar());
 
 		return "/cadastro/receita-utensilio/criar?faces-redirect=true";
 	}
@@ -82,7 +83,7 @@ public class ReceitaUtensilioBean implements Serializable {
 	 * @return
 	 */
 	public String salvar() {
-		receitaController.registrarUtensilios(getReceita().getId(), getLista());
+		receitaPersistence.registrarUtensilios(getReceita().getId(), getLista());
 		return "/cadastro/receita/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
 	}
 

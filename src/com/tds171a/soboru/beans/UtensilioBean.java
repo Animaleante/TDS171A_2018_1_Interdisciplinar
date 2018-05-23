@@ -5,8 +5,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.UtensilioController;
-import com.tds171a.soboru.vos.Utensilio;
+import com.tds171a.soboru.models.Utensilio;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("utensilioBean")
 @SessionScoped
@@ -27,8 +27,8 @@ public class UtensilioBean extends BeanBase<Utensilio> {
      */
     public UtensilioBean() {
         route_base = "/cadastro/utensilio/";
-        controller = new UtensilioController();
-        setVo(new Utensilio());
+        controller = PersistenceFactory.getUtensilioPersistanceFactory();
+        setModel(new Utensilio());
     }
 
     /**
@@ -40,19 +40,19 @@ public class UtensilioBean extends BeanBase<Utensilio> {
 	public String deletar() {
 	    FacesContext context = FacesContext.getCurrentInstance();
 
-	    if(getVo().getId() == -1) {
+	    if(getModel().getId() == -1) {
 	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
 	        return route_base + CRIAR_PAGE;
 	    }
 
-		if(controller.remover(getVo().getId())) {
+		if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));
             return route_base + DELETAR_PAGE;
 		}
 
-		limparVo();
+		limparModel();
 
 	    return listar();
 	}
@@ -65,7 +65,7 @@ public class UtensilioBean extends BeanBase<Utensilio> {
 	public boolean validarDados() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		if(getVo().getNome().isEmpty()) {
+		if(getModel().getNome().isEmpty()) {
 	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 	        return false;
 	    }
@@ -78,7 +78,6 @@ public class UtensilioBean extends BeanBase<Utensilio> {
 	 * sem interferencia de dados cadastrados anteriormente.
 	 */
 	@Override
-	public void limparVo() {
-		setVo(new Utensilio());
+	public void limparModel() {
 	}
 }

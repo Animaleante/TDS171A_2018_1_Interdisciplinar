@@ -5,6 +5,9 @@ import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -37,4 +40,23 @@ public class Utils {
 		NumberFormat nf = new DecimalFormat("##.##");
 		return nf.format(num);
 	}
+	
+	/**
+	 * Metodo estatico para converter datas do objeto java.util.Date para String
+	 * @param date
+	 * @return
+	 */
+	public static String dateToOracleDate(Date date) {
+		return new SimpleDateFormat("yyyy-MM-dd").format(date);
+	}
+
+    public static Date formataData(String dataFormatoString) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+        return sdf.parse(dataFormatoString);
+    }
+
+    public static String formataData(Date dataFormatoDate) {
+        return new SimpleDateFormat("dd/MM/yyyy EEE").format(dataFormatoDate);
+    }
 }

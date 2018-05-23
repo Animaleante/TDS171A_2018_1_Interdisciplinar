@@ -9,9 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.ReceitaController;
 import com.tds171a.soboru.controllers.ReportController;
-import com.tds171a.soboru.vos.Receita;
+import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.vos.Report;
 
 @Named("reportBean")
@@ -28,17 +28,12 @@ public class ReportBean extends BeanBase<Report> {
 	private static final long serialVersionUID = 4730432362349049623L;
 
 	/**
-	 *Lista do tipo receita
-	 */
-	private List<Receita> receitas;
-
-	/**
      *Construtor setando a rota e qual
      *será passado para o navegador.
      */
 	public ReportBean() {
 		route_base = "/cadastro/report/";
-		controller = new ReportController();
+		controller = PersistenceFactory.getReportPersistenceFactory();
 		setVo(new Report());
 	}
 
@@ -49,7 +44,7 @@ public class ReportBean extends BeanBase<Report> {
 	@Override
 	public String criar()
 	{
-	    ReceitaController receitaController = new ReceitaController();
+	    ReceitaPersistence receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
 	    setReceitas(receitaController.listar());
 	    return super.criar();
 	}

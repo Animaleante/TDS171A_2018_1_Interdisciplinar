@@ -8,8 +8,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.RoleController;
-import com.tds171a.soboru.vos.Role;
+import com.tds171a.soboru.models.Role;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("roleBean")
 @SessionScoped
@@ -30,8 +30,8 @@ public class RoleBean extends BeanBase<Role> {
      */
 	public RoleBean() {
 		route_base = "/cadastro/role/";
-		controller = new RoleController();
-		setVo(new Role());
+		controller = PersistenceFactory.getRolePersistanceFactory();
+		setModel(new Role());
 	}
 
 	/**
@@ -43,20 +43,20 @@ public class RoleBean extends BeanBase<Role> {
 	public String deletar() {
 	    FacesContext context = FacesContext.getCurrentInstance();
 
-	    if(getVo().getId() == -1) {
+	    if(getModel().getId() == -1) {
 	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
 	        return route_base + CRIAR_PAGE;
 	    }
 
-		if(controller.remover(getVo().getId())) {
+		if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));
             return route_base + DELETAR_PAGE;
 		}
 
-		limparVo();
-
+		limparModel();
+		
 	    return listar();
 	}
 	
@@ -68,7 +68,7 @@ public class RoleBean extends BeanBase<Role> {
 	public boolean validarDados() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		if(getVo().getNome().isEmpty()) {
+		if(getModel().getNome().isEmpty()) {
 	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 	        return false;
 	    }
@@ -81,7 +81,6 @@ public class RoleBean extends BeanBase<Role> {
 	 * sem interferencia de dados cadastrados anteriormente.
 	 */
 	@Override
-	public void limparVo() {
-		setVo(new Role());
+	public void limparModel() {
 	}
 }

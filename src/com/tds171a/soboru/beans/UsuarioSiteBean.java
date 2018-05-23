@@ -8,10 +8,10 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.ReceitaController;
-import com.tds171a.soboru.controllers.UsuarioController;
-import com.tds171a.soboru.vos.Receita;
-import com.tds171a.soboru.vos.Usuario;
+import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.Usuario;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("usuarioSiteBean")
 @SessionScoped
@@ -27,7 +27,7 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	private static final long serialVersionUID = 9063625419454028906L;
 	
 	//Declaração de variáveis.
-	private ReceitaController receitaController;
+	private ReceitaPersistance receitaPersistence;
 	private List<Receita> listaReceitas;
 	private List<Receita> listaFavoritos;
 
@@ -36,11 +36,11 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 */
 	public UsuarioSiteBean() {
 		route_base = "/usuario/";
-		controller = new UsuarioController();
+		controller = PersistenceFactory.getUsuarioPersistanceFactory();
 		
-		receitaController = new ReceitaController();
+		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
 		
-		setVo(new Usuario());
+		setModel(new Usuario());
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	public String exibir(Usuario vo) {
 		vo = controller.selecionar(vo.getId());
 		
-		setListaReceitas(receitaController.selecionarPorUsuario(vo.getId()));
-		setListaFavoritos(receitaController.selecionarPorFavoritosDeUsuario(vo.getId()));
+		setListaReceitas(receitaPersistence.selecionarPorUsuario(vo.getId()));
+		setListaFavoritos(receitaPersistence.selecionarPorFavoritosDeUsuario(vo.getId()));
 		
 		return super.exibir(vo);
 	}
@@ -84,7 +84,7 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 * por invasão
 	 */
 	@Override
-	public void limparVo() {
+	public void limparModel() {
 		// TODO Auto-generated method stub
 		
 	}

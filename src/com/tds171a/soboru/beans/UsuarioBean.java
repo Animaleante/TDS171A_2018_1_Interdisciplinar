@@ -11,11 +11,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.RoleController;
-import com.tds171a.soboru.controllers.UsuarioController;
+import com.tds171a.soboru.models.Role;
+import com.tds171a.soboru.models.Usuario;
+import com.tds171a.soboru.persistence.role.RolePersistance;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
-import com.tds171a.soboru.vos.Role;
-import com.tds171a.soboru.vos.Usuario;
 
 @Named("usuarioBean")
 @SessionScoped
@@ -31,7 +31,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 
 	//Declaração de variáveis
 	private String nasc;
-	private RoleController roleController;
+	private RolePersistance rolePersistence;
 	private List<Role> roles;
 
 	/**
@@ -39,9 +39,9 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 */
 	public UsuarioBean() {
 		route_base = "/cadastro/usuario/";
-		controller = new UsuarioController();
-		roleController = new RoleController();
-		setVo(new Usuario());
+		controller = PersistenceFactory.getUsuarioPersistanceFactory();
+		rolePersistence = PersistenceFactory.getRolePersistanceFactory();
+		setModel(new Usuario());
 	}
 
 	/**
@@ -51,8 +51,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 */
 	@Override
 	public String criar() {
-		setRoles(roleController.listar());
-
+		setRoles(rolePersistence.listar());
 		return super.criar();
 	}
 	
@@ -62,8 +61,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 */
 	@Override
 	public String editar(Usuario vo) {
-		setRoles(roleController.listar());
-
+		setRoles(rolePersistence.listar());
 		return super.editar(vo);
 	}
 	/**
@@ -73,7 +71,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	public String incluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (!getVo().getSenha().equals(getVo().getSenhaConfirmacao())) {
+		if (!getModel().getSenha().equals(getModel().getSenhaConfirmacao())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senhas nao sao identicas!", null));
 		} else {
 			Date formattedDate;
@@ -81,22 +79,22 @@ public class UsuarioBean extends BeanBase<Usuario> {
 				formattedDate = Utils.formataData(getNasc());
 			} catch (ParseException e) {
 				e.printStackTrace();
-				getVo().setSenha("");
-				getVo().setSenhaConfirmacao("");
+				getModel().setSenha("");
+				getModel().setSenhaConfirmacao("");
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel registrar um usuario!", null));
 				return listar();
 			}
-			getVo().setNasc(formattedDate);
+			getModel().setNasc(formattedDate);
 
-			if (controller.incluir(getVo())) {
+			if (controller.incluir(getModel())) {
 				
-				limparVo();
+				limparModel();
 
 				return listar();
 			} else {
-				getVo().setSenha("");
-				getVo().setSenhaConfirmacao("");
+				getModel().setSenha("");
+				getModel().setSenhaConfirmacao("");
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel registrar um usuario!", null));
 			}
@@ -113,19 +111,19 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	public String deletar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (getVo().getId() == -1) {
+		if (getModel().getId() == -1) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
 			return route_base + CRIAR_PAGE;
 		}
 
-		if (controller.remover(getVo().getId())) {
+		if (controller.remover(getModel())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));
 			return route_base + DELETAR_PAGE;
 		}
 
-		limparVo();
+		limparModel();
 
 		return listar();
 	}
@@ -138,7 +136,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	public boolean validarDados() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (getVo().getNome().isEmpty()) {
+		if (getModel().getNome().isEmpty()) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 			return false;
 		}
@@ -151,10 +149,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 * interferencia de dados cadastrados anteriormente.
 	 */
 	@Override
-	public void limparVo() {
-		setVo(new Usuario());
-		setNasc("");
-		
+	public void limparModel() {		
 	}
 
 	/**

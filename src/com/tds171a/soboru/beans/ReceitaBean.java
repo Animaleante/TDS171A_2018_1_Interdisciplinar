@@ -15,12 +15,13 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
-import com.tds171a.soboru.controllers.CategoriaController;
-import com.tds171a.soboru.controllers.ReceitaController;
-import com.tds171a.soboru.controllers.UsuarioController;
+import com.tds171a.soboru.models.Categoria;
+import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistance;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
-import com.tds171a.soboru.vos.Categoria;
-import com.tds171a.soboru.vos.Receita;
 
 @Named("receitaBean")
 @SessionScoped
@@ -37,16 +38,11 @@ public class ReceitaBean extends BeanBase<Receita> {
 	/**
 	 * Instância da controller Categoria
 	 */
-	private CategoriaController categoriaController;
+	private CategoriaPersistence categoriaPersistence;
 	/**
 	 * Intância da controller Usuario
 	 */
-	private UsuarioController usuarioController;
-
-	/**
-	 * Lista que recebe objetos do tipo categoria
-	 */
-	private List<Categoria> categorias;
+	private UsuarioPersistance usuarioPersistence;
 
 	/**
 	 * Variável que recebe o arquivo de imagem
@@ -60,11 +56,9 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	public ReceitaBean() {
 		route_base = "/cadastro/receita/";
-		controller = new ReceitaController();
-
-		categoriaController = new CategoriaController();
-		usuarioController = new UsuarioController();
-		setVo(new Receita());
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
+		usuarioPersistence = PersistenceFactory.getUsuarioPersistanceFactory();
+		setModel(new Receita());
 	}
 
 	/**
@@ -75,10 +69,9 @@ public class ReceitaBean extends BeanBase<Receita> {
 	@Override
 	public String listar() {
 
-		limparVo();
-		setLista(((ReceitaController) controller).listarAdmin());
+		limparModel();
+		setLista(((ReceitaPersistance) controller).listar());
 		return route_base + INDEX_PAGE + FACES_REDIRECT;
-
 	}
 
 	/**
@@ -88,7 +81,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String criar() {
-		setCategorias(categoriaController.listar());
+		setCategorias(categoriaPersistence.listar());
 
 		return super.criar();
 	}
@@ -100,15 +93,15 @@ public class ReceitaBean extends BeanBase<Receita> {
 	@Override
 	public String incluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
-
-		getVo().setUsuarioId(SessionContext.getInstance().getUsuarioLogado().getId());
-		getVo().setSlug(Utils.toSlug(getVo().getNome()));
-		getVo().setAprovado(true);
+		
+		getModel().setUsuario(SessionContext.getInstance().getUsuarioLogado());
+		getModel().setSlug(Utils.toSlug(getModel().getNome()));
+		getModel().setAprovado(true);
 
 		try (InputStream input = imgFile.getInputStream()) {
 			File file = File.createTempFile("receita_", ".jpg", Utils.getImagerDir());
 			Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			getVo().setImgPath(file.getName());
+			getModel().setImgPath(file.getName());
 		} catch (IOException e) {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -126,10 +119,10 @@ public class ReceitaBean extends BeanBase<Receita> {
 	@Override
 	public String exibir(Receita vo) {
 		if (vo.getCategoria() == null)
-			vo.setCategoria(categoriaController.selecionar(vo.getCategoriaId()));
+			vo.setCategoria(categoriaPersistence.selecionar(vo.getCategoriaId()));
 
 		if (vo.getUsuario() == null)
-			vo.setUsuario(usuarioController.selecionar(vo.getUsuarioId()));
+			vo.setUsuario(usuarioPersistence.selecionar(vo.getUsuarioId()));
 
 		return super.exibir(vo);
 	}
@@ -142,7 +135,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	@Override
 	public String editar(Receita vo) {
 
-		setCategorias(categoriaController.listar());
+		setCategorias(categoriaPersistence.listar());
 
 		return super.editar(vo);
 	}
@@ -158,13 +151,13 @@ public class ReceitaBean extends BeanBase<Receita> {
 	public String editar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		getVo().setSlug(Utils.toSlug(getVo().getNome()));
+		getModel().setSlug(Utils.toSlug(getModel().getNome()));
 		
 		if(imgFile != null) {
 			try (InputStream input = imgFile.getInputStream()) {
 				File file = File.createTempFile("receita_", ".jpg", Utils.getImagerDir());
 				Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				getVo().setImgPath(file.getName());
+				getModel().setImgPath(file.getName());
 			} catch (IOException e) {
 				e.printStackTrace();
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -183,12 +176,12 @@ public class ReceitaBean extends BeanBase<Receita> {
 	public String deletar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (getVo().getId() == -1) {
+		if (getModel().getId() == -1) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
 			return route_base + DELETAR_PAGE;
 		}
 
-		if (controller.remover(getVo().getId())) {
+		if (controller.remover(getModel())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar. Verifique se existem ingredientes"
@@ -196,7 +189,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 			return route_base + DELETAR_PAGE;
 		}
 
-		limparVo();
+		limparModel();
 
 		return listar();
 	}
@@ -209,7 +202,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	public boolean validarDados() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (getVo().getNome().isEmpty()) {
+		if (getModel().getNome().isEmpty()) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 			return false;
 		}
@@ -222,8 +215,9 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 * interferencia de dados cadastrados anteriormente.
 	 */
 	@Override
-	public void limparVo() {
-		setVo(new Receita());
+	public void limparModel() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public String isAprovado(Receita receita) {
@@ -237,7 +231,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	public List<SelectItem> getCategorias() {
 		List<SelectItem> items = new ArrayList<SelectItem>();
-		for (Categoria c : this.categorias) {
+		for (Categoria c : categoriaPersistence.listar()) {
 			items.add(new SelectItem(c.getId(), c.getNome()));
 		}
 		return items;
@@ -265,4 +259,6 @@ public class ReceitaBean extends BeanBase<Receita> {
 	public void setImgFile(Part imgFile) {
 		this.imgFile = imgFile;
 	}
+
+	
 }

@@ -8,13 +8,14 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.CategoriaController;
-import com.tds171a.soboru.controllers.IngredienteController;
-import com.tds171a.soboru.controllers.ReceitaController;
+import com.tds171a.soboru.models.Categoria;
+import com.tds171a.soboru.models.Ingrediente;
+import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
+import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
-import com.tds171a.soboru.vos.Categoria;
-import com.tds171a.soboru.vos.Ingrediente;
-import com.tds171a.soboru.vos.Receita;
 
 @Named("pesquisaBean")
 @SessionScoped
@@ -36,17 +37,17 @@ public class PesquisaBean implements Serializable {
 	/**
 	 * Controlador de Receita
 	 */
-	private ReceitaController receitaController;
+	private ReceitaPersistance receitaPersistence;
 	
 	/**
 	 * Controlador de Ingrediente
 	 */
-	private IngredienteController ingredienteController;
+	private IngredientePersistence ingredientePersistence;
 	
 	/**
 	 * Controlador de categoria
 	 */
-	private CategoriaController categoriaController;
+	private CategoriaPersistence categoriaPersistence;
 	
 	/**
 	 * Ingrediente a ser adicionado a pesquisa
@@ -90,17 +91,17 @@ public class PesquisaBean implements Serializable {
 	 */
 	public PesquisaBean() {
 		
-		receitaController = new ReceitaController();
-		ingredienteController = new IngredienteController();
-		categoriaController = new CategoriaController();
+		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
+		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
 		
 		setSerAdicionado(0);
 		setLista(new ArrayList<Ingrediente>());
 		setTermoBusca("");
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
-		setListaIngredientes(ingredienteController.listar());
-		setListaCategorias(categoriaController.listar());
+		setListaIngredientes(ingredientePersistence.listar());
+		setListaCategorias(categoriaPersistence.listar());
 	}
 	
 	/**
@@ -114,8 +115,8 @@ public class PesquisaBean implements Serializable {
 		setTermoBusca("");
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
-		setListaIngredientes(ingredienteController.listar());
-		setListaCategorias(categoriaController.listar());
+		setListaIngredientes(ingredientePersistence.listar());
+		setListaCategorias(categoriaPersistence.listar());
 		
 		
 		return ROUTE_BASE+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
@@ -160,11 +161,11 @@ public class PesquisaBean implements Serializable {
 			adicionar();
 		
 		if(!getTermoBusca().isEmpty() && getLista().size() > 0) {
-			setResultados(receitaController.selecionarPorNomeEIngredientes(getTermoBusca(), getLista()));
+			setResultados(receitaPersistence.selecionarPorNomeEIngredientes(getTermoBusca(), getLista()));
 		} else if(!getTermoBusca().isEmpty()) {
-			setResultados(receitaController.selecionarPorNome(getTermoBusca()));
+			setResultados(receitaPersistence.selecionarPorNome(getTermoBusca()));
 		} else if(getLista().size() > 0) {
-			setResultados(receitaController.selecionarPorIngredientes(getLista()));
+			setResultados(receitaPersistence.selecionarPorIngredientes(getLista()));
 		}
 
 		return ROUTE_BASE+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
