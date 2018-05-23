@@ -13,7 +13,7 @@ import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
 import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
-import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
 
@@ -37,7 +37,7 @@ public class PesquisaBean implements Serializable {
 	/**
 	 * Controlador de Receita
 	 */
-	private ReceitaPersistance receitaPersistence;
+	private ReceitaPersistence receitaPersistence;
 	
 	/**
 	 * Controlador de Ingrediente

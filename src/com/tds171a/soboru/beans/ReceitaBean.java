@@ -18,8 +18,8 @@ import javax.servlet.http.Part;
 import com.tds171a.soboru.models.Categoria;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
-import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
-import com.tds171a.soboru.persistence.usuario.UsuarioPersistance;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
 
@@ -42,7 +42,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	/**
 	 * Intância da controller Usuario
 	 */
-	private UsuarioPersistance usuarioPersistence;
+	private UsuarioPersistence usuarioPersistence;
 
 	/**
 	 * Variável que recebe o arquivo de imagem
@@ -70,7 +70,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	public String listar() {
 
 		limparModel();
-		setLista(((ReceitaPersistance) controller).listar());
+		setLista(((ReceitaPersistence) controller).listar());
 		return route_base + INDEX_PAGE + FACES_REDIRECT;
 	}
 

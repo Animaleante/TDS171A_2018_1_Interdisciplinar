@@ -15,23 +15,24 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
-import com.tds171a.soboru.controllers.CategoriaController;
-import com.tds171a.soboru.controllers.ComentarioController;
-import com.tds171a.soboru.controllers.IngredienteController;
-import com.tds171a.soboru.controllers.MedidaController;
-import com.tds171a.soboru.controllers.ReceitaController;
-import com.tds171a.soboru.controllers.ReceitaIngredienteController;
-import com.tds171a.soboru.controllers.UsuarioController;
-import com.tds171a.soboru.controllers.UtensilioController;
+import com.tds171a.soboru.controllers.ReceitaIngredientePersistence;
+import com.tds171a.soboru.models.Categoria;
+import com.tds171a.soboru.models.Comentario;
+import com.tds171a.soboru.models.Ingrediente;
+import com.tds171a.soboru.models.Medida;
+import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.ReceitaIngrediente;
+import com.tds171a.soboru.models.Usuario;
+import com.tds171a.soboru.models.Utensilio;
+import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
+import com.tds171a.soboru.persistence.comentario.ComentarioPersistence;
+import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
+import com.tds171a.soboru.persistence.medida.MedidaPersistence;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
+import com.tds171a.soboru.persistence.utensilio.UtensilioPersistence;
+import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
-import com.tds171a.soboru.vos.Categoria;
-import com.tds171a.soboru.vos.Comentario;
-import com.tds171a.soboru.vos.Ingrediente;
-import com.tds171a.soboru.vos.Medida;
-import com.tds171a.soboru.vos.Receita;
-import com.tds171a.soboru.vos.ReceitaIngrediente;
-import com.tds171a.soboru.vos.Usuario;
-import com.tds171a.soboru.vos.Utensilio;
 
 @Named("receitaSiteBean")
 @SessionScoped
@@ -47,13 +48,13 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	private static final long serialVersionUID = -5362181648251196256L;
 	
 	//Declaração das variáveis e controllers utilizadas.
-	private CategoriaController categoriaController;
-	private UsuarioController usuarioController;
-	private IngredienteController ingredienteController;
-	private MedidaController medidaController;
-	private ReceitaIngredienteController receitaIngredienteController;
-	private UtensilioController utensilioController;
-	private ComentarioController comentarioController;
+	private CategoriaPersistence categoriaPersistence;
+	private UsuarioPersistence usuarioPersistence;
+	private IngredientePersistence ingredientePersistence;
+	private MedidaPersistence medidaPersistence;
+	private ReceitaIngredientePersistence receitaIngredientePersistence;
+	private UtensilioPersistence utensilioPersistence;
+	private ComentarioPersistence comentarioPersistence;
 	
 	//Definição das listas utilizadas.
 	private List<ReceitaIngrediente> listaIngredientes;
@@ -76,17 +77,17 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public ReceitaSiteBean() {
 		route_base = "/receita/";
-		controller = new ReceitaController();
+		controller = PersistenceFactory.getReceitaPersistanceFactory();
 
-		categoriaController = new CategoriaController();
-		usuarioController = new UsuarioController();
-		ingredienteController = new IngredienteController();
-		medidaController = new MedidaController();
-		receitaIngredienteController = new ReceitaIngredienteController();
-		utensilioController = new UtensilioController();
-		comentarioController = new ComentarioController();
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
+		usuarioPersistence = PersistenceFactory.getUsuarioPersistanceFactory();
+		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
+		medidaPersistence = PersistenceFactory.getMedidaPersistanceFactory();
+		receitaIngredientePersistence = PersistenceFactory.getReceitaIngredientePersistanceFactory();
+		utensilioPersistence = PersistenceFactory.getUtensilioPersistanceFactory();
+		comentarioPersistence = PersistenceFactory.getComentarioPersistanceFactory();
 
-		setVo(new Receita());
+		setModel(new Receita());
 		
 		setListaIngredientes(new ArrayList<ReceitaIngrediente>());
 		setIngredientes(new ArrayList<Ingrediente>());
@@ -102,10 +103,10 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	@Override
 	public String criar() {
 		if(SessionContext.getInstance().isLogado()) {
-			setCategorias(categoriaController.listarSelecionaveis());
-			setIngredientes(ingredienteController.listar());
-			setMedidas(medidaController.listar());
-			setUtensilios(utensilioController.listar());
+			setCategorias(categoriaPersistence.listarSelecionaveis());
+			setIngredientes(ingredientePersistence.listar());
+			setMedidas(medidaPersistence.listar());
+			setUtensilios(utensilioPersistence.listar());
 			return super.criar();
 		}
 		return "/login/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
@@ -153,14 +154,14 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	public String incluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		getVo().setUsuarioId(SessionContext.getInstance().getUsuarioLogado().getId());
-		getVo().setSlug(Utils.toSlug(getVo().getNome()));
-		getVo().setAprovado(false);
+		getModel().setUsuarioId(SessionContext.getInstance().getUsuarioLogado().getId());
+		getModel().setSlug(Utils.toSlug(getModel().getNome()));
+		getModel().setAprovado(false);
 
 		try (InputStream input = imgFile.getInputStream()) {
 			File file = File.createTempFile("receita_", ".jpg", Utils.getImagerDir());
 			Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			getVo().setImgPath(file.getName());
+			getModel().setImgPath(file.getName());
 		} catch (IOException e) {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -171,12 +172,12 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	    if(!validarDados())
 	    	return route_base + CRIAR_PAGE;
 
-	    if(controller.incluir(getVo())) {
+	    if(controller.incluir(getModel())) {
 	    	try {
-		    	int receitaId = ((ReceitaController) controller).selecionarUltimoIdInserido();
+		    	int receitaId = ((ReceitaPersistence) controller).selecionarUltimoIdInserido();
 		    	System.out.println("ReceitaId: " + receitaId);
-				receitaIngredienteController.incluirLista(receitaId, getListaIngredientes());
-				((ReceitaController) controller).registrarUtensilios(receitaId, getListaUtensilios());
+				receitaIngredientePersistence.incluirLista(receitaId, getListaIngredientes());
+				((ReceitaPersistence) controller).registrarUtensilios(receitaId, getListaUtensilios());
 	    	} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -187,7 +188,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
             return route_base + CRIAR_PAGE;
 	    }
 
-	    limparVo();
+	    limparModel();
 
 	    return listar();
 	}
@@ -201,27 +202,27 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		vo = controller.selecionar(vo.getId());
 
 		if (vo.getCategoria() == null)
-			vo.setCategoria(categoriaController.selecionar(vo.getCategoriaId()));
+			vo.setCategoria(categoriaPersistence.selecionar(vo.getCategoriaId()));
 
 		if (vo.getUsuario() == null)
-			vo.setUsuario(usuarioController.selecionar(vo.getUsuarioId()));
+			vo.setUsuario(usuarioPersistence.selecionar(vo.getUsuarioId()));
 			
 		if (vo.getUtensilios() == null)
- 			vo.setUtensilios(utensilioController.selecionarPorReceita(vo.getId()));
+ 			vo.setUtensilios(utensilioPersistence.selecionarPorReceita(vo.getId()));
  
  		if (vo.getReceitaIngredientes() == null)
- 			vo.setReceitaIngredientes(receitaIngredienteController.selecionarPorReceita(vo.getId()));
+ 			vo.setReceitaIngredientes(receitaIngredientePersistence.selecionarPorReceita(vo.getId()));
  
  		if (vo.getComentarios() == null)
- 			vo.setComentarios(comentarioController.selecionarPorReceita(vo.getId()));
+ 			vo.setComentarios(comentarioPersistence.selecionarPorReceita(vo.getId()));
 
 		if (vo.getUsuariosFavoritaram() == null)
-			vo.setUsuariosFavoritaram(usuarioController.selecionarUsuariosQueFavoritaram(vo.getId()));
+			vo.setUsuariosFavoritaram(usuarioPersistence.selecionarUsuariosQueFavoritaram(vo.getId()));
 
 		if (SessionContext.getInstance().isLogado()) {
 			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
-			vo.setReportou(usuarioController.reportou(usuario.getId(), vo.getId()));
-			vo.setPontuou(usuarioController.pontuou(usuario.getId(), vo.getId()));	
+			vo.setReportou(usuarioPersistence.reportou(usuario.getId(), vo.getId()));
+			vo.setPontuou(usuarioPersistence.pontuou(usuario.getId(), vo.getId()));	
 		}
 		
 		return super.exibir(vo);
@@ -235,19 +236,19 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	public String deletar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (getVo().getId() == -1) {
+		if (getModel().getId() == -1) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
 			return route_base + DELETAR_PAGE;
 		}
 
-		if (controller.remover(getVo().getId())) {
+		if (controller.remover(getModel().getId())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));
 			return route_base + DELETAR_PAGE;
 		}
 
-		limparVo();
+		limparModel();
 
 		return listar();
 	}
@@ -260,7 +261,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	public boolean validarDados() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (getVo().getNome().isEmpty()) {
+		if (getModel().getNome().isEmpty()) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 			return false;
 		}
@@ -273,8 +274,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 * interferencia de dados cadastrados anteriormente.
 	 */
 	@Override
-	public void limparVo() {
-		setVo(new Receita());
+	public void limparModel() {
+		setModel(new Receita());
 		setListaIngredientes(new ArrayList<ReceitaIngrediente>());
 		adicionarReceitaIngrediente();
 		setListaUtensilios(new ArrayList<Utensilio>());
@@ -288,21 +289,21 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public String incluirComentario(int receitaId) {
 		getComentario().setUsuarioId(SessionContext.getInstance().getUsuarioLogado().getId());
-		getComentario().setReceitaId(getVo().getId());
+		getComentario().setReceitaId(getModel().getId());
 
 //		FacesContext context = FacesContext.getCurrentInstance();
 
-	    if(comentarioController.incluir(getComentario())) {
+	    if(comentarioPersistence.incluir(getComentario())) {
 		    setComentario(new Comentario());
 //	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
 	    } else {
 //	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
-//			return exibir(getVo());
+//			return exibir(getModel());
 	    }
 	    
 //	    setComentario(new Comentario());
 		
-		return exibir(getVo());
+		return exibir(getModel());
 	}
 
 	/**
@@ -314,15 +315,15 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	public String favoritar() {
 		if (SessionContext.getInstance().isLogado()) {
 			if(!isReceitaFavoritada()) {
-				((ReceitaController) controller).incluirFavorito(getVo().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
-				getVo().getUsuariosFavoritaram().add(SessionContext.getInstance().getUsuarioLogado());
+				((ReceitaPersistence) controller).incluirFavorito(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
+				getModel().getUsuariosFavoritaram().add(SessionContext.getInstance().getUsuarioLogado());
 			} else {
-				((ReceitaController) controller).removerFavorito(getVo().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
+				((ReceitaPersistence) controller).removerFavorito(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
 				// TODO - check if this is working
-				getVo().getUsuariosFavoritaram().remove(SessionContext.getInstance().getUsuarioLogado());
+				getModel().getUsuariosFavoritaram().remove(SessionContext.getInstance().getUsuarioLogado());
 			}
 
-			return exibir(getVo());
+			return exibir(getModel());
 		}
 
 		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
@@ -335,8 +336,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public String reportar() {
 		if (SessionContext.getInstance().isLogado()) {
-			((ReceitaController) controller).incluirReport(getVo().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
-			return exibir(getVo());
+			((ReceitaPersistence) controller).incluirReport(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
+			return exibir(getModel());
 		}
 
 		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
@@ -350,8 +351,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public String pontuar(int pontos) {
 		if (SessionContext.getInstance().isLogado()) {
-			((ReceitaController) controller).incluirPontuacao(getVo().getId(), SessionContext.getInstance().getUsuarioLogado().getId(), pontos);
-			return exibir(getVo());
+			((ReceitaPersistence) controller).incluirPontuacao(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId(), pontos);
+			return exibir(getModel());
 		}
 
 		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
@@ -366,8 +367,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		if(SessionContext.getInstance().isLogado()) {
 			boolean favoritada = false;
 			int usuarioLogadoId = SessionContext.getInstance().getUsuarioLogado().getId();
-			List<Usuario> usuariosFavoritaram = getVo().getUsuariosFavoritaram();
-			for (int i = 0; i < getVo().getUsuariosFavoritaram().size(); i++) {
+			List<Usuario> usuariosFavoritaram = getModel().getUsuariosFavoritaram();
+			for (int i = 0; i < getModel().getUsuariosFavoritaram().size(); i++) {
 				if(usuariosFavoritaram.get(i).getId() == usuarioLogadoId) {
 					favoritada = true;
 					break;
