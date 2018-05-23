@@ -17,7 +17,7 @@ import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
 
-@Named("categoriaBean")
+@Named("CategoriaBean")
 @RequestScoped
 /**
  * Criação do bean herando de beanbase passando
@@ -26,25 +26,28 @@ import com.tds171a.soboru.utils.Utils;
 public class CategoriaBean extends BeanBase<Categoria> {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3257426613093184087L;
+	/**
      *criando o serial do bean
      */
-    private static final long serialVersionUID = 8410408634179869866L;
+    
 
-	private List<Categoria> categorias;
+	private List<Categoria> Categorias;
 	
     /**
      *Construtor setando a rota e qual
      *será passado para o navegador.
      */
     public CategoriaBean() {
-    	route_base = "/cadastro/categoria/";
-//        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+    	route_base = "/cadastro/Categoria/";
         setModel(new Categoria());
     }
     /**
      * Override do método criar(GET)
      * efetuando cast da basecontroller para CategoriaController
-     * para ser possível criar a lista de categorias.
+     * para ser possível criar a lista de Categorias.
      */
     @Override
     public String criar() {
@@ -57,7 +60,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     
     /**
      * Override da função incluir(POST)
-     * seta o Slug, e verifica se é uma categoria
+     * seta o Slug, e verifica se é uma Categoria
      * selecionável ou não, e manda para o
      * método do super criar.
      */
@@ -74,7 +77,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     /**
      * Override do método Editar(GET)
      * efetua um cast no controller para gerar
-     * a lista de categorias.
+     * a lista de Categorias.
      */
     @Override
     public String editar(Categoria vo) {
@@ -85,7 +88,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     
     /**
      * Override do Edtitar(POST)
-     * seta o Slug, e verifica se é uma categoria
+     * seta o Slug, e verifica se é uma Categoria
      * selecionável ou não, e manda para o
      * método do super editar. 
      */
@@ -138,7 +141,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	    }
 		
 		if(getModel().getSelecionavel() && getModel().getIdSuperCategoria() <= 0) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Subcategoria tem de ter uma super categoria!", null));
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "SubCategoria tem de ter uma super Categoria!", null));
 	        return false;
 		}
 		
@@ -157,30 +160,30 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	/**
 	 * Verifica se a opção selecionável está marcada
 	 * e se tiver, retorna sim.
-	 * @param categoria
+	 * @param Categoria
 	 * @return
 	 */
-	public String isGrupo(Categoria categoria) {
-		if(categoria.getSelecionavel())
+	public String isGrupo(Categoria Categoria) {
+		if(Categoria.getSelecionavel())
 			return "Não";
 		return "Sim";
 	}
 
 	/**
-	 * @return the categorias
+	 * @return the Categorias
 	 */
 	public List<SelectItem> getCategorias() {
 		List<SelectItem> items = new ArrayList<SelectItem>();
-	    for (Categoria c : this.categorias) {
+	    for (Categoria c : this.Categorias) {
 	        items.add(new SelectItem(c.getId(), c.getNome()));
 	    }
 	    return items;
 	}
 
 	/**
-	 * @param categorias the categorias to set
+	 * @param Categorias the Categorias to set
 	 */
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
+	public void setCategorias(List<Categoria> Categorias) {
+		this.Categorias = Categorias;
 	}
 }
