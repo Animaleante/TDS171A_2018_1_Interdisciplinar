@@ -36,6 +36,7 @@ insert into ingredientes values (ingrediente_seq.NEXTVAL,'gemas');
 
 --medidas
 --insert into medidas values (medida_seq.NEXTVAL,'NOME MEDIDA','ABREVIACAO');
+
 insert into medidas values (medida_seq.NEXTVAL,'litro','L');
 insert into medidas values (medida_seq.NEXTVAL,'gramas','g');
 insert into medidas values (medida_seq.NEXTVAL,'dentes','dentes');
@@ -51,6 +52,7 @@ insert into medidas values (medida_seq.NEXTVAL,'mililitro','ml');
 
 --utensilios
 --insert into utensilios values (utensilio_seq.NEXTVAL, 'NOME');
+
 insert into utensilios values (utensilio_seq.NEXTVAL, 'Abridor de garrafa');
 insert into utensilios values (utensilio_seq.NEXTVAL, 'Saca-rolhas');
 insert into utensilios values (utensilio_seq.NEXTVAL, 'Assadeiras aluminio');
@@ -64,23 +66,17 @@ insert into utensilios values (utensilio_seq.NEXTVAL, 'Espremedor de batata');
 
 
 --categorias
---insert into categorias values(categoria_seq.NEXTVAL, 'NOME CATEGORIA', SUPER CATEGRIA, SELECIONAVEL, 'SLUG');
---1
+--insert into categorias values(categoria_seq.NEXTVAL, 'NOME CATEGORIA', SUPER CATEGORIA, SELECIONAVEL, 'SLUG');
+
 insert into categorias values(categoria_seq.NEXTVAL, 'Salgados', null, 0, 'Salgados');
---2
 insert into categorias values(categoria_seq.NEXTVAL, 'Tortas', 1, 1, 'Tortas');
---3
 insert into categorias values(categoria_seq.NEXTVAL, 'Petiscos', 1, 1, 'Petiscos');
---4
 insert into categorias values(categoria_seq.NEXTVAL, 'Cotidiano', 1, 1, 'Cotidiano');
---5
 insert into categorias values(categoria_seq.NEXTVAL, 'Gourmet', null, 0, 'Gourmet');
---6
 insert into categorias values(categoria_seq.NEXTVAL, 'Petit gateau', 2, 1, 'Petit gateau');
 
 --receitas
 --insert into receitas values (receita_seq.NEXTVAL, 'NOME RECEITA', 2, 1, 2, 2, 'Modo de Preparo', null, 0, 0, 0, 'receita1', 1);
-
 
 insert into receitas (id, nome, id_categoria, id_usuario, porcao, tempo_preparo, modo_preparo, img_path, pontuacao_media, views, favs, slug, aprovado) 
 values (receita_seq.NEXTVAL, 'Arroz de Lentilha', 4, 1, 5, 20, 'Numa panela com água fervente em fogo médio coloque a lentilha, tempere com sal, tampe a panela e cozinhe por 20 minutos.<br/> Escorra a lentilha, reserve a água do cozimento e a lentilha.<br/> Depois de refogar bem o alho no azeite e o arroz, tempere com sal, coloque a água do cozimento da lentilha, tampe a panela e cozinhe por +/- 15 minutos.<br/> Depois misture o arroz cozido com a lentilha cozida e reserve.', null, 0, 0, 0, 'receita1', 1);
@@ -99,6 +95,7 @@ Distribua em forminhas de petit gâteau ou de empada untadas com manteiga, sem e
 Desenforme e sirva em seguida.', null, 0, 0, 0, 'receita1', 1);
 
 --receitasIngredientes
+--insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, ID_RECEITA, ID_INGREDIENTE, ID_MEDIDA, 'SUB-SESSAO', QUANTIDADE);
 
 --arroz
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 1, 1, 1, null, 1);
