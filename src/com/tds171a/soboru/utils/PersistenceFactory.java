@@ -6,6 +6,7 @@ import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
 import com.tds171a.soboru.persistence.medida.MedidaPersistence;
 import com.tds171a.soboru.persistence.pontuacao.PontuacaoPersistence;
 import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.persistence.receitaingrediente.ReceitaIngredientePersistence;
 import com.tds171a.soboru.persistence.role.RolePersistence;
 import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.persistence.utensilio.UtensilioPersistence;
@@ -34,6 +35,10 @@ public class PersistenceFactory {
 	
 	public static ReceitaPersistence getReceitaPersistanceFactory() {
 		return new ReceitaPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
+	}
+	
+	public static ReceitaIngredientePersistence getReceitaIngredientePersistanceFactory() {
+		return new ReceitaIngredientePersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
 	public static RolePersistence getRolePersistanceFactory() {
