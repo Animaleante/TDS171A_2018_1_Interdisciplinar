@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.IDAO;
@@ -49,7 +50,7 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Receita> listar() {
-		return this.session.createCriteria(Receita.class).addOrder(Order.asc("nome")).list();
+		return this.session.createCriteria(Receita.class).add(Restrictions.eq("aprovado", 1)).addOrder(Order.asc("nome")).list();
 	}
 
 	@Override

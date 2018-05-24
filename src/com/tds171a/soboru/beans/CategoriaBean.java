@@ -81,6 +81,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
      */
     @Override
     public String editar(Categoria vo) {
+        controller = PersistenceFactory.getCategoriaPersistanceFactory();
     	setCategorias(((CategoriaPersistence) controller).listarGrupos());
     	
     	return super.editar(vo);
@@ -97,7 +98,8 @@ public class CategoriaBean extends BeanBase<Categoria> {
     	getModel().setSlug(Utils.toSlug(getModel().getNome()));
     	if(!getModel().getSelecionavel())
     		getModel().setIdSuperCategoria(-1);
-    	
+
+        controller = PersistenceFactory.getCategoriaPersistanceFactory();
     	return super.editar();
     }
 
@@ -115,6 +117,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	        return route_base + CRIAR_PAGE;
 	    }
 
+        controller = PersistenceFactory.getCategoriaPersistanceFactory();
 		if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {

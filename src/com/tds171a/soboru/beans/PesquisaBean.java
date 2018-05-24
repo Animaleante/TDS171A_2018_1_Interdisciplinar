@@ -115,6 +115,10 @@ public class PesquisaBean implements Serializable {
 		setTermoBusca("");
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
+
+		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
+		
 		setListaIngredientes(ingredientePersistence.listar());
 		setListaCategorias(categoriaPersistence.listar());
 		
@@ -159,6 +163,8 @@ public class PesquisaBean implements Serializable {
 		setResultados(new ArrayList<Receita>());
 		if(serAdicionado != 0)
 			adicionar();
+
+		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
 		
 		if(!getTermoBusca().isEmpty() && getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorNomeEIngredientes(getTermoBusca(), getLista()));
