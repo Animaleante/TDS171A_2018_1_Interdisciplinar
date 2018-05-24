@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -34,14 +35,12 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "USUARIOS")
 public class Usuario implements Serializable, Cloneable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 538500355617517725L;
 	
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -5207223117680367930L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_usuario")
 	@SequenceGenerator(name = "entity_sequence_generator_usuario", sequenceName = "usuario_seq")
@@ -65,37 +64,35 @@ public class Usuario implements Serializable, Cloneable {
 	@Column(name = "SEXO", precision = 1, nullable = false)
 	private int sexo;
 	
-	@Column(name = "ID_ROLE", precision = 11, nullable = false)
-	private int roleId;
-	
 	@Column(name = "NOTIFICACAO_EMAIL", precision = 1, nullable = false)
 	private boolean notificacaoEmail;
 	
-	private Role role;
-	
 	private String senhaConfirmacao;
+	
+	// FOREIGN KEYS --------------------------------------------------------------
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_role")
+	private Role role;
+
+	// REFERENCED IN FOREIGN KEYS --------------------------------------------------------------
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	private Set<Receita> receitas;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	private Set<Pontuacao> pontuacoes;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	private Set<Comentario> comentarios;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinTable(name = "reports", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
 	private Set<Receita> receitasReportadas;
-	
-	@OneToMany(mappedBy="usuario")
-	private Set<Receita> receitas;
-	
-	@OneToMany(mappedBy="usuario")
-	private Set<Pontuacao> pontuacoes;
-	
-	@OneToMany(mappedBy="usuario")
-	private Set<Comentario> comentarios;
-	
-	public Usuario() {
-		id = -1;
-		sexo = 3;
-		roleId = -1;
-		notificacaoEmail = true;
-		
-		setRole(null);
-	}
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinTable(name = "receitas_fav", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
+	private Set<Receita> receitasFavoritadas;
 
 	/**
 	 * @return the id
@@ -182,20 +179,6 @@ public class Usuario implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the roleId
-	 */
-	public int getRoleId() {
-		return roleId;
-	}
-
-	/**
-	 * @param roleId the roleId to set
-	 */
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
-	/**
 	 * @return the notificacaoEmail
 	 */
 	public boolean isNotificacaoEmail() {
@@ -207,6 +190,20 @@ public class Usuario implements Serializable, Cloneable {
 	 */
 	public void setNotificacaoEmail(boolean notificacaoEmail) {
 		this.notificacaoEmail = notificacaoEmail;
+	}
+
+	/**
+	 * @return the senhaConfirmacao
+	 */
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	/**
+	 * @param senhaConfirmacao the senhaConfirmacao to set
+	 */
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
 	}
 
 	/**
@@ -224,24 +221,72 @@ public class Usuario implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the senhaConfirmacao
+	 * @return the receitas
 	 */
-	public String getSenhaConfirmacao() {
-		return senhaConfirmacao;
-	}
-
-	/**
-	 * @param senhaConfirmacao the senhaConfirmacao to set
-	 */
-	public void setSenhaConfirmacao(String senhaConfirmacao) {
-		this.senhaConfirmacao = senhaConfirmacao;
-	}
-
 	public Set<Receita> getReceitas() {
 		return receitas;
 	}
 
+	/**
+	 * @param receitas the receitas to set
+	 */
 	public void setReceitas(Set<Receita> receitas) {
 		this.receitas = receitas;
+	}
+
+	/**
+	 * @return the pontuacoes
+	 */
+	public Set<Pontuacao> getPontuacoes() {
+		return pontuacoes;
+	}
+
+	/**
+	 * @param pontuacoes the pontuacoes to set
+	 */
+	public void setPontuacoes(Set<Pontuacao> pontuacoes) {
+		this.pontuacoes = pontuacoes;
+	}
+
+	/**
+	 * @return the comentarios
+	 */
+	public Set<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	/**
+	 * @param comentarios the comentarios to set
+	 */
+	public void setComentarios(Set<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	/**
+	 * @return the receitasReportadas
+	 */
+	public Set<Receita> getReceitasReportadas() {
+		return receitasReportadas;
+	}
+
+	/**
+	 * @param receitasReportadas the receitasReportadas to set
+	 */
+	public void setReceitasReportadas(Set<Receita> receitasReportadas) {
+		this.receitasReportadas = receitasReportadas;
+	}
+
+	/**
+	 * @return the receitasFavoritadas
+	 */
+	public Set<Receita> getReceitasFavoritadas() {
+		return receitasFavoritadas;
+	}
+
+	/**
+	 * @param receitasFavoritadas the receitasFavoritadas to set
+	 */
+	public void setReceitasFavoritadas(Set<Receita> receitasFavoritadas) {
+		this.receitasFavoritadas = receitasFavoritadas;
 	}
 }

@@ -27,10 +27,10 @@ import javax.persistence.Table;
 @Table(name = "categorias")
 public class Categoria implements Serializable, Cloneable {
 
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8522841498909464541L;
+	private static final long serialVersionUID = 3247170678572830838L;
 
 	/**
      * Par�metro id do Categoria
@@ -67,27 +67,6 @@ public class Categoria implements Serializable, Cloneable {
 	
 	@OneToMany(mappedBy="categoria")
 	private Set<Receita> receitas;
-
-    /**
-     * Construtor da classe de Categoria
-     */
-    public Categoria() {
-        id = -1;
-        nome = "";
-        selecionavel = true;
-//        idSuperCategoria = -1;
-        slug = "";
-    }
-
-    /**
-     * Construtor da classe de Categoria que recebe o id e o nome
-     * @param id
-     * @param nome
-     */
-    public Categoria(int id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
 
     /**
      * @return o id

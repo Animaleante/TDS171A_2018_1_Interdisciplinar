@@ -7,9 +7,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,81 +29,37 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "RECEITAS_INGREDIENTES")
 public class ReceitaIngrediente implements Serializable, Cloneable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2634424320049000000L;
 
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -5631346205285080486L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_receita_ingrediente")
 	@SequenceGenerator(name = "entity_sequence_generator_receita_ingrediente", sequenceName = "receita_ingrediente_seq")
 	@Column(name = "id", nullable = false)
 	private int id;
 	
-	/**
-	 * 
-	 */
-	@Column(name = "ID_RECEITA", precision= 11, nullable = false)
-	private int id_receita;
-	
-	/**
-	 * 
-	 */
-	@Column(name = "ID_INGREDIENTE", precision= 11, nullable = false)
-	private int id_ingrediente;
-	
-	/**
-	 * 
-	 */
-	@Column(name = "ID_MEDIDA", precision= 11, nullable = false)
-	private int id_medida;
-	
-	/**
-	 * 
-	 */
 	@Column(name = "SUB_SESSAO", length=80, nullable = false)
 	private String sub_sessao;
 	
-	/**
-	 * 
-	 */
 	@Column(name = "QTY", precision=11 , scale=2, nullable = false)
 	private double qty;
 	
-	/**
-	 * 
-	 */
-	
+	// FOREIGN KEYS --------------------------------------------------------------
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_medida")
 	private Medida medida;
-	
-	/**
-	 * 
-	 */
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_ingrediente")
 	private Ingrediente ingrediente;
-	
-	/**
-	 * 
-	 */
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_receita")
 	private Receita receita;
-	
-	/**
-	 * 
-	 */
-	public ReceitaIngrediente() {
-		id = -1;
-		id_receita = -1;
-		id_ingrediente = -1;
-		id_medida = -1;
-		sub_sessao = null;
-		qty = 0;
-		medida = null;
-		ingrediente = null;
-		receita = null;
-	}
 
 	/**
 	 * @return the id
@@ -114,48 +73,6 @@ public class ReceitaIngrediente implements Serializable, Cloneable {
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the id_receita
-	 */
-	public int getId_receita() {
-		return id_receita;
-	}
-
-	/**
-	 * @param id_receita the id_receita to set
-	 */
-	public void setId_receita(int id_receita) {
-		this.id_receita = id_receita;
-	}
-
-	/**
-	 * @return the id_ingrediente
-	 */
-	public int getId_ingrediente() {
-		return id_ingrediente;
-	}
-
-	/**
-	 * @param id_ingrediente the id_ingrediente to set
-	 */
-	public void setId_ingrediente(int id_ingrediente) {
-		this.id_ingrediente = id_ingrediente;
-	}
-
-	/**
-	 * @return the id_medida
-	 */
-	public int getId_medida() {
-		return id_medida;
-	}
-
-	/**
-	 * @param id_medida the id_medida to set
-	 */
-	public void setId_medida(int id_medida) {
-		this.id_medida = id_medida;
 	}
 
 	/**

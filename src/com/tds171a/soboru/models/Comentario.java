@@ -30,11 +30,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "COMENTARIOS")
 public class Comentario implements Serializable, Cloneable {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7272795930725483134L;
-	
+	private static final long serialVersionUID = -2851928165759198405L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_comentario")
 	@SequenceGenerator(name = "entity_sequence_generator_comentario", sequenceName = "comentario_seq")
@@ -52,5 +53,61 @@ public class Comentario implements Serializable, Cloneable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the body
+	 */
+	public String getBody() {
+		return body;
+	}
+
+	/**
+	 * @param body the body to set
+	 */
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	/**
+	 * @return the receita
+	 */
+	public Receita getReceita() {
+		return receita;
+	}
+
+	/**
+	 * @param receita the receita to set
+	 */
+	public void setReceita(Receita receita) {
+		this.receita = receita;
+	}
+
+	/**
+	 * @return the usuario
+	 */
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 }

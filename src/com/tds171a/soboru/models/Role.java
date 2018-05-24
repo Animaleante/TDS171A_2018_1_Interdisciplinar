@@ -4,12 +4,15 @@
 package com.tds171a.soboru.models;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,14 +29,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ROLES")
 public class Role implements Serializable, Cloneable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5205218445919955814L;
 
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -5618167922319112004L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_role")
 	@SequenceGenerator(name = "entity_sequence_generator_role", sequenceName = "role_seq")
@@ -43,37 +44,36 @@ public class Role implements Serializable, Cloneable {
 	/**
 	 * 
 	 */
-	@Column(name = "NOME", length = 80, nullable = false)
+	@Column(name = "nome", length = 80, nullable = false)
 	private String nome;
 	
-	@Column(name = "IS_ADMIN", precision= 1, nullable = false)
-	private boolean isAdmin;
+	@Column(name = "is_admin")
+	private boolean is_admin;
 	
-	
-	public Role() {
-	    id = -1;
-	    nome = "";
-	    isAdmin = false;
-	}
-	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="role")
+	private Set<Usuario> usuarios;
+
 	/**
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	/**
 	 * @return the nome
 	 */
 	public String getNome() {
 		return nome;
 	}
+
 	/**
 	 * @param nome the nome to set
 	 */
@@ -82,16 +82,30 @@ public class Role implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the isAdmin
+	 * @return the is_admin
 	 */
-	public boolean getIsAdmin() {
-		return isAdmin;
+	public boolean isIs_admin() {
+		return is_admin;
 	}
 
 	/**
-	 * @param isAdmin the isAdmin to set
+	 * @param is_admin the is_admin to set
 	 */
-	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setIs_admin(boolean is_admin) {
+		this.is_admin = is_admin;
+	}
+
+	/**
+	 * @return the usuarios
+	 */
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	/**
+	 * @param usuarios the usuarios to set
+	 */
+	public void setUsuarios(Set<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 }

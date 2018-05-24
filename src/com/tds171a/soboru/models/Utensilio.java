@@ -3,15 +3,11 @@ package com.tds171a.soboru.models;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -34,11 +30,8 @@ public class Utensilio implements Serializable, Cloneable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7436593408826235662L;
+	private static final long serialVersionUID = -8681475129359748070L;
 
-	/**
-	 * Par�metro de id do Utensilio
-	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_sequence_generator_utensilio")
 	@SequenceGenerator(name = "entity_sequence_generator_utensilio", sequenceName = "utensilio_seq")
@@ -51,61 +44,48 @@ public class Utensilio implements Serializable, Cloneable {
 	@Column(name = "NOME", length = 80, nullable = false)
 	private String nome;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-	@JoinTable(name = "receita_utensilio", joinColumns = { @JoinColumn(name = "id_utensilio") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
+	@ManyToMany(mappedBy = "utensilios")
 	private Set<Receita> receitas;
 
 	/**
-	 * Construtor da classe de Utensilio
-	 */
-	
-	public Utensilio() {
-
-	    id = -1;
-        nome = "";
-	}
-
-	/**
-	 * Construtor da classe de Utensilio que recebe o nome
-	 * @param nome
-	 */
-	public Utensilio(String nome) {
-		this.nome = nome;
-	}
-
-	/**
-	 * Construtor da classe de Utensilio que recebe a id e o nome
-	 * @param id
-	 * @param nome
-	 */
-	public Utensilio(int id, String nome) {
-		this.id = id;
-		this.nome = nome;
-	}
-
-	/**
-	 * @return o id
+	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
+
 	/**
-	 * @param id o id para setar
+	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	/**
-	 * @return o nome
+	 * @return the nome
 	 */
 	public String getNome() {
 		return nome;
 	}
+
 	/**
-	 * @param nome o nome para setar
+	 * @param nome the nome to set
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	/**
+	 * @return the receitas
+	 */
+	public Set<Receita> getReceitas() {
+		return receitas;
+	}
+
+	/**
+	 * @param receitas the receitas to set
+	 */
+	public void setReceitas(Set<Receita> receitas) {
+		this.receitas = receitas;
+	}
 }

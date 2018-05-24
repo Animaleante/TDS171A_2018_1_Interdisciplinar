@@ -17,11 +17,6 @@ import javax.persistence.Table;
  *
  */
 
-/**
- * Trandormando a model em entidade.
- * @author Luiz
- *
- */
 @Entity
 @Table(name = "PONTUACOES")
 public class Pontuacao implements Serializable, Cloneable {
