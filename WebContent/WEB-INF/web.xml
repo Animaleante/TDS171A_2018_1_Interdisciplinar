@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app id="WebApp_ID" version="3.1"
- xmlns="http://xmlns.jcp.org/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
- <display-name>Soboru</display-name>
- <filter>
-  <filter-name>ConnectionHibernateFilter</filter-name>
-  <filter-class>com.tds171a.soboru.filters.ConnectionHibernateFilter</filter-class>
- </filter>
- <filter-mapping>
-  <filter-name>ConnectionHibernateFilter</filter-name>
-  <url-pattern>*.jsf</url-pattern>
- </filter-mapping>
- <servlet>
-  <servlet-name>Faces Servlet</servlet-name>
-  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-  <load-on-startup>1</load-on-startup>
- </servlet>
- <servlet-mapping>
-  <servlet-name>Faces Servlet</servlet-name>
-  <url-pattern>*.jsf</url-pattern>
- </servlet-mapping>
- <welcome-file-list>
-  <welcome-file>index.xhtml</welcome-file>
- </welcome-file-list>
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+	<display-name>Soboru</display-name>
+	<filter>
+		<filter-name>ConnectionHibernateFilter</filter-name>
+		<filter-class>com.tds171a.soboru.filters.ConnectionHibernateFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ConnectionHibernateFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.tds171a.soboru.filters.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/cadastro/*</url-pattern>
+	</filter-mapping>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.xhtml</location>
+	</error-page>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsf</welcome-file>
+	</welcome-file-list>
 </web-app>

@@ -162,6 +162,11 @@ public abstract class BeanBase<T> implements Serializable {
 	 * Será dado um Override no Bean que implementa.
 	 */
 	public abstract void limparModel();
+	
+	public String getRoute(String page) {
+		return route_base + page;
+//    	return route_base + page + FACES_REDIRECT;
+	}
 
 	/**
 	 * Método que aquisição do VO

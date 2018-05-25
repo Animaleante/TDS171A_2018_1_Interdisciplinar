@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.IDAO;
 
@@ -49,6 +50,21 @@ public class ReceitaPersistence implements IDAO<Receita> {
 	@Override
 	public Receita selecionar(int modelId) {
 		return dao.selecionar(modelId);
+	}
+
+	public List<Receita> selecionarPorNomeEIngredientes(String termoBusca, List<Ingrediente> lista) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Receita> selecionarPorNome(String termoBusca) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Receita> selecionarPorIngredientes(List<Ingrediente> lista) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
