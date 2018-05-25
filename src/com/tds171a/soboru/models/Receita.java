@@ -99,7 +99,7 @@ public class Receita implements Serializable, Cloneable {
 	private Set<Usuario> usuariosQueFavoritaram;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-	@JoinTable(name="receita_utensilio", joinColumns={ @JoinColumn(name="id_receita") }, inverseJoinColumns={ @JoinColumn(name="id_utensilio") })
+	@JoinTable(name="receitas_utensilios", joinColumns={ @JoinColumn(name="id_receita") }, inverseJoinColumns={ @JoinColumn(name="id_utensilio") })
 	private Set<Utensilio> utensilios;
 
 	/**

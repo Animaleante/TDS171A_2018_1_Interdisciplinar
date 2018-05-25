@@ -8,9 +8,12 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StandardBasicTypes;
 
+import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.IDAO;
 
@@ -50,7 +53,10 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Receita> listar() {
-		return this.session.createCriteria(Receita.class).add(Restrictions.eq("aprovado", 1)).addOrder(Order.asc("nome")).list();
+		return this.session.createCriteria(Receita.class)
+				.add(Restrictions.eq("aprovado", true))
+				.addOrder(Order.asc("nome"))
+				.list();
 	}
 
 	@Override
@@ -80,6 +86,48 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	@Override
 	public Receita selecionar(int modelId) {
 		return (Receita) this.session.get(Receita.class, modelId);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorNomeEIngredientes(String termoBusca, List<Ingrediente> lista) {
+		try {
+			return this.session.createCriteria(Receita.class, "receita")
+				.createAlias("receita.receitaIngredientes", "receitaIngrediente")
+				.add(Restrictions.in("receitaIngrediente.ingrediente", lista))
+			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING) )
+				.add(Restrictions.eq("aprovado", true))
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorNome(String termoBusca) {
+		return this.session.createCriteria(Receita.class)
+				.add(Restrictions.eq("aprovado", true))
+			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING) )
+				.addOrder(Order.asc("nome"))
+				.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorIngredientes(List<Ingrediente> lista) {
+		try {
+			return this.session.createCriteria(Receita.class, "receita")
+				.createAlias("receita.receitaIngredientes", "receitaIngrediente")
+				.add(Restrictions.in("receitaIngrediente.ingrediente", lista))
+				.add(Restrictions.eq("aprovado", true))
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

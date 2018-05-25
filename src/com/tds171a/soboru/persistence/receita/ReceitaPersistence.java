@@ -53,18 +53,15 @@ public class ReceitaPersistence implements IDAO<Receita> {
 	}
 
 	public List<Receita> selecionarPorNomeEIngredientes(String termoBusca, List<Ingrediente> lista) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selecionarPorNomeEIngredientes(termoBusca, lista);
 	}
 
 	public List<Receita> selecionarPorNome(String termoBusca) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selecionarPorNome(termoBusca);
 	}
 
 	public List<Receita> selecionarPorIngredientes(List<Ingrediente> lista) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selecionarPorIngredientes(lista);
 	}
 
 }
