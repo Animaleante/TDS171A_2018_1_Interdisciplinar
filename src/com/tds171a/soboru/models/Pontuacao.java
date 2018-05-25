@@ -9,8 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 /**
@@ -31,11 +31,11 @@ public class Pontuacao implements Serializable, Cloneable {
 	private PontuacaoId id;
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@MapsId("id_receita")
+	@JoinColumn(name="id_receita", insertable=false, updatable=false)
 	private Receita receita;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@MapsId("id_usuario")
+	@JoinColumn(name="id_usuario", insertable=false, updatable=false)
 	private Usuario usuario;
 
 	@Column(name = "QTY", length = 1, nullable = false)

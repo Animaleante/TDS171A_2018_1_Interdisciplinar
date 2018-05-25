@@ -1,9 +1,13 @@
 package test.tds171a.soboru.persistence;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -44,10 +48,8 @@ class ReceitaPersistenceTest {
 		
 		listaReceita = receitaDAO.selecionarPorIngredientes(listaIngrediente);
 		
-		if(listaReceita != null)
-			System.out.println("Receitas encontradas: " + listaReceita.size());
-		
-		assertTrue(listaReceita != null && listaReceita.size() > 0);
+		assertNotNull(listaReceita);
+		assertTrue(listaReceita.size() > 0);
 	}
 
 	@Test
@@ -62,10 +64,8 @@ class ReceitaPersistenceTest {
 		
 		listaReceita = receitaDAO.selecionarPorNome(termoBusca);
 		
-		if(listaReceita != null)
-			System.out.println("Receitas encontradas: " + listaReceita.size());
-		
-		assertTrue(listaReceita != null && listaReceita.size() > 0);
+		assertNotNull(listaReceita);
+		assertTrue(listaReceita.size() > 0);
 	}
 
 	@Test
@@ -88,10 +88,32 @@ class ReceitaPersistenceTest {
 		
 		listaReceita = receitaDAO.selecionarPorNomeEIngredientes(termoBusca, listaIngrediente);
 		
-		if(listaReceita != null)
-			System.out.println("Receitas encontradas: " + listaReceita.size());
+		assertNotNull(listaReceita);
+		assertTrue(listaReceita.size() > 0);
+	}
+	
+	@Test
+	public void testGetPontuacaoDeReceita() {
+		Set<Pontuacao> pontuacoes = new HashSet<Pontuacao>();
 		
-		assertTrue(listaReceita != null && listaReceita.size() > 0);
+		Session session = getSession();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		assertNotNull(receita);
+		
+		pontuacoes = receita.getPontuacoes();
+		
+		assertNotNull(pontuacoes);
+		
+		Iterator<Pontuacao> itr = pontuacoes.iterator();
+		while(itr.hasNext()) {
+			System.out.println(itr.next().getQty());
+		}
+		
+		assertTrue(pontuacoes.size() > 0);
 	}
 
 	public Session getSession() {

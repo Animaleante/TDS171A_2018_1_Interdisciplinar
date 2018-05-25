@@ -92,10 +92,10 @@ public class Receita implements Serializable, Cloneable {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="receita")
 	private Set<Pontuacao> pontuacoes;
 	
-	@ManyToMany(mappedBy = "receitasReportadas")
+	@ManyToMany(fetch=FetchType.LAZY, mappedBy = "receitasReportadas")
 	private Set<Usuario> usuariosQueReportaram;
 
-	@ManyToMany(mappedBy = "receitasFavoritadas")
+	@ManyToMany(fetch=FetchType.LAZY, mappedBy = "receitasFavoritadas")
 	private Set<Usuario> usuariosQueFavoritaram;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})

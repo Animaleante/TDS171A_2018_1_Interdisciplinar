@@ -144,4 +144,22 @@ insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 24,
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 8, 8, null, 2);
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 6, 5, null, 0);
 
+--comentarios
+--insert into comentarios values(comentario_seq.NEXTVAL, ID_RECEITA, ID_USUARIO, 'BODY');
+insert into comentarios values(comentario_seq.NEXTVAL, 1, 2, 'Isso é um comentário de teste!');
+insert into comentarios values(comentario_seq.NEXTVAL, 2, 2, 'Qualquer besteira aqui.');
+
+--pontuacoes
+--insert into pontuacoes values(ID_RECEITA, ID_USUARIO, QTY);
+insert into pontuacoes values(1, 2, 3);
+insert into pontuacoes values(2, 2, 5);
+
+--reports
+--insert into reports values(ID_USUARIO, ID_RECEITA);
+insert into reports values(2,2); 
+
+--receitas_fav
+--insert into receitas_fav values(ID_RECEITA, ID_USUARIO);
+insert into receitas_fav values(1,2);
+
 commit;
