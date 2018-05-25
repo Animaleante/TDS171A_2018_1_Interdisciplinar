@@ -116,6 +116,30 @@ class ReceitaPersistenceTest {
 		assertTrue(pontuacoes.size() > 0);
 	}
 
+	@Test
+	public void testGetComentarioDeReceita() {
+		Set<Comentario> comentarios = new HashSet<Comentario>();
+		
+		Session session = getSession();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		assertNotNull(receita);
+		
+		comentarios = receita.getComentarios();
+		
+		assertNotNull(comentarios);
+		
+		Iterator<Comentario> itr = comentarios.iterator();
+		while(itr.hasNext()) {
+			System.out.println(itr.next().getBody());
+		}
+		
+		assertTrue(comentarios.size() > 0);
+	}
+
 	public Session getSession() {
 		AnnotationConfiguration configuration = new AnnotationConfiguration();
 		configuration.addAnnotatedClass(Receita.class)
