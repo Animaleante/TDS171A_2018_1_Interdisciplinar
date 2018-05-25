@@ -1,0 +1,71 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	template="/templates/_layout.xhtml"
+                  xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Receita</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1><h:outputText value="#{receitaIngredienteBean.receita.nome}"/> - Utensilios</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <div class="submit_recipe  container">
+		                	<h:form id="receitaUtensilioForm">
+								<h:messages globalOnly="true" errorClass="error"/>
+								
+							    <c:forEach items="#{receitaUtensilioBean.lista}" var="utensilio">
+									<div class="f-row utensilio">
+										<div class="full">
+											<h:message for="select_#{utensilio.id}" errorClass="error"/>
+											
+											<h:selectOneMenu id="select_#{utensilio.id}" value="#{utensilio.id}" required="true" 
+												requiredMessage="Esse valor precisa ser preenchido">
+												<f:selectItem itemValue="-1" itemLabel="Selecione um utensilio" a:disabled="disabled"/>
+												<f:selectItems value="#{receitaUtensilioBean.listaUtensilios}" />
+											</h:selectOneMenu>
+										</div>
+										<h:commandLink action="#{receitaUtensilioBean.remover(utensilio)}">
+											<button class="remove">-</button>
+										</h:commandLink>
+									</div>
+							    </c:forEach>
+							    
+                        		<div class="f-row full">
+									<h:commandLink action="#{receitaUtensilioBean.adicionar}" immediate="true">
+										<button class="add">Adicionar</button>
+									</h:commandLink>
+                        		</div>
+                        		
+                        		<div class="f-row submit">
+								    <h:commandButton value="Salvar" action="#{receitaUtensilioBean.salvar}" />
+									<h:commandLink immediate="true" action="#{receitaBean.listar()}" value="Cancelar" />
+							    </div>
+							</h:form>
+		                </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "receitas";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

@@ -12,7 +12,7 @@
 		            <ul>
 		                <li><a href="/" title="Home">Home</a></li>
 		                <li><a href="#">Cadastro</a></li>
-		                <li>Categoria</li>
+		                <li>Medida</li>
 		            </ul>
 		        </nav>
 		
@@ -28,33 +28,30 @@
 									<h:messages globalOnly="true" errorClass="error"/>
 									
 									<div class="f-row">
-											<h:message for="nome" errorClass="error"/>
+										<h:message for="nome" errorClass="error"/>
 											
-					                        <h:inputText id="nome"  value="#{categoriaBean.vo.nome}" size="80"
-											             required="true" a:placeholder="Nome"
-											             validatorMessage="Nome deve ter no máximo 80 caracteres"
-											             requiredMessage="Nome é obrigatório">
-											    <f:validateLength minimum="1" maximum="80" />
-											</h:inputText>
+				                        <h:inputText id="nome"  value="#{medidaBean.vo.nome}" size="80"
+										             required="true" a:placeholder="Nome"
+										             validatorMessage="Nome deve ter no máximo 80 caracteres"
+										             requiredMessage="Nome é obrigatório">
+										    <f:validateLength minimum="1" maximum="80" />
+										</h:inputText>
 				                    </div>
 				                    
 									<div class="f-row">
-		                                <label>
-		                                	É uma subcategoria:
-											<h:selectBooleanCheckbox value="#{categoriaBean.vo.selecionavel}" />
-		                                </label>
-				                    </div>
-				                    
-				                    <div class="f-row">
-										<h:selectOneMenu value="#{categoriaBean.vo.idSuperCategoria}">
-  											<f:selectItem itemValue="-1" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
-											<f:selectItems value="#{categoriaBean.categorias}" />
-										</h:selectOneMenu>
+										<h:message for="abreviacao" errorClass="error"/>
+											
+				                        <h:inputText id="abreviacao"  value="#{medidaBean.vo.abreviacao}" size="80"
+										             required="true" a:placeholder="Abreviacao"
+										             validatorMessage="Nome deve ter no máximo 80 caracteres"
+										             requiredMessage="Abreviacao é obrigatório">
+										    <f:validateLength minimum="1" maximum="80" />
+										</h:inputText>
 				                    </div>
 				                </section>
                         		<div class="f-row submit">
-									<h:commandButton action="#{categoriaBean.incluir()}" value="Cadastrar" />
-									<h:commandLink immediate="true" action="#{categoriaBean.listar()}" value="Cancelar" />
+									<h:commandButton action="#{medidaBean.incluir()}" value="Cadastrar" />
+									<h:commandLink immediate="true" action="#{medidaBean.listar()}" value="Cancelar" />
 			                    </div>
 					        </h:form>
 		                </div>
@@ -67,7 +64,7 @@
 	<ui:define name="script">
 		<h:outputScript>
 			navName = "cadastro";
-			subNavName = "categorias";
+			subNavName = "medidas";
 		</h:outputScript>
 	</ui:define>
 </ui:composition>

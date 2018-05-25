@@ -1,0 +1,112 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Usuario</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1>Detalhes</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <dl class="basic">
+	                        <dt>
+	                            ID
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.id}
+	                        </dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>
+	                            Nome
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.nome}
+	                        </dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>
+	                            E-mail
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.email}
+	                        </dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>
+	                            Data de Nascimento
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.nasc}
+	                        </dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>
+	                            Sexo
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.sexo}
+	                        </dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>
+	                            Tipo
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.tipo}
+	                        </dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>
+	                            Recebe notificacoes por e-mail
+	                        </dt>
+	
+	                        <dd>
+	                            #{usuarioBean.vo.notificacaoEmail}
+	                        </dd>
+	                    </dl>
+	
+	                    <div class="bwrap">
+							<h:form>
+								<h:commandButton action="#{usuarioBean.editar(usuarioBean.vo)}" value="Editar"></h:commandButton>
+									<h:commandButton immediate="true" action="#{usuarioBean.listar()}" value="Voltar" />
+							</h:form>
+	                    </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "usuarios";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,56 @@
+/*.submit_recipe .f-row.ingredient:first-of-type .remove,
+.submit_recipe .f-row.utensilio:first-of-type .remove {
+    display: none;
+}*/
+
+
+
+.f-row.submit input[type="submit"] {
+	float: right;
+}
+
+.f-row.submit a {
+	padding: 10px 20px 0 20px !important; 
+	float: right;
+}
+
+.share li a span i.fa:last-child {
+	display:none;
+}
+
+.share li a:hover span i.fa:first-child {
+	display:none;
+}
+.share li a:hover span i.fa:last-child {
+	display:inline-block;
+}
+
+.score a i.fa:last-child {
+	display:none;
+}
+
+.score a:hover i.fa:first-child {
+	display:none;
+}
+.score a:hover i.fa:last-child {
+	display:inline-block;
+}
+
+.error{
+	color: #FF7B74;
+}
+
+.imgreceita{
+	border-style: solid;
+	border-width: 2px;
+	border-color: #FF7B74;
+	width: 350px;
+}
+
+.utensilio .full {
+	width: 95%;	
+}
+
+.utensilio > div {
+	float: left;
+}

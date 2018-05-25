@@ -1,0 +1,92 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <div class="row">
+	                <section class="content center full-width">
+	                    <div class="modal-soboru container">
+	                        <h3>Registrar</h3>
+	                        
+	                        <h:form styleClass="form-horizontal">
+								<h:messages globalOnly="true" errorClass="error"/>
+								
+	                            <div class="f-row">
+	                            <h:message for="nome" errorClass="error"/><br/>
+	                                <h:inputText id="nome"  value="#{registroBean.nome}" size="80"
+									             required="true" a:placeholder="Nome"
+									             validatorMessage="Nome deve ter no máximo 80 caracteres"
+									             requiredMessage="Nome é obrigatório">
+									    <f:validateLength minimum="1" maximum="80" />
+									</h:inputText>
+	                            </div>
+	                            
+	                            <div class="f-row">
+	                            <h:message for="email" errorClass="error"/><br/>
+	                                <h:inputText id="email"  value="#{registroBean.email}"
+									             required="true" a:placeholder="E-mail"
+									             requiredMessage="E-mail é obrigatório">
+									</h:inputText>
+	                            </div>
+	                            
+	                            <div class="f-row">
+	                            <h:message for="senha" errorClass="error"/><br/>
+	                                <h:inputSecret id="senha"  value="#{registroBean.senha}"
+									             required="true" a:placeholder="Senha"
+									             requiredMessage="Senha é obrigatório">
+									</h:inputSecret>
+	                            </div>
+	                            
+	                            <div class="f-row">
+	                            <h:message for="senhaConfirmacao" errorClass="error"/><br/>
+	                                <h:inputSecret id="senhaConfirmacao"  value="#{registroBean.senhaConfirmacao}"
+									             required="true" a:placeholder="Repetir Senha"
+									             requiredMessage="Confirmacao da Senha é obrigatório">
+									</h:inputSecret>
+	                            </div>
+	                            
+	                            <div class="f-row">
+							<h:message for="nasc" errorClass="error"/><br/>
+	                                <label>Data de Nascimento:</label><br/>
+	                                <h:inputText id="nasc"  value="#{registroBean.nasc}" a:type="date"
+									             required="true" a:placeholder="Data de Nascimento"
+									             requiredMessage="Data de Nascimento é obrigatória">
+									</h:inputText>
+	                            </div>
+	                            
+	                            <div class="f-row">
+	                                <label>Sexo:</label>
+	                                <h:selectOneRadio value="#{registroBean.sexo}">
+	                                	<f:selectItem itemValue="1" itemLabel="Feminino"/>
+	                                	<f:selectItem itemValue="2" itemLabel="Masculino"/>
+	                                	<f:selectItem itemValue="3" itemLabel="Indefinido"/>
+	                                </h:selectOneRadio>
+	                            </div>
+	                            
+	                            <div class="f-row">
+	                                <label>
+	                                    Receber notificações por e-mail:
+	                                    <h:selectBooleanCheckbox value="#{registroBean.notificacaoEmail}"></h:selectBooleanCheckbox>
+	                                </label>
+	                            </div>
+	                            
+	                            <div class="f-row bwrap">
+									<h:commandButton action="#{registroBean.incluir()}" value="Registrar" />
+	                            </div>
+	                        </h:form>
+	                        <h:form>
+	                        	<p>Já tem uma conta? <h:commandLink action="#{loginBean.index()}" value="Faça o login!" /></p>
+	                        </h:form>
+	                    </div>
+	                </section>
+	            </div>
+		    </div>
+		</main>
+	</ui:define>
+</ui:composition>

@@ -12,13 +12,13 @@
 		            <ul>
 		                <li><a href="/" title="Home">Home</a></li>
 		                <li><a href="#">Cadastro</a></li>
-		                <li>Categorias</li>
+		                <li>Pontuacao</li>
 		            </ul>
 		        </nav>
 		
 		        <div class="row">
 		            <header class="s-title">
-		                <h1>Categorias</h1>
+		                <h1>Pontuacoes</h1>
 		            </header>
 		
 		            <section class="content full-width">
@@ -28,24 +28,25 @@
 							</h:form>
 							
 							<c:choose>
-								<c:when test="${not empty categoriaBean.lista}">
+								<c:when test="${not empty pontuacaoBean.lista}">
 									<table class="table table-stiped table-hover">
 							            <thead>
 							                <tr>
-							                    <th>Nome</th>
-							                    <th>Grupo</th>
+							                    <th>Receita</th>
+							                    <th>Usuario</th>
+							                    <th>Valor</th>
 							                    <th>Ações</th>
 							                </tr>
 							            </thead>
 							            <tbody>
-							            	<c:forEach items="#{categoriaBean.lista}" var="categoria">
+							            	<c:forEach items="#{pontuacaoBean.lista}" var="pontuacao">
 							                    <tr>
-							                        <td>#{categoria.nome}</td>
-							                        <td>#{categoriaBean.isGrupo(categoria)}</td>
+							                        <td>#{pontuacao.receitaNome}</td>
+							                        <td>#{pontuacao.usuarioNome}</td>
+							                        <td>#{pontuacao.qty}</td>
 							                        <td>
 														<h:form>
-															<h:commandLink action="#{categoriaBean.editar(categoria)}" value="Editar"></h:commandLink> |
-															<h:commandLink action="#{categoriaBean.deletar(categoria)}" value="Deletar"></h:commandLink>
+															<h:commandLink action="#{pontuacaoBean.deletar(pontuacao)}" value="Deletar"></h:commandLink>
 														</h:form>
 							                        </td>
 							                    </tr>
@@ -57,10 +58,10 @@
 						        	<p>A lista está vazia.</p>
 						        </c:otherwise>
 					        </c:choose>
-							
+								
 							<div class="f-row">
 								<h:form>
-									<h:commandButton action="#{categoriaBean.criar()}" immediate="true" value="Criar novo" />
+									<h:commandButton action="#{pontuacaoBean.criar()}" immediate="true" value="Criar novo" />
 								</h:form>
 							</div>
 		                </div>
@@ -73,7 +74,7 @@
 	<ui:define name="script">
 		<h:outputScript>
 			navName = "cadastro";
-			subNavName = "categorias";
+			subNavName = "pontuacoes";
 		</h:outputScript>
 	</ui:define>
 </ui:composition>

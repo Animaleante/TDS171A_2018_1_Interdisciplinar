@@ -1,0 +1,48 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	template="templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+			<!--wrap-->
+			<div class="wrap clearfix">
+				<!--row-->
+				<div class="row">
+					<!--content-->
+					<section class="content full-width">
+						<!--row-->
+						<div class="row">
+							<div class="one-third">
+								<div class="error-container">
+									<span class="error_type">404</span>
+									<span class="error_text">Page not found</span>
+								</div>
+							</div>
+							
+							<div class="two-third">
+								<div class="container">
+									<p>The page you’ve requested could not be found or it was already removed from the database. </p>
+									<p>If you believe that this is an error, please kindly <a href="#">contact us</a>. Thank you!</p>
+									<p>You can go <a href="#">back home</a> or try using the search. </p>
+								</div>
+							</div>
+						</div>
+						<!--//row-->
+					</section>
+					<!--//content-->
+				</div>
+				<!--//row-->
+			</div>
+			<!--//wrap-->
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			$('body').addClass('errorPage');
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

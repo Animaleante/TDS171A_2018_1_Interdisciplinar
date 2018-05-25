@@ -6,10 +6,11 @@ package com.tds171a.soboru.models;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 /**
@@ -25,17 +26,20 @@ public class Pontuacao implements Serializable, Cloneable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6034009323929753926L;
-
-	@Column(name = "QTY", length = 1, nullable = false)
-	private Double qty;
+	
+	@EmbeddedId
+	private PontuacaoId id;
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_receita")
+	@MapsId("id_receita")
 	private Receita receita;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_usuario")
+	@MapsId("id_usuario")
 	private Usuario usuario;
+
+	@Column(name = "QTY", length = 1, nullable = false)
+	private Double qty;
 
 	/**
 	 * @return the qty

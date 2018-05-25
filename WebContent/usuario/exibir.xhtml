@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+			<!--wrap-->
+			<div class="wrap clearfix">
+				<!--breadcrumbs-->
+				<nav class="breadcrumbs">
+					<ul>
+						<li><a href="index.html" title="Home">Home</a></li>
+						<li>My account</li>
+					</ul>
+				</nav>
+				<!--//breadcrumbs-->
+				
+			
+				<!--content-->
+				<section class="content full-width">
+					<!--row-->
+					<div class="row">
+						<!--profile left part-->
+						<div class="my_account one-fourth">
+							<figure>
+								<h:graphicImage value="#{resource['images:avatar4.jpg']}"/>
+							</figure>
+							<div class="container">
+								<h2><h:outputText value="#{usuarioSiteBean.vo.nome}" /></h2> 
+							</div>
+						</div>
+						<!--//profile left part-->
+						
+						<div class="three-fourth">
+							<nav class="tabs">
+								<ul>
+									<li class="active"><a href="#recipes" title="My recipes">Minhas receitas</a></li>
+									<li><a href="#favorites" title="My favorites">Meus favoritos</a></li>
+								</ul>
+							</nav>
+						
+							<!--my recipes-->
+							<div class="tab-content" id="recipes" style="display: none;">
+								<div class="entries row">
+									<c:forEach items="#{usuarioSiteBean.listaReceitas}" var="receita">
+										<!--item-->
+										<div class="entry one-third">
+											<figure>
+												<h:graphicImage value="/images/#{receita.imgPath}" />
+												<figcaption>
+													<h:form>
+														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+															<i class="icon icon-themeenergy_eye2"></i> <span>Ver receita</span>
+														</h:commandLink>
+													</h:form>
+												</figcaption>
+											</figure>
+											<div class="container">
+												<h2>
+													<h:form>
+														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+															<h:outputText value="#{receita.nome}" />
+														</h:commandLink>
+													</h:form>
+												</h2> 
+												<div class="actions">
+													<div>
+														<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.favs}" /></a></div>
+														<div class="comments"><i class="fa fa-comment"></i><a href="recipe.html#comments"><h:outputText value="#{receita.numComentarios}" /></a></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--item-->
+									</c:forEach>
+								</div>
+							</div>
+							<!--//my recipes-->
+							
+							
+							<!--my favorites-->
+							<div class="tab-content" id="favorites" style="display: none;">
+								<div class="entries row">
+									<c:forEach items="#{usuarioSiteBean.listaFavoritos}" var="receita">
+										<!--item-->
+										<div class="entry one-third">
+											<figure>
+												<h:graphicImage value="/images/#{receita.imgPath}" />
+												<figcaption><a href="recipe.html"><i class="icon icon-themeenergy_eye2"></i> <span>View recipe</span></a></figcaption>
+											</figure>
+											<div class="container">
+												<h2><a href="recipe.html">Thai fried rice with fruit and vegetables</a></h2> 
+												<div class="actions">
+													<div>
+														<div class="difficulty"><i class="ico i-medium"></i><a href="#">medium</a></div>
+														<div class="likes"><i class="fa fa-heart" aria-hidden="true"></i><a href="#">10</a></div>
+														<div class="comments"><i class="fa fa-comment" aria-hidden="true"></i><a href="recipe.html#comments">27</a></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--item-->
+									</c:forEach>
+								</div>
+							</div>
+							<!--//my favorites-->
+						</div>
+					</div>
+					<!--//row-->
+				</section>
+				<!--//content-->
+			</div>
+			<!--//wrap-->
+		</main>
+	</ui:define>
+</ui:composition>

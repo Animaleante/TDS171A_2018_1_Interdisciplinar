@@ -1,0 +1,66 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	template="templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+			<!--intro-->
+			<div class="intro">
+				<figure class="bg">
+<!-- 					<img src="images/intro.jpg" alt=""> -->
+					<h:graphicImage value="#{resource['images:intro.jpg']}"/>
+				</figure>
+				
+				<!--wrap-->
+				<div class="wrap clearfix">
+					<!--row-->
+					<div class="row">
+						<article class="three-fourth text">
+							<h:form>
+							<h1>Bem vindo ao Soboru!</h1>
+							<p>Soboru é o melhor lugar para procurar receitas com os ingredientes que você tem em cas. 
+							Para começar a pesquisar, clique no botão de pesquisa no canto <strong>superior direto</strong>.</p>
+							<p>Para postar receitas e aproveitar outras funcionalidades, por favor cadastre-se clicando no botão abaixo ou se já tiver conta, logue no menu acima. </p>
+							<h:commandLink action="#{registroBean.index()}" styleClass="button white more medium">Cadastre-se <i class="fa fa-chevron-right" aria-hidden="true"></i></h:commandLink>
+							<p>Já é um membro? <h:commandLink action="#{loginBean.index()}">Clique aqui para logar.</h:commandLink></p>
+							</h:form>
+						</article>
+						
+						<!--search recipes widget-->
+						<div class="one-fourth">
+							<div class="widget container">
+								<div class="textwrap">
+									<h3>Pesquisar receita:</h3>
+									<p>Tudo o que precisa e inserir o nome de alguns ingredientes no campo de pesquisa por ingredinetes. </p>
+									<p>Você também pode pesquisar pelo nome da receita.</p>
+									<p>Lembre que logando você pode favoritar receitas.</p> 
+									<p>Divirta-se!</p>
+								</div>
+								<h:form>
+									<div class="f-row">
+										<h:inputText value="#{pesquisaBean.termoBusca}" a:placeholder="Entre com seu termo de busca" />
+									</div>
+									
+									
+									<div class="f-row bwrap">
+										<h:commandButton action="#{pesquisaBean.pesquisar()}" value="Comece a cozinhar!" />
+									</div>
+								</h:form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "home";
+			$('body').addClass('home');
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

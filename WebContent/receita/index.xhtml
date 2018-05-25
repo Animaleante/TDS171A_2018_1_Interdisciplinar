@@ -1,0 +1,85 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+	   <main class="main" role="main">
+			<!--wrap-->
+			<div class="wrap clearfix">
+				<!--breadcrumbs-->
+				<nav class="breadcrumbs">
+					<ul>
+						<li><a href="index.html" title="Home">Home</a></li>
+						<li>Recipes</li>
+					</ul>
+				</nav>
+				<!--//breadcrumbs-->
+				
+				<!--row-->
+				<div class="row">
+					<header class="s-title">
+						<h1>Recipes</h1>
+					</header>
+					
+					<!--content-->
+					<section class="content full-width">
+						<!--entries-->
+						<div class="entries row">
+							<c:forEach items="#{receitaSiteBean.lista}" var="receita">
+								<!--item-->
+								<div class="entry one-fourth">
+									<figure>
+										<h:graphicImage value="/images/#{receita.imgPath}" rendered="#{receita.imgPath != null}" />
+										<h:graphicImage value="http://via.placeholder.com/640x480" rendered="#{receita.imgPath == null}" />
+										<figcaption>
+											<h:form>
+												<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+													<i class="icon icon-themeenergy_eye2"></i> <span>Ver receita</span>
+												</h:commandLink>
+											</h:form>
+										</figcaption>
+									</figure>
+									<div class="container">
+										<h2>
+											<h:form>
+												<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+													<h:outputText value="#{receita.nome}" />
+												</h:commandLink>
+											</h:form>
+										</h2> 
+										<div class="actions">
+											<div>
+												<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(receita.pontuacaoMedia)}" /></a></div>
+												<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.favs}" /></a></div>
+												<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.numComentarios}" /></a></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--item-->
+							</c:forEach>
+							
+							<div class="quicklinks">
+<!-- 								<a href="#" class="button">More recipes</a> -->
+								<a href="javascript:void(0)" class="button scroll-to-top">Voltar ao topo</a>
+							</div>
+						</div>
+						<!--//entries-->
+					</section>
+					<!--//content-->
+				</div>
+				<!--//row-->
+			</div>
+			<!--//wrap-->
+		</main> 
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "receitas";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

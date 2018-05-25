@@ -1,0 +1,57 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Report</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1>Criar</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <div class="container">
+		                	<h:form>
+				                <section>
+									<h:messages globalOnly="true" errorClass="error"/>
+									
+									<div class="f-row">
+					                    <div class="full">
+											<h:selectOneMenu value="#{reportBean.vo.receitaId}" required="true">
+   												<f:selectItem itemValue="0" itemLabel="Selecione uma receita" a:disabled="disabled" a:selected="selected"/>
+												<f:selectItems value="#{reportBean.receitas}" />
+											</h:selectOneMenu>
+					                    </div>
+				                    </div>
+				                </section>
+                        		<div class="f-row submit">
+									<h:commandButton action="#{reportBean.incluir()}" value="Cadastrar" />
+									<h:commandLink immediate="true" action="#{reportBean.listar()}" value="Cancelar" />
+			                    </div>
+					        </h:form>
+		                </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "reports";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

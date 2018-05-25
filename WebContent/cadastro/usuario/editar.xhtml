@@ -1,0 +1,98 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+			<nav class="breadcrumbs">
+				<ul>
+					<li><a href="/" title="Home">Home</a></li>
+					<li><a href="#">Cadastro</a></li>
+					<li>Usuario</li>
+				</ul>
+			</nav>
+
+
+			<div class="row">
+				<section class="content center full-width">
+					<div class="modal-soboru container">
+						<h3>Editar usuário</h3>
+
+						<h:form styleClass="form-horizontal">
+							<h:messages globalOnly="true" errorClass="error" />
+
+							<div class="f-row">
+							<h:message for="nome" errorClass="error"/><br/>
+								<h:inputText id="nome" value="#{usuarioBean.vo.nome}" size="80"
+									required="true" a:placeholder="Nome"
+									validatorMessage="Nome deve ter no máximo 80 caracteres"
+									requiredMessage="Nome é obrigatório">
+									<f:validateLength minimum="1" maximum="80" />
+								</h:inputText>
+							</div>
+
+							<div class="f-row">
+							<h:message for="email" errorClass="error"/><br/>
+								<h:inputText id="email" value="#{usuarioBean.vo.email}"
+									required="true" a:placeholder="E-mail"
+									requiredMessage="E-mail é obrigatório">
+								</h:inputText>
+							</div>
+							<div class="f-row">
+							<h:message for="nasc" errorClass="error"/><br/>
+								<label> Data de Nascimento: </label><br/>
+								<h:inputText id="nasc" value="#{usuarioBean.nasc}" a:type="date"
+									required="true" a:placeholder="Data de Nascimento"
+									requiredMessage="Data de Nascimento é obrigatória">
+								</h:inputText>
+							</div>
+
+							<div class="f-row">
+							<h:message for="#{usuarioBean.vo.sexo}" errorClass="error"/><br/>
+								<label>Sexo:</label>
+								<h:selectOneRadio value="#{usuarioBean.vo.sexo}" required="true">
+									<f:selectItem itemValue="1" itemLabel="Feminino" />
+									<f:selectItem itemValue="2" itemLabel="Masculino" />
+									<f:selectItem itemValue="3" itemLabel="Indefinido" />
+								</h:selectOneRadio>
+							</div>
+
+							<div class="f-row">
+								<label> Receber notificações por e-mail: <h:selectBooleanCheckbox
+										value="#{usuarioBean.vo.notificacaoEmail}"></h:selectBooleanCheckbox>
+								</label> 
+								</div>
+								<div class="f-row">
+								<h:message for="#{usuarioBean.vo.roleId}" errorClass="error"/><br/>
+								<div> 
+									<h:selectOneMenu value="#{usuarioBean.vo.roleId}" required="true">
+											<f:selectItem itemValue="0" itemLabel="Tipo do usuário" a:disabled="disabled" a:selected="selected"/>
+											<f:selectItems value="#{usuarioBean.roles}" />
+									</h:selectOneMenu>
+
+								</div>
+							</div>
+							<div class="f-row bwrap">
+								<h:commandButton action="#{usuarioBean.incluir()}"
+									value="Registrar" />
+							</div>
+						</h:form>
+					</div>
+				</section>
+			</div>
+		</div>	
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "usuarios";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

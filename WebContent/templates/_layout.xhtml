@@ -1,0 +1,78 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+	<h:head>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8" />
+		<title>Soboru</title>
+		
+		<h:outputStylesheet library="css" name="bootstrap.css"  />
+		<h:outputStylesheet library="css" name="site-style.css"  />
+		<h:outputStylesheet library="css" name="icons.css"  />
+		<h:outputStylesheet library="css" name="style.css"  />
+		
+	    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700,800" rel="stylesheet" />
+	    <script src="https://use.fontawesome.com/e808bf9397.js"></script>
+	
+	    <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+	</h:head> 
+	<body> 
+		<div class="preloader">
+	        <div class="spinner"></div>
+	    </div>
+	
+		<ui:insert name="header">
+			<ui:include src="/templates/_header.xhtml" />
+		</ui:insert>
+	
+		<ui:insert name="content">
+		</ui:insert>
+	
+		<ui:insert name="footer">
+			<ui:include src="/templates/_footer.xhtml" />
+		</ui:insert>
+		
+		<h:outputScript name="js/jquery-3.2.1.min.js" />
+		<h:outputScript name="js/bootstrap.min.js" />
+		<h:outputScript name="js/jquery.uniform.min.js" />
+		<h:outputScript name="js/jquery.slicknav.min.js" />
+		<h:outputScript name="js/scripts.js" />
+		
+		<h:outputScript>
+			var navName = "";
+			var subNavName = "";
+		
+			function setActivePage(pageId, categoryName) {
+	            //criado variável que recebe a categoria e concatena
+	            //com os parâmetros esperados para setactivepage
+	            var bag = 'nav ul ul li#nav_' + categoryName.toLowerCase();
+	
+	            $('nav ul li').removeClass('current-menu-item');
+	            $('nav>ul>li#'+pageId).addClass("current-menu-item");
+	            /*if (pageId === "nav_home")
+	                $('nav ul li#nav_home').addClass("current-menu-item");
+	            else
+	                //alterado else pois tudo que não fosse home ia para cadastro,
+	                //e contatos é outra categoria.
+	                $(bag).addClass("current-menu-item");*/
+	            if(categoryName != '')
+	                $(bag).addClass("current-menu-item");
+	        }
+	
+	        function registerDeleteModalInfo() {
+	            $(".modelItemRemove").click(function (event) {
+	                var $el = $(event.target);
+	                $('.modal').find('.modelItemName').text($el.data('modelitemname'));
+	                $('.modal').find('form input.modelItemId').val($el.data('modelitemid'));
+	            });
+	        }
+		</h:outputScript>
+		
+    	<ui:insert name="script"></ui:insert>
+    	
+		<h:outputScript>
+	        setActivePage('nav_' + navName.toLowerCase(), subNavName);
+		</h:outputScript>
+	</body> 
+</html>

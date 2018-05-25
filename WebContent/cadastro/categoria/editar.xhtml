@@ -2,7 +2,7 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:h="http://java.sun.com/jsf/html" 
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
 	template="/templates/_layout.xhtml">
 	<ui:define name="content">
@@ -18,7 +18,7 @@
 		
 		        <div class="row">
 		            <header class="s-title">
-		                <h1>Criar</h1>
+		                <h1>Editar</h1>
 		            </header>
 		
 		            <section class="content full-width">
@@ -28,8 +28,6 @@
 									<h:messages globalOnly="true" errorClass="error"/>
 									
 									<div class="f-row">
-											<h:message for="nome" errorClass="error"/>
-											
 					                        <h:inputText id="nome"  value="#{categoriaBean.vo.nome}" size="80"
 											             required="true" a:placeholder="Nome"
 											             validatorMessage="Nome deve ter no máximo 80 caracteres"
@@ -47,13 +45,13 @@
 				                    
 				                    <div class="f-row">
 										<h:selectOneMenu value="#{categoriaBean.vo.idSuperCategoria}">
-  											<f:selectItem itemValue="-1" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
+  											<f:selectItem itemValue="0" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
 											<f:selectItems value="#{categoriaBean.categorias}" />
 										</h:selectOneMenu>
 				                    </div>
 				                </section>
                         		<div class="f-row submit">
-									<h:commandButton action="#{categoriaBean.incluir()}" value="Cadastrar" />
+									<h:commandButton action="#{categoriaBean.editar()}" value="Salvar"/>
 									<h:commandLink immediate="true" action="#{categoriaBean.listar()}" value="Cancelar" />
 			                    </div>
 					        </h:form>

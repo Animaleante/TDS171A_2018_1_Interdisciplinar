@@ -1,0 +1,105 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	template="/templates/_layout.xhtml"
+                  xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Receita</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1><h:outputText value="#{receitaIngredienteBean.receita.nome}"/> - Ingredientes</h1>
+		            </header>
+		            <section class="content full-width">
+		                <div class="submit_recipe container">
+		                	<h:form>
+								<h:messages globalOnly="true" errorClass="error"/>
+								<div class="f-row ingredient">
+										<div class="large">
+											<h:outputText value="Selecione o ingrediente" />
+										</div>
+	
+<!-- 										<div class="small"> -->
+<!-- 											<h:inputText value="#{recIng.sub_sessao}" a:placeholder="SubSessão" /> -->
+<!-- 										</div> -->
+
+										<div class="small">
+											<h:outputText value="Quantidade" />
+										</div>
+<!-- 										<div class="small" style="width:22%;"> -->
+										<div class="third">
+											<h:outputText value="Tipo de medida" />
+										</div>
+									</div>
+		
+								
+							    <c:forEach items="#{receitaIngredienteBean.lista}" var="recIng" varStatus="recIngStatus">
+
+									<div class="f-row ingredient">
+										<div class="large">
+											<h:message for="select_ingrediente_#{recIngStatus.index}" errorClass="error"/>
+											
+											<h:selectOneMenu id="select_ingrediente_#{recIngStatus.index}" value="#{recIng.id_ingrediente}" required="true"
+												 requiredMessage="Esse valor precisa ser preenchido">
+												<f:selectItem itemValue="0" itemLabel="Selecione o ingrediente" a:disabled="disabled" a:selected="selected" />
+												<f:selectItems value="#{receitaIngredienteBean.listaIngredientes}" />
+											</h:selectOneMenu>
+										</div>
+	
+<!-- 										<div class="small"> -->
+<!-- 											<h:inputText value="#{recIng.sub_sessao}" a:placeholder="SubSessão" /> -->
+<!-- 										</div> -->
+
+										<div class="small">
+											<h:inputText value="#{recIng.qty}" a:placeholder="Quantidade" />
+										</div>
+<!-- 										<div class="small" style="width:22%;"> -->
+										<div class="third">
+											<h:message for="select_medida_#{recIngStatus.index}" errorClass="error"/>
+											
+											<h:selectOneMenu id="select_medida_#{recIngStatus.index}"  value="#{recIng.id_medida}" required="true"
+												 requiredMessage="Esse valor precisa ser preenchido">
+												<f:selectItem itemValue="0" itemLabel="Selecione a Medida" a:disabled="disabled" a:selected="selected" />
+												<f:selectItems value="#{receitaIngredienteBean.listaMedidas}" />
+											</h:selectOneMenu>
+										</div>
+										<h:commandLink action="#{receitaIngredienteBean.remover(recIng)}" immediate="true">
+											<button class="remove">-</button>
+										</h:commandLink>
+									</div>
+							    </c:forEach>
+							    
+                        		<div class="f-row">
+								    <h:commandButton value="Add" action="#{receitaIngredienteBean.adicionar}" immediate="true" />
+                        		</div>
+                        		
+                        		<div class="f-row submit">
+								    <h:commandButton value="Salvar" action="#{receitaIngredienteBean.salvar}" />
+									<h:commandLink immediate="true" action="#{receitaBean.listar()}" value="Cancelar" />
+							    </div>
+							</h:form>
+		                </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "receitas";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

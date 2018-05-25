@@ -1,4 +1,4 @@
-<ui:composition 
+<ui:composition
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -12,13 +12,13 @@
 		            <ul>
 		                <li><a href="/" title="Home">Home</a></li>
 		                <li><a href="#">Cadastro</a></li>
-		                <li>Categorias</li>
+		                <li>Receita</li>
 		            </ul>
 		        </nav>
 		
 		        <div class="row">
 		            <header class="s-title">
-		                <h1>Categorias</h1>
+		                <h1>Receitas</h1>
 		            </header>
 		
 		            <section class="content full-width">
@@ -28,24 +28,27 @@
 							</h:form>
 							
 							<c:choose>
-								<c:when test="${not empty categoriaBean.lista}">
+								<c:when test="${not empty receitaBean.lista}">
 									<table class="table table-stiped table-hover">
 							            <thead>
 							                <tr>
 							                    <th>Nome</th>
-							                    <th>Grupo</th>
+							                    <th>Aprovado</th>
 							                    <th>Ações</th>
 							                </tr>
 							            </thead>
 							            <tbody>
-							            	<c:forEach items="#{categoriaBean.lista}" var="categoria">
+							            	<c:forEach items="#{receitaBean.lista}" var="receita">
 							                    <tr>
-							                        <td>#{categoria.nome}</td>
-							                        <td>#{categoriaBean.isGrupo(categoria)}</td>
+							                        <td>#{receita.nome}</td>
+							                        <td>#{receitaBean.isAprovado(receita)}</td>
 							                        <td>
 														<h:form>
-															<h:commandLink action="#{categoriaBean.editar(categoria)}" value="Editar"></h:commandLink> |
-															<h:commandLink action="#{categoriaBean.deletar(categoria)}" value="Deletar"></h:commandLink>
+															<h:commandLink action="#{receitaBean.exibir(receita)}" value="Detalhes"></h:commandLink> |
+															<h:commandLink action="#{receitaIngredienteBean.criar(receita.id)}" value="Ingredientes"></h:commandLink> |
+															<h:commandLink action="#{receitaUtensilioBean.criar(receita.id)}" value="Utensilios"></h:commandLink> |
+															<h:commandLink action="#{receitaBean.editar(receita)}" value="Editar"></h:commandLink> |
+															<h:commandLink action="#{receitaBean.deletar(receita)}" value="Deletar"></h:commandLink>
 														</h:form>
 							                        </td>
 							                    </tr>
@@ -57,10 +60,10 @@
 						        	<p>A lista está vazia.</p>
 						        </c:otherwise>
 					        </c:choose>
-							
+								
 							<div class="f-row">
 								<h:form>
-									<h:commandButton action="#{categoriaBean.criar()}" immediate="true" value="Criar novo" />
+									<h:commandButton action="#{receitaBean.criar()}" immediate="true" value="Criar novo" />
 								</h:form>
 							</div>
 		                </div>
@@ -73,7 +76,7 @@
 	<ui:define name="script">
 		<h:outputScript>
 			navName = "cadastro";
-			subNavName = "categorias";
+			subNavName = "receitas";
 		</h:outputScript>
 	</ui:define>
 </ui:composition>

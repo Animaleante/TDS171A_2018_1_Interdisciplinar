@@ -1,0 +1,50 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Roles</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1>Deletar</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <div class="container">
+		                    <h:form>
+								<h:messages globalOnly="true" errorClass="error"/>
+							</h:form>
+							
+							<h:outputText value="Tem certeza que deseja deletar o role '#{roleBean.vo.nome}'?" />
+	
+		                    <div class="f-row submit">
+								<h:form>
+									<h:commandButton action="#{roleBean.deletar()}" value="Confirmar exclusão" />
+									<h:commandLink immediate="true" action="#{roleBean.listar()}" value="Voltar" />
+								</h:form>
+		                    </div>
+						</div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "ingredientes";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

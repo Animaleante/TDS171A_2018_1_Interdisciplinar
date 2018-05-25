@@ -1,0 +1,176 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Receita</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1>Criar</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <div class="submit_recipe container">
+		                	<h:form enctype="multipart/form-data">
+								<h:messages globalOnly="true" errorClass="error"/>
+								
+				                <section>
+									<div class="f-row">
+					                    <div class="full">
+					                    	<h:message for="nome" errorClass="error"/>
+					                        <h:inputText id="nome"  value="#{receitaSiteBean.vo.nome}" size="80"
+											             required="true" a:placeholder="Nome da Receita"
+											             validatorMessage="Nome deve ter no máximo 80 caracteres"
+											             requiredMessage="Nome é obrigatório">
+											    <f:validateLength minimum="1" maximum="80" />
+											</h:inputText>
+					                    </div>
+				                    </div>
+				                    
+				                    <div class="f-row">
+										<div class="third">
+											<h:message for="tempo_preparo" errorClass="error"/>
+					                        <h:inputText id="tempo_preparo"  value="#{receitaSiteBean.vo.tempoPreparo}" size="80"
+											             required="true" a:placeholder="Tempo de preparo"
+											             validatorMessage="Nome deve ter no máximo 80 caracteres"
+											             requiredMessage="Tempo de preparo é obrigatório">
+											    <f:validateLength minimum="1" maximum="80" />
+											</h:inputText>
+										</div>
+										<div class="third">
+										<h:message for="porcao" errorClass="error"/>
+					                        <h:inputText id="porcao"  value="#{receitaSiteBean.vo.porcao}" size="80"
+											             required="true" a:placeholder="Serve quantas porções?"
+											             requiredMessage="Número de porções é obrigatório">
+											</h:inputText>
+										</div>
+										<div class="third">
+											<h:message for="categoria" errorClass="error"/>
+											<h:selectOneMenu id="categoria" value="#{receitaSiteBean.vo.categoriaId}" required="true" requiredMessage="Informar categoria">
+   												<f:selectItem itemValue="0" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
+												<f:selectItems value="#{receitaSiteBean.categorias}" />
+											</h:selectOneMenu>
+										</div>
+									</div>
+				                </section>
+				                
+								<section>
+									<h2>Ingredientes</h2>
+					                <c:forEach items="#{receitaSiteBean.listaIngredientes}" var="recIng" varStatus="recIngStatus">
+										<div class="f-row ingredient">
+											<h:message for="ingrediente" errorClass="error"/>
+											<div class="large">
+												<h:selectOneMenu value="#{recIng.id_ingrediente}" required="true">
+													<f:selectItem itemValue="0"
+														itemLabel="Selecione o ingrediente" a:disabled="disabled"
+														a:selected="selected" />
+													<f:selectItems value="#{receitaSiteBean.ingredientes}" />
+												</h:selectOneMenu>
+											</div>
+		
+<!-- 											<div class="small"> -->
+<!-- 												<h:inputText value="#{recIng.sub_sessao}" a:placeholder="SubSessão" /> -->
+<!-- 											</div> -->
+											
+											<div class="small">
+												<h:inputText value="#{recIng.qty}" a:placeholder="Quantidade" />
+											</div>
+<!-- 											<div class="small" style="width:22%;"> -->
+											<div class="third">
+												<h:selectOneMenu value="#{recIng.id_medida}" required="true">
+													<f:selectItem itemValue="0" itemLabel="Selecione a Medida"
+														a:disabled="disabled" a:selected="selected" />
+													<f:selectItems value="#{receitaSiteBean.medidas}" />
+												</h:selectOneMenu>
+											</div>
+											<h:commandLink action="#{receitaSiteBean.removerReceitaIngrediente(recIng)}">
+												<button class="remove">-</button>
+											</h:commandLink>
+										</div>
+								    </c:forEach>
+							    
+	                        		<div class="f-row full">
+										<h:commandLink action="#{receitaSiteBean.adicionarReceitaIngrediente}" immediate="true">
+											<button class="add">Adicionar ingrediente</button>
+										</h:commandLink>
+	                        		</div>
+							    </section>
+				                
+								<section>
+									<h2>Utensilios</h2>
+					                <c:forEach items="#{receitaSiteBean.listaUtensilios}" var="utensilio" varStatus="utensilioStatus">
+										<div class="f-row utensilio">
+											<div class="full">
+												<h:selectOneMenu value="#{utensilio.id}" required="true" 
+													requiredMessage="Esse valor precisa ser preenchido">
+													<f:selectItem itemValue="-1" itemLabel="Selecione um utensilio" a:disabled="disabled"/>
+													<f:selectItems value="#{receitaSiteBean.utensilios}" />
+												</h:selectOneMenu>
+											</div>
+											<h:commandLink action="#{receitaSiteBean.removerUtensilio(utensilio)}">
+												<button class="remove">-</button>
+											</h:commandLink>
+										</div>
+								    </c:forEach>
+							    
+	                        		<div class="f-row full">
+										<h:commandLink action="#{receitaSiteBean.adicionarUtensilio}" immediate="true">
+											<button class="add">Adicionar utensilio</button>
+										</h:commandLink>
+	                        		</div>
+							    </section>
+				                
+								<section>
+									<h2>Modo de Preparo</h2>
+									<div class="full">
+										<div class="f-row">
+											<h:message for="modo" errorClass="error"/>
+											<h:inputTextarea id="modo" value="#{receitaSiteBean.vo.modoPreparo}"
+												validatorMessage="Modo de preparo não pode ser vazio">
+												<f:validateLength minimum="1"></f:validateLength>
+											</h:inputTextarea>
+										</div>
+									</div>
+								</section>
+								
+								<section>
+									<h2>Foto</h2>
+									<div class="f-row full">
+										<h:message for="receita-foto" errorClass="error"/><br/>
+										<h:inputFile id="receita-foto" class="imgreceita" value="#{receitaSiteBean.imgFile}" required="true" 
+										requiredMessage="Foto da receita é obrigatório" />
+									</div>
+								</section>
+								
+                        		<div class="f-row submit">
+									<h:commandButton action="#{receitaSiteBean.incluir()}" value="Cadastrar" />
+									<h:commandLink immediate="true" action="#{receitaSiteBean.listar()}" value="Cancelar" />
+			                    </div>
+					        </h:form>
+		                </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "receitas";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

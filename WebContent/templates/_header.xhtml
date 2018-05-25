@@ -1,0 +1,97 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:h="http://java.sun.com/jsf/html">
+	<header class="head" role="banner">
+	    <div class="wrap clearfix">
+	        <a href="#{request.contextPath}/" title="SocialChef" class="logo">
+	        	<h:graphicImage name="images/ico/logo.png" alt="SocialChef logo" />
+	        </a>
+			<h:form>
+		        <nav class="main-nav" role="navigation" id="menu">
+		            <ul>
+		                <li id="nav_home">
+		                    <a href="#{request.contextPath}/" title="Home"><span>Home</span></a>
+		                </li>
+		                <li id="nav_receitas">
+		                    <h:commandLink action="#{receitaSiteBean.listar()}" value="">
+		                    	<span>Receitas</span>
+		                    </h:commandLink>
+		                </li>
+		                <li id="nav_pesquisar">
+		                    <h:commandLink action="#{pesquisaBean.index()}" value="">
+		                    	<span>Pesquisar</span>
+		                    </h:commandLink>
+		                </li>
+						<c:if test="#{loginBean.adminLogado}">
+			                <li id="nav_cadastro">
+			                    <a href="#" title="Cadastro"><span>Cadastro</span></a>
+			                    <ul>
+			                        <li role="presentation" id="nav_categorias">
+			                    		<h:commandLink action="#{categoriaBean.listar()}" value="Categorias" />
+			                        </li>
+			                        <li role="presentation" id="nav_ingredientes">
+			                    		<h:commandLink action="#{ingredienteBean.listar()}" value="Ingredientes" />
+			                        </li>
+			                        <li role="presentation" id="nav_medidas">
+			                    		<h:commandLink action="#{medidaBean.listar()}" value="Medidas" />
+			                        </li>
+			                        <li role="presentation" id="nav_utensilios">
+			                    		<h:commandLink action="#{utensilioBean.listar()}" value="Utensilios" />
+			                        </li>
+			                        <li role="presentation" id="nav_receitas">
+			                    		<h:commandLink action="#{receitaBean.listar()}" value="Receitas" />
+			                        </li>
+			                        <li role="presentation" id="nav_roles">
+			                    		<h:commandLink action="#{roleBean.listar()}" value="Roles" />
+			                        </li>
+			                        <li role="presentation" id="nav_usuarios">
+			                    		<h:commandLink action="#{usuarioBean.listar()}" value="Usuarios" />
+			                        </li>
+			                        <li role="presentation" id="nav_reports">
+			                    		<h:commandLink action="#{reportBean.listar()}" value="Reports" />
+			                        </li>
+			                        <li role="presentation" id="nav_comentarios">
+			                    		<h:commandLink action="#{comentarioBean.listar()}" value="Comentarios" />
+			                        </li>
+			                        <li role="presentation" id="nav_pontuacoes">
+			                    		<h:commandLink action="#{pontuacaoBean.listar()}" value="Pontuacoes" />
+			                        </li>
+			                    </ul>
+			                </li>
+						</c:if>
+						<c:if test="#{loginBean.logado}">
+			                <li>
+			                    <h:commandLink action="#{loginBean.logout()}" value="">
+			                    	<span>Logout</span>
+			                    </h:commandLink>
+			                </li>
+						</c:if>
+		            </ul>
+		        </nav>
+		
+		        <nav class="user-nav" role="navigation">
+		            <ul>
+		                <li class="light">
+		                    <h:commandLink action="#{pesquisaBean.index()}" value="">
+		                        <i class="icon icon-themeenergy_search"></i> <span>Procurar receitas</span>
+		                    </h:commandLink>
+		                </li>
+		                <li class="medium">
+		                    <h:commandLink action="#{usuarioSiteBean.exibir()}" value="">
+		                    	<i class="icon icon-themeenergy_chef-hat"></i> <span>Minha conta</span>
+		                    </h:commandLink>
+		                </li>
+		                <li class="dark">
+		                    <h:commandLink action="#{receitaSiteBean.criar()}" value="">
+		                        <i class="icon icon-themeenergy_fork-spoon"></i> <span>Postar receita</span>
+		                    </h:commandLink>
+		                </li>
+		            </ul>
+		        </nav>
+	        </h:form>
+	    </div>
+	</header>
+</ui:composition>

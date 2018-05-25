@@ -1,5 +1,4 @@
-<ui:composition 
-	xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -12,13 +11,13 @@
 		            <ul>
 		                <li><a href="/" title="Home">Home</a></li>
 		                <li><a href="#">Cadastro</a></li>
-		                <li>Categorias</li>
+		                <li>Roles</li>
 		            </ul>
 		        </nav>
 		
 		        <div class="row">
 		            <header class="s-title">
-		                <h1>Categorias</h1>
+		                <h1>Roles</h1>
 		            </header>
 		
 		            <section class="content full-width">
@@ -28,24 +27,24 @@
 							</h:form>
 							
 							<c:choose>
-								<c:when test="${not empty categoriaBean.lista}">
+								<c:when test="${not empty roleBean.lista}">
 									<table class="table table-stiped table-hover">
 							            <thead>
 							                <tr>
 							                    <th>Nome</th>
-							                    <th>Grupo</th>
 							                    <th>Ações</th>
 							                </tr>
 							            </thead>
 							            <tbody>
-							            	<c:forEach items="#{categoriaBean.lista}" var="categoria">
+							            	<c:forEach items="#{roleBean.lista}" var="role">
 							                    <tr>
-							                        <td>#{categoria.nome}</td>
-							                        <td>#{categoriaBean.isGrupo(categoria)}</td>
+							                        <td>
+							                            #{role.nome}
+							                        </td>
 							                        <td>
 														<h:form>
-															<h:commandLink action="#{categoriaBean.editar(categoria)}" value="Editar"></h:commandLink> |
-															<h:commandLink action="#{categoriaBean.deletar(categoria)}" value="Deletar"></h:commandLink>
+															<h:commandLink action="#{roleBean.editar(role)}" value="Editar"></h:commandLink> |
+															<h:commandLink action="#{roleBean.deletar(role)}" value="Deletar"></h:commandLink>
 														</h:form>
 							                        </td>
 							                    </tr>
@@ -60,7 +59,7 @@
 							
 							<div class="f-row">
 								<h:form>
-									<h:commandButton action="#{categoriaBean.criar()}" immediate="true" value="Criar novo" />
+									<h:commandButton action="#{roleBean.criar()}" immediate="true" value="Criar novo" />
 								</h:form>
 							</div>
 		                </div>
@@ -73,7 +72,7 @@
 	<ui:define name="script">
 		<h:outputScript>
 			navName = "cadastro";
-			subNavName = "categorias";
+			subNavName = "roles";
 		</h:outputScript>
 	</ui:define>
 </ui:composition>

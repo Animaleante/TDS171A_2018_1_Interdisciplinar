@@ -1,0 +1,50 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<footer class="foot" role="contentinfo">
+	    <div class="wrap clearfix">
+	        <div class="row">
+	            <article class="one-half">
+	                <h5>Sobre Soboru</h5>
+	                <p>O Soboru é uma aplicação desenvolvida para pessoas que adoram cozinhar mas estão sem ideias, pessoas que não gostam tanto
+	                e querem fazer algo novo ou para pessoas que simplesmente querem aproveitar o que tem na geladeira.</p>
+	            </article>
+	            <article class="one-fourth">
+	                <h5>Precisa de ajuda?</h5>
+	                <!-- <p>Contato via telefone ou e-mail</p>
+	                <p><em>T:</em>  <a href="+55 (41)99999-9999">+55 (41)99999-9999</a><br /> -->
+	                <p>Contato via e-mail</p>
+	                <p><em>E:</em>  <a href="mailto:suboro@gmail.com">suboru@gmail.com</a>
+	                </p>
+	            </article>
+	            <article class="one-fourth">
+	                <h5>Desenvolvedores</h5>
+	                <ul class="social">
+	                	<p>Diogo Sota Moraes</p>
+	                	<p>Luiz Phelipe Palte</p>
+	                </ul>
+	            </article>
+	
+	            <div class="bottom">
+	                <p class="copy">Copyright 2017 Soboru. All rights reserved</p>
+	
+	                <nav class="foot-nav">
+	                	<h:form>
+		                    <ul>
+		                        <li><a href="#{request.contextPath}/" title="Home">Home</a></li>
+		                        <li><h:commandLink action="#{pesquisaBean.index()}" value="Procurar receitas" /></li>
+								<c:if test="#{loginBean.logado == false}">
+			                        <li><h:commandLink action="#{loginBean.index()}" value="Login" /></li>
+			                        <li><h:commandLink action="#{registroBean.index()}" value="Registrar" /></li>
+		                        </c:if>
+		                    </ul>
+	                    </h:form>
+	                </nav>
+	            </div>
+	        </div>
+	    </div>
+	</footer>
+</ui:composition>

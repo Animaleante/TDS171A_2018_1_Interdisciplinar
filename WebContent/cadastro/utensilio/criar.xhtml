@@ -12,7 +12,7 @@
 		            <ul>
 		                <li><a href="/" title="Home">Home</a></li>
 		                <li><a href="#">Cadastro</a></li>
-		                <li>Categoria</li>
+		                <li>Utensilio</li>
 		            </ul>
 		        </nav>
 		
@@ -28,33 +28,19 @@
 									<h:messages globalOnly="true" errorClass="error"/>
 									
 									<div class="f-row">
-											<h:message for="nome" errorClass="error"/>
-											
-					                        <h:inputText id="nome"  value="#{categoriaBean.vo.nome}" size="80"
+					                    <div class="full">
+					                        <h:inputText id="nome"  value="#{utensilioBean.vo.nome}" size="80"
 											             required="true" a:placeholder="Nome"
 											             validatorMessage="Nome deve ter no máximo 80 caracteres"
 											             requiredMessage="Nome é obrigatório">
 											    <f:validateLength minimum="1" maximum="80" />
 											</h:inputText>
-				                    </div>
-				                    
-									<div class="f-row">
-		                                <label>
-		                                	É uma subcategoria:
-											<h:selectBooleanCheckbox value="#{categoriaBean.vo.selecionavel}" />
-		                                </label>
-				                    </div>
-				                    
-				                    <div class="f-row">
-										<h:selectOneMenu value="#{categoriaBean.vo.idSuperCategoria}">
-  											<f:selectItem itemValue="-1" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
-											<f:selectItems value="#{categoriaBean.categorias}" />
-										</h:selectOneMenu>
+					                    </div>
 				                    </div>
 				                </section>
                         		<div class="f-row submit">
-									<h:commandButton action="#{categoriaBean.incluir()}" value="Cadastrar" />
-									<h:commandLink immediate="true" action="#{categoriaBean.listar()}" value="Cancelar" />
+									<h:commandButton action="#{utensilioBean.incluir()}" value="Cadastrar" />
+									<h:commandLink immediate="true" action="#{utensilioBean.listar()}" value="Cancelar" />
 			                    </div>
 					        </h:form>
 		                </div>
@@ -67,7 +53,7 @@
 	<ui:define name="script">
 		<h:outputScript>
 			navName = "cadastro";
-			subNavName = "categorias";
+			subNavName = "utensilios";
 		</h:outputScript>
 	</ui:define>
 </ui:composition>

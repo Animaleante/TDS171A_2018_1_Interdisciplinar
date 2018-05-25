@@ -1,0 +1,61 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Comentario</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1>Detalhes</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <dl class="basic">
+	                        <dt>ID</dt>
+	                        <dd>#{comentarioBean.vo.id}</dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>Nome da Receita</dt>
+	                        <dd>#{comentarioBean.vo.receitaNome}</dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>Nome do Usuário</dt>
+	                        <dd>#{comentarioBean.vo.usuarioNome}</dd>
+	                    </dl>
+	                    
+		                <dl class="basic">
+	                        <dt>Texto</dt>
+	                        <dd>#{comentarioBean.vo.body}</dd>
+	                    </dl>
+	
+	                    <div class="bwrap">
+							<h:form>
+								<h:commandButton immediate="true" action="#{comentarioBean.listar()}" value="Voltar" />
+							</h:form>
+	                    </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "receitas";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>

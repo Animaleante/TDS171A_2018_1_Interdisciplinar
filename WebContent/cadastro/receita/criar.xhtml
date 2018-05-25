@@ -1,0 +1,115 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	template="/templates/_layout.xhtml">
+	<ui:define name="content">
+		<main class="main" role="main">
+		    <div class="wrap clearfix">
+		        <nav class="breadcrumbs">
+		            <ul>
+		                <li><a href="/" title="Home">Home</a></li>
+		                <li><a href="#">Cadastro</a></li>
+		                <li>Receita</li>
+		            </ul>
+		        </nav>
+		
+		        <div class="row">
+		            <header class="s-title">
+		                <h1>Criar</h1>
+		            </header>
+		
+		            <section class="content full-width">
+		                <div class="submit_recipe container">
+		                	<h:form enctype="multipart/form-data">
+				                <section>
+									<h:messages globalOnly="true" errorClass="error"/>
+									
+									<div class="f-row">
+					                    <div class="full">
+					                    <h:message for="nome" errorClass="error"/><br/>
+					                        <h:inputText id="nome"  value="#{receitaBean.vo.nome}" size="80"
+											             required="true" a:placeholder="Nome da Receita"
+											             validatorMessage="Nome deve ter no máximo 80 caracteres"
+											             requiredMessage="Nome é obrigatório">
+											    <f:validateLength minimum="1" maximum="80" />
+											</h:inputText>
+					                    </div>
+				                    </div>
+				                    
+				                    <div class="f-row">
+										<div class="third">
+										<h:message for="tempo_preparo" errorClass="error"/><br/>
+					                        <h:inputText id="tempo_preparo"  value="#{receitaBean.vo.tempoPreparo}" size="80"
+											             required="true" a:placeholder="Tempo de preparo"
+											             validatorMessage="Nome deve ter no máximo 80 caracteres"
+											             requiredMessage="Tempo de preparo é obrigatório">
+											    <f:validateLength minimum="1" maximum="80" />
+											</h:inputText>
+										</div>
+										<div class="third">
+										<h:message for="porcao" errorClass="error"/><br/>
+					                        <h:inputText id="porcao"  value="#{receitaBean.vo.porcao}" size="80"
+											             required="true" a:placeholder="Serve quantas porções?"
+											             requiredMessage="Número de porções é obrigatório">
+											</h:inputText>
+										</div>
+										<div class="third">
+										<h:message for="categoria" errorClass="error"/><br/>
+											<h:selectOneMenu id="categoria" value="#{receitaBean.vo.categoriaId}" required="true" requiredMessage="Informar categoria">
+   												<f:selectItem itemValue="0" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
+												<f:selectItems value="#{receitaBean.categorias}" />
+											</h:selectOneMenu>
+										</div>
+									</div>
+				                </section>
+		            
+					            
+								
+								<section>
+									<h2>Modo de Preparo</h2>
+									<div class="full">
+										<div class="f-row instruction">
+											<h:message for="modo" errorClass="error"/><br/>
+											<h:inputTextarea id="modo" value="#{receitaBean.vo.modoPreparo}"
+											validatorMessage="Modo de preparo não pode ser vazio">
+												<f:validateLength minimum="1"></f:validateLength>
+											</h:inputTextarea>
+										</div>
+									</div>
+								</section>
+								
+								<section>
+									<h2>Foto</h2>
+									<div class="f-row full">
+										<h:message for="receita-foto" errorClass="error"/><br/>
+										<h:inputFile id="receita-foto" class="imgreceita" value="#{receitaBean.imgFile}" required="true" 
+										requiredMessage="Foto da receita é obrigatório"/>
+									</div>
+								</section>
+								
+							    
+							            	
+								
+                        		<div class="f-row submit">
+									<h:commandButton action="#{receitaBean.incluir()}" value="Cadastrar" />
+									<h:commandLink immediate="true" action="#{receitaBean.listar()}" value="Cancelar" />
+			                    </div>
+					        </h:form>
+		                </div>
+		            </section>
+		        </div>
+		    </div>
+		</main>
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript>
+			navName = "cadastro";
+			subNavName = "receitas";
+		</h:outputScript>
+	</ui:define>
+</ui:composition>
