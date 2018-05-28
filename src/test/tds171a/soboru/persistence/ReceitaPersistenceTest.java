@@ -29,8 +29,10 @@ import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.models.Utensilio;
 import com.tds171a.soboru.persistence.categoria.CategoriaDAO;
 import com.tds171a.soboru.persistence.ingrediente.IngredienteDAO;
+import com.tds171a.soboru.persistence.medida.MedidaDAO;
 import com.tds171a.soboru.persistence.receita.ReceitaDAO;
 import com.tds171a.soboru.persistence.usuario.UsuarioDAO;
+import com.tds171a.soboru.persistence.utensilio.UtensilioDAO;
 
 @SuppressWarnings("deprecation")
 class ReceitaPersistenceTest {
@@ -371,6 +373,54 @@ class ReceitaPersistenceTest {
 		session.getTransaction().rollback();
 		session.close();
 	}
+	
+	@Test
+	void testIncluirReceitaIngrediente() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+
+		assertNotNull(receita);
+		
+		Set<ReceitaIngrediente> receitaIngredientes = receita.getReceitaIngredientes();
+		
+		assertNotNull(receitaIngredientes);
+		
+		int numReceitaIngredientes = receitaIngredientes.size();
+		
+		IngredienteDAO ingredienteDAO = new IngredienteDAO(session);
+		
+		Ingrediente ingrediente = ingredienteDAO.selecionar(7);
+		
+		MedidaDAO medidaDAO = new MedidaDAO(session);
+		
+		Medida medida = medidaDAO.selecionar(1);
+
+		ReceitaIngrediente receitaIngrediente = new ReceitaIngrediente();
+		
+		receitaIngrediente.setIngrediente(ingrediente);
+		receitaIngrediente.setReceita(receita);
+		receitaIngrediente.setMedida(medida);
+		receitaIngrediente.setQty(5);
+		
+		receitaIngredientes.add(receitaIngrediente);
+		
+		receita.setReceitaIngredientes(receitaIngredientes);
+		
+		assertTrue(receitaDAO.atualizar(receita));
+		
+		receitaIngredientes = receita.getReceitaIngredientes();
+		
+		assertNotNull(receitaIngredientes);
+		
+		assertTrue(receitaIngredientes.size() == (numReceitaIngredientes+1));
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
 
 	@Test
 	void testGetUsuariosQueFavoritaram() {
@@ -430,6 +480,45 @@ class ReceitaPersistenceTest {
 		assertNotNull(utensilios);
 		
 		assertTrue(utensilios.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testIncluirUtensilio() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+
+		assertNotNull(receita);
+		
+		Set<Utensilio> utensilios = receita.getUtensilios();
+		
+		assertNotNull(utensilios);
+		
+		int numUtensilios = utensilios.size();
+		
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
+		
+		Utensilio utensilio = utensilioDAO.selecionar(3);
+		
+		assertNotNull(utensilio);
+		
+		utensilios.add(utensilio);
+		
+		receita.setUtensilios(utensilios);
+		
+		assertTrue(receitaDAO.atualizar(receita));
+		
+		utensilios = receita.getUtensilios();
+		
+		assertNotNull(utensilios);
+		
+		assertTrue(utensilios.size() == (numUtensilios+1));
 		
 		session.getTransaction().rollback();
 		session.close();
