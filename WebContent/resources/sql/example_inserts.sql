@@ -144,6 +144,15 @@ insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 24,
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 8, 8, null, 2);
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 6, 5, null, 0);
 
+--receitas com utensilios
+--insert into receitas_utensilios values(1, 1)
+insert into receitas_utensilios values(1, 1);
+insert into receitas_utensilios values(1, 2);
+
+insert into receitas_utensilios values(2, 2);
+insert into receitas_utensilios values(2, 3);
+insert into receitas_utensilios values(2, 5);
+
 --comentarios
 --insert into comentarios values(comentario_seq.NEXTVAL, ID_RECEITA, ID_USUARIO, 'BODY');
 insert into comentarios values(comentario_seq.NEXTVAL, 1, 2, 'Isso é um comentário de teste!');

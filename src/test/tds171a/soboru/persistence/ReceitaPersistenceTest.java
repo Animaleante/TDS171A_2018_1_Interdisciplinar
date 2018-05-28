@@ -258,7 +258,7 @@ class ReceitaPersistenceTest {
 	}
 	
 	@Test
-	void testGetPontuacaoDeReceita() {
+	void testGetPontuacao() {
 		Set<Pontuacao> pontuacoes = new HashSet<Pontuacao>();
 		
 		Session session = getSession();
@@ -286,7 +286,7 @@ class ReceitaPersistenceTest {
 	}
 
 	@Test
-	void testGetComentarioDeReceita() {
+	void testGetComentario() {
 		Set<Comentario> comentarios = new HashSet<Comentario>();
 		
 		Session session = getSession();
@@ -314,7 +314,7 @@ class ReceitaPersistenceTest {
 	}
 	
 	@Test
-	void testPegarCategoria() {
+	void testGetCategoria() {
 		Session session = getSession();
 		session.beginTransaction();
 
@@ -333,7 +333,7 @@ class ReceitaPersistenceTest {
 	}
 	
 	@Test
-	void testPegarUsuario() {
+	void testGetUsuario() {
 		Session session = getSession();
 		session.beginTransaction();
 
@@ -346,6 +346,90 @@ class ReceitaPersistenceTest {
 		Usuario usuario = receita.getUsuario();
 		
 		assertNotNull(usuario);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testGetReceitaIngredientes() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+
+		assertNotNull(receita);
+		
+		Set<ReceitaIngrediente> receitaIngredientes = receita.getReceitaIngredientes();
+		
+		assertNotNull(receitaIngredientes);
+		
+		assertTrue(receitaIngredientes.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+
+	@Test
+	void testGetUsuariosQueFavoritaram() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+
+		assertNotNull(receita);
+		
+		Set<Usuario> usuariosFavoritaram = receita.getUsuariosQueFavoritaram();
+		
+		assertNotNull(usuariosFavoritaram);
+		
+		assertTrue(usuariosFavoritaram.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+
+	@Test
+	void testGetUsuariosQueReportaram() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(2);
+
+		assertNotNull(receita);
+		
+		Set<Usuario> usuariosReportaram = receita.getUsuariosQueReportaram();
+		
+		assertNotNull(usuariosReportaram);
+		
+		assertTrue(usuariosReportaram.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+
+	@Test
+	void testGetUtensilios() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+
+		assertNotNull(receita);
+		
+		Set<Utensilio> utensilios = receita.getUtensilios();
+		
+		assertNotNull(utensilios);
+		
+		assertTrue(utensilios.size() > 0);
 		
 		session.getTransaction().rollback();
 		session.close();
