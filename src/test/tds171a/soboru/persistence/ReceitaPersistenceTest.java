@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +22,6 @@ import com.tds171a.soboru.models.Medida;
 import com.tds171a.soboru.models.Pontuacao;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.ReceitaIngrediente;
-import com.tds171a.soboru.models.Role;
 import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.models.Utensilio;
 import com.tds171a.soboru.persistence.categoria.CategoriaDAO;
@@ -34,14 +31,15 @@ import com.tds171a.soboru.persistence.receita.ReceitaDAO;
 import com.tds171a.soboru.persistence.usuario.UsuarioDAO;
 import com.tds171a.soboru.persistence.utensilio.UtensilioDAO;
 
-@SuppressWarnings("deprecation")
+import test.tds171a.soboru.utils.Utils;
+
 class ReceitaPersistenceTest {
 	
 	@BeforeEach
 	void beforeEach() {
 		System.out.println("Before Each");
 
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		session.createSQLQuery("drop sequence receita_seq").executeUpdate();
@@ -59,7 +57,7 @@ class ReceitaPersistenceTest {
 	void afterEach() {
 		System.out.println("After Each");
 
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 		
 		session.createSQLQuery("drop sequence receita_seq").executeUpdate();
@@ -82,7 +80,7 @@ class ReceitaPersistenceTest {
 		receita.setSlug("receita-teste");
 		receita.setAprovado(true);
 
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 		
 		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
@@ -113,7 +111,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testAtualizarReceita() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 		
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -136,7 +134,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testExcluirReceita() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 		
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -155,7 +153,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testListaReceitas() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -172,7 +170,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testSelecionarReceita() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -190,7 +188,7 @@ class ReceitaPersistenceTest {
 		List<Ingrediente> listaIngrediente = new ArrayList<Ingrediente>();
 		List<Receita> listaReceita = new ArrayList<Receita>();
 		
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		IngredienteDAO ingredienteDAO = new IngredienteDAO(session);
@@ -217,7 +215,7 @@ class ReceitaPersistenceTest {
 		
 		String termoBusca = "arroz";
 		
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 		
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -238,7 +236,7 @@ class ReceitaPersistenceTest {
 		List<Ingrediente> listaIngrediente = new ArrayList<Ingrediente>();
 		String termoBusca = "arroz";
 		
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		IngredienteDAO ingredienteDAO = new IngredienteDAO(session);
@@ -263,7 +261,7 @@ class ReceitaPersistenceTest {
 	void testGetPontuacao() {
 		Set<Pontuacao> pontuacoes = new HashSet<Pontuacao>();
 		
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -291,7 +289,7 @@ class ReceitaPersistenceTest {
 	void testGetComentario() {
 		Set<Comentario> comentarios = new HashSet<Comentario>();
 		
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -317,7 +315,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testGetCategoria() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -336,7 +334,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testGetUsuario() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -355,7 +353,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testGetReceitaIngredientes() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -376,7 +374,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testIncluirReceitaIngrediente() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -424,7 +422,7 @@ class ReceitaPersistenceTest {
 
 	@Test
 	void testGetUsuariosQueFavoritaram() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -445,7 +443,7 @@ class ReceitaPersistenceTest {
 
 	@Test
 	void testGetUsuariosQueReportaram() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -466,7 +464,7 @@ class ReceitaPersistenceTest {
 
 	@Test
 	void testGetUtensilios() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -487,7 +485,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testIncluirUtensilio() {
-		Session session = getSession();
+		Session session = Utils.getSession();
 		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
@@ -522,33 +520,5 @@ class ReceitaPersistenceTest {
 		
 		session.getTransaction().rollback();
 		session.close();
-	}
-
-	public Session getSession() {
-		AnnotationConfiguration configuration = new AnnotationConfiguration();
-		configuration.addAnnotatedClass(Receita.class)
-			.addAnnotatedClass(Categoria.class)
-			.addAnnotatedClass(Medida.class)
-			.addAnnotatedClass(Usuario.class)
-			.addAnnotatedClass(Role.class)
-			.addAnnotatedClass(Comentario.class)
-			.addAnnotatedClass(Pontuacao.class)
-			.addAnnotatedClass(Utensilio.class)
-			.addAnnotatedClass(ReceitaIngrediente.class)
-			.addAnnotatedClass(Ingrediente.class);
-		
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
-		configuration.setProperty("hibernate.connection.driver_class", "oracle.jdbc.driver.OracleDriver");
-		configuration.setProperty("hibernate.connection.url", "jdbc:oracle:thin:@//localhost:1521/xe");
-		configuration.setProperty("hibernate.connection.username", "soboru_test");
-		configuration.setProperty("hibernate.connection.password", "opet");
-		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-		configuration.setProperty("javax.persistence.validation.mode", "none");
-		configuration.setProperty("hibernate.show_sql", "true");
-		configuration.setProperty("hibernate.use_sql_comments", "true");
-		configuration.setProperty("hibernate.format_sql", "true");
-		
-		SessionFactory sessionFactory = configuration.buildSessionFactory();
-		return sessionFactory.openSession();
 	}
 }
