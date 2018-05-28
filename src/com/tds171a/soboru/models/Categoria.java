@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.tds171a.soboru.utils.Utils;
 
 /**
@@ -71,6 +73,7 @@ public class Categoria implements Serializable, Cloneable {
 	 * 
 	 */
 	@OneToMany(mappedBy="categoria")
+	@Where(clause = "aprovado=1")
 	private Set<Receita> receitas;
 
     /**

@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.tds171a.soboru.utils.Utils;
 
 /**
@@ -69,7 +71,8 @@ public class Receita implements Serializable, Cloneable {
 
 	@Column(name = "SLUG", length=80, nullable = false)
 	private String slug;
-
+	
+	@Type(type="numeric_boolean")
 	@Column(name = "APROVADO", precision= 1, nullable = false)
 	private boolean aprovado;
 	

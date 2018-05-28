@@ -17,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import com.tds171a.soboru.models.Categoria;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.categoria.CategoriaDAO;
-import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
-import com.tds171a.soboru.utils.HibernateUtil;
 
 import test.tds171a.soboru.utils.Utils;
 
@@ -155,7 +153,7 @@ class CategoriaPersistenceTest {
 		
 		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
 		
-		Categoria categoria = categoriaDAO.selecionar(1);
+		Categoria categoria = categoriaDAO.selecionar(2);
 		
 		assertNotNull(categoria);
 		
