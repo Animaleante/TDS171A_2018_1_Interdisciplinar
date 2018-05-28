@@ -175,35 +175,62 @@ class UsuarioPersistenceTest {
 	@Test
 	void testGetRole() {
 		// TODO
+		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitas() {
 		// TODO
+		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitasAprovadas() {
 		// TODO
+		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetPontuacoes() {
 		// TODO
+		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetComentarios() {
 		// TODO
+		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitasReportadas() {
 		// TODO
+		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitasFavoritadas() {
 		// TODO
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	void testLoginUsuario() {
+		System.out.println("testLoginUsuario");
+		
+		String email = "teste@teste.com";
+		String senha = "123456";
+
+		Session session = Utils.getSession();
+		session.beginTransaction();
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO(session);
+		
+		Usuario usuario = usuarioDAO.login(email, senha);
+		
+		assertNotNull(usuario);
+		
+		session.getTransaction().rollback();
+		session.close();
 	}
 }

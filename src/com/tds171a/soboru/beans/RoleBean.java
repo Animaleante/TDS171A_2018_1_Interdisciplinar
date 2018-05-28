@@ -30,7 +30,7 @@ public class RoleBean extends BeanBase<Role> {
      */
 	public RoleBean() {
 		route_base = "/cadastro/role/";
-		controller = PersistenceFactory.getRolePersistanceFactory();
+		controller = PersistenceFactory.getRolePersistenceFactory();
 		setModel(new Role());
 	}
 

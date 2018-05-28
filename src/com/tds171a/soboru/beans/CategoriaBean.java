@@ -51,7 +51,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
      */
     @Override
     public String criar() {
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	setCategorias(((CategoriaPersistence) controller).listarGrupos());
 
 //    	return route_base + CRIAR_PAGE + FACES_REDIRECT;
@@ -70,7 +70,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     	if(!getModel().getSelecionavel())
     		getModel().setIdSuperCategoria(-1);
 
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	return super.incluir();
     }
     
@@ -81,7 +81,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
      */
     @Override
     public String editar(Categoria vo) {
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	setCategorias(((CategoriaPersistence) controller).listarGrupos());
     	
     	return super.editar(vo);
@@ -99,7 +99,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     	if(!getModel().getSelecionavel())
     		getModel().setIdSuperCategoria(-1);
 
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	return super.editar();
     }
 
@@ -117,7 +117,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	        return route_base + CRIAR_PAGE;
 	    }
 
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
 		if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {

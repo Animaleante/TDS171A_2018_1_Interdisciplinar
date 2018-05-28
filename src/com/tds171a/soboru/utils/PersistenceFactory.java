@@ -13,43 +13,43 @@ import com.tds171a.soboru.persistence.utensilio.UtensilioPersistence;
 
 public class PersistenceFactory {
 
-	public static CategoriaPersistence getCategoriaPersistanceFactory() {
+	public static CategoriaPersistence getCategoriaPersistenceFactory() {
 		return new CategoriaPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static ComentarioPersistence getComentarioPersistanceFactory() {
+	public static ComentarioPersistence getComentarioPersistenceFactory() {
 		return new ComentarioPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static IngredientePersistence getIngredientePersistanceFactory() {
+	public static IngredientePersistence getIngredientePersistenceFactory() {
 		return new IngredientePersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static MedidaPersistence getMedidaPersistanceFactory() {
+	public static MedidaPersistence getMedidaPersistenceFactory() {
 		return new MedidaPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static PontuacaoPersistence getPontuacaoPersistanceFactory() {
+	public static PontuacaoPersistence getPontuacaoPersistenceFactory() {
 		return new PontuacaoPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static ReceitaPersistence getReceitaPersistanceFactory() {
+	public static ReceitaPersistence getReceitaPersistenceFactory() {
 		return new ReceitaPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static ReceitaIngredientePersistence getReceitaIngredientePersistanceFactory() {
+	public static ReceitaIngredientePersistence getReceitaIngredientePersistenceFactory() {
 		return new ReceitaIngredientePersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static RolePersistence getRolePersistanceFactory() {
+	public static RolePersistence getRolePersistenceFactory() {
 		return new RolePersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static UsuarioPersistence getUsuarioPersistanceFactory() {
+	public static UsuarioPersistence getUsuarioPersistenceFactory() {
 		return new UsuarioPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 	
-	public static UtensilioPersistence getUtensilioPersistanceFactory() {
+	public static UtensilioPersistence getUtensilioPersistenceFactory() {
 		return new UtensilioPersistence(HibernateUtil.getSessionFactory().getCurrentSession());
 	}
 

@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.IDAO;
@@ -79,6 +80,18 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable {
 	@Override
 	public Usuario selecionar(int modelId) {
 		return (Usuario) this.session.get(Usuario.class, modelId);
+	}
+
+	public Usuario login(String email, String senha) {
+		try {
+			return (Usuario) this.session.createCriteria(Usuario.class)
+					.add(Restrictions.eq("email", email))
+					.add(Restrictions.eq("senha", senha))
+					.uniqueResult();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

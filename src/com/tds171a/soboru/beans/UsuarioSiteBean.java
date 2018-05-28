@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.Usuario;
-import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
+import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("usuarioSiteBean")
@@ -27,7 +27,6 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	private static final long serialVersionUID = 9063625419454028906L;
 	
 	//Declaração de variáveis.
-	private ReceitaPersistance receitaPersistence;
 	private List<Receita> listaReceitas;
 	private List<Receita> listaFavoritos;
 
@@ -36,9 +35,6 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 */
 	public UsuarioSiteBean() {
 		route_base = "/usuario/";
-		controller = PersistenceFactory.getUsuarioPersistanceFactory();
-		
-		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
 		
 		setModel(new Usuario());
 	}
@@ -62,6 +58,9 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	@Override
 	public String exibir(Usuario vo) {
 		vo = controller.selecionar(vo.getId());
+
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		ReceitaPersistence receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
 		
 		setListaReceitas(receitaPersistence.selecionarPorUsuario(vo.getId()));
 		setListaFavoritos(receitaPersistence.selecionarPorFavoritosDeUsuario(vo.getId()));

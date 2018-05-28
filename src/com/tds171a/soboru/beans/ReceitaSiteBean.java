@@ -77,15 +77,15 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public ReceitaSiteBean() {
 		route_base = "/receita/";
-		controller = PersistenceFactory.getReceitaPersistanceFactory();
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
 
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
-		usuarioPersistence = PersistenceFactory.getUsuarioPersistanceFactory();
-		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
-		medidaPersistence = PersistenceFactory.getMedidaPersistanceFactory();
-		receitaIngredientePersistence = PersistenceFactory.getReceitaIngredientePersistanceFactory();
-		utensilioPersistence = PersistenceFactory.getUtensilioPersistanceFactory();
-		comentarioPersistence = PersistenceFactory.getComentarioPersistanceFactory();
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
+		usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+		ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
+		medidaPersistence = PersistenceFactory.getMedidaPersistenceFactory();
+		receitaIngredientePersistence = PersistenceFactory.getReceitaIngredientePersistenceFactory();
+		utensilioPersistence = PersistenceFactory.getUtensilioPersistenceFactory();
+		comentarioPersistence = PersistenceFactory.getComentarioPersistenceFactory();
 
 		setModel(new Receita());
 		

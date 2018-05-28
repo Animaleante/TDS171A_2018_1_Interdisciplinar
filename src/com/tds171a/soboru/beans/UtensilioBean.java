@@ -27,7 +27,7 @@ public class UtensilioBean extends BeanBase<Utensilio> {
      */
     public UtensilioBean() {
         route_base = "/cadastro/utensilio/";
-        controller = PersistenceFactory.getUtensilioPersistanceFactory();
+        controller = PersistenceFactory.getUtensilioPersistenceFactory();
         setModel(new Utensilio());
     }
 
