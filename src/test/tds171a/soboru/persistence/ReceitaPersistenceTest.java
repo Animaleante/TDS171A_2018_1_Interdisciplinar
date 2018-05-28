@@ -1,5 +1,6 @@
 package test.tds171a.soboru.persistence;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,6 +13,8 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.tds171a.soboru.models.Categoria;
@@ -24,11 +27,161 @@ import com.tds171a.soboru.models.ReceitaIngrediente;
 import com.tds171a.soboru.models.Role;
 import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.models.Utensilio;
+import com.tds171a.soboru.persistence.categoria.CategoriaDAO;
 import com.tds171a.soboru.persistence.ingrediente.IngredienteDAO;
 import com.tds171a.soboru.persistence.receita.ReceitaDAO;
+import com.tds171a.soboru.persistence.usuario.UsuarioDAO;
 
 @SuppressWarnings("deprecation")
 class ReceitaPersistenceTest {
+	
+	@BeforeEach
+	void beforeEach() {
+		System.out.println("Before Each");
+
+		Session session = getSession();
+		session.beginTransaction();
+
+		session.createSQLQuery("drop sequence receita_seq").executeUpdate();
+		
+		session.createSQLQuery("create sequence receita_seq start with 5 nocache").executeUpdate();
+		
+		session.getTransaction().commit();
+		
+		session.close();
+
+		System.out.println("Before Each Done");
+	}
+	
+	@AfterEach
+	void afterEach() {
+		System.out.println("After Each");
+
+		Session session = getSession();
+		session.beginTransaction();
+		
+		session.createSQLQuery("drop sequence receita_seq").executeUpdate();
+		
+		session.getTransaction().commit();
+		
+		session.close();
+
+		System.out.println("After Each Done");
+	}
+	
+	@Test
+	void testIncluirReceita() {
+		Receita receita = new Receita();
+		
+		receita.setNome("Receita Teste");
+		receita.setTempoPreparo(1.0);
+		receita.setPorcao(2);
+		receita.setModoPreparo("Texto modo de preparo");
+		receita.setSlug("receita-teste");
+		receita.setAprovado(true);
+
+		Session session = getSession();
+		session.beginTransaction();
+		
+		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
+		
+		Categoria categoria = categoriaDAO.selecionar(2);
+		
+		receita.setCategoria(categoria);
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO(session);
+		
+		Usuario usuario = usuarioDAO.selecionar(2);
+		
+		receita.setUsuario(usuario);
+		
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		assertTrue(receitaDAO.incluir(receita));
+		
+		List<Receita> receitas = receitaDAO.selecionarPorNome("receita teste");
+		
+		assertNotNull(receitas);
+		
+		assertTrue(receitas.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testAtualizarReceita() {
+		Session session = getSession();
+		session.beginTransaction();
+		
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		receita.setNome("Testando");
+		
+		assertTrue(receitaDAO.atualizar(receita));
+		
+		List<Receita> receitas = receitaDAO.selecionarPorNome("testando");
+		
+		assertNotNull(receitas);
+		
+		assertTrue(receitas.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testExcluirReceita() {
+		Session session = getSession();
+		session.beginTransaction();
+		
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		assertTrue(receitaDAO.remover(receita));
+		
+		receita = receitaDAO.selecionar(1);
+		
+		assertNull(receita);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testListaReceitas() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		List<Receita> receitas = receitaDAO.listar();
+
+		assertNotNull(receitas);
+		
+		assertTrue(receitas.size() > 0);
+		
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	@Test
+	void testSelecionarReceita() {
+		Session session = getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+
+		assertNotNull(receita);
+		
+		session.getTransaction().commit();
+		session.close();
+	}
 
 	@Test
 	void testPesquisaComIngrediente() {
@@ -36,6 +189,7 @@ class ReceitaPersistenceTest {
 		List<Receita> listaReceita = new ArrayList<Receita>();
 		
 		Session session = getSession();
+		session.beginTransaction();
 
 		IngredienteDAO ingredienteDAO = new IngredienteDAO(session);
 		Ingrediente ingrediente1 = ingredienteDAO.selecionar(1);
@@ -50,6 +204,9 @@ class ReceitaPersistenceTest {
 		
 		assertNotNull(listaReceita);
 		assertTrue(listaReceita.size() > 0);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Test
@@ -59,6 +216,7 @@ class ReceitaPersistenceTest {
 		String termoBusca = "arroz";
 		
 		Session session = getSession();
+		session.beginTransaction();
 		
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
 		
@@ -66,6 +224,9 @@ class ReceitaPersistenceTest {
 		
 		assertNotNull(listaReceita);
 		assertTrue(listaReceita.size() > 0);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Test
@@ -76,6 +237,7 @@ class ReceitaPersistenceTest {
 		String termoBusca = "arroz";
 		
 		Session session = getSession();
+		session.beginTransaction();
 
 		IngredienteDAO ingredienteDAO = new IngredienteDAO(session);
 		Ingrediente ingrediente1 = ingredienteDAO.selecionar(1);
@@ -90,6 +252,9 @@ class ReceitaPersistenceTest {
 		
 		assertNotNull(listaReceita);
 		assertTrue(listaReceita.size() > 0);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	@Test
@@ -97,6 +262,7 @@ class ReceitaPersistenceTest {
 		Set<Pontuacao> pontuacoes = new HashSet<Pontuacao>();
 		
 		Session session = getSession();
+		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
 		
@@ -114,6 +280,9 @@ class ReceitaPersistenceTest {
 		}
 		
 		assertTrue(pontuacoes.size() > 0);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Test
@@ -121,6 +290,7 @@ class ReceitaPersistenceTest {
 		Set<Comentario> comentarios = new HashSet<Comentario>();
 		
 		Session session = getSession();
+		session.beginTransaction();
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
 		
@@ -138,6 +308,9 @@ class ReceitaPersistenceTest {
 		}
 		
 		assertTrue(comentarios.size() > 0);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	public Session getSession() {
@@ -156,7 +329,7 @@ class ReceitaPersistenceTest {
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
 		configuration.setProperty("hibernate.connection.driver_class", "oracle.jdbc.driver.OracleDriver");
 		configuration.setProperty("hibernate.connection.url", "jdbc:oracle:thin:@//localhost:1521/xe");
-		configuration.setProperty("hibernate.connection.username", "soboru");
+		configuration.setProperty("hibernate.connection.username", "soboru_test");
 		configuration.setProperty("hibernate.connection.password", "opet");
 		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 		configuration.setProperty("javax.persistence.validation.mode", "none");

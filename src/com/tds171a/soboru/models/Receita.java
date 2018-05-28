@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.tds171a.soboru.utils.Utils;
+
 /**
  * Model responsável pelas receitas
  * @author Luiz
@@ -128,6 +130,8 @@ public class Receita implements Serializable, Cloneable {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+		
+		this.setSlug(Utils.toSlug(this.nome));
 	}
 
 	/**

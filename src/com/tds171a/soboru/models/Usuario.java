@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Where;
+
 /**
  * 
  * @author Diogo
@@ -79,6 +81,10 @@ public class Usuario implements Serializable, Cloneable {
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
 	private Set<Receita> receitas;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	@Where(clause="aprovado = true")
+	private Set<Receita> receitasAprovadas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
 	private Set<Pontuacao> pontuacoes;
