@@ -3,8 +3,7 @@
  */
 package test.tds171a.soboru.persistence;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Set;
@@ -14,9 +13,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.tds171a.soboru.models.Categoria;
+import com.tds171a.soboru.models.Utensilio;
 import com.tds171a.soboru.models.Receita;
-import com.tds171a.soboru.persistence.categoria.CategoriaDAO;
+import com.tds171a.soboru.persistence.utensilio.UtensilioDAO;
 
 import test.tds171a.soboru.utils.Utils;
 
@@ -24,7 +23,7 @@ import test.tds171a.soboru.utils.Utils;
  * @author Diogo
  *
  */
-class CategoriaPersistenceTest {
+class UtensilioPersistenceTest {
 
 	@BeforeEach
 	void beforeEach() {
@@ -33,9 +32,9 @@ class CategoriaPersistenceTest {
 		Session session = Utils.getSession();
 		session.beginTransaction();
 
-		session.createSQLQuery("drop sequence categoria_seq").executeUpdate();
+		session.createSQLQuery("drop sequence utensilio_seq").executeUpdate();
 		
-		session.createSQLQuery("create sequence categoria_seq start with 7 nocache").executeUpdate();
+		session.createSQLQuery("create sequence utensilio_seq start with 11 nocache").executeUpdate();
 		
 		session.getTransaction().commit();
 		
@@ -51,9 +50,9 @@ class CategoriaPersistenceTest {
 		Session session = Utils.getSession();
 		session.beginTransaction();
 		
-		session.createSQLQuery("drop sequence categoria_seq").executeUpdate();
+		session.createSQLQuery("drop sequence utensilio_seq").executeUpdate();
 		
-		session.createSQLQuery("create sequence categoria_seq start with 7 nocache").executeUpdate();
+		session.createSQLQuery("create sequence utensilio_seq start with 11 nocache").executeUpdate();
 		
 		session.getTransaction().commit();
 		
@@ -63,86 +62,85 @@ class CategoriaPersistenceTest {
 	}
 	
 	@Test
-	void testIncluirCategoria() {
-		Categoria categoria = new Categoria();
+	void testIncluirUtensilio() {
+		Utensilio utensilio = new Utensilio();
 		
-		categoria.setNome("Categoria teste");
-		categoria.setSelecionavel(false);
+		utensilio.setNome("Utensilio teste");
 
 		Session session = Utils.getSession();
 		session.beginTransaction();
 		
-		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
 		
-		assertTrue(categoriaDAO.incluir(categoria));
-		
-		session.getTransaction().rollback();
-		session.close();
-	}
-	
-	@Test
-	void testAtualizarCategoria() {
-		Session session = Utils.getSession();
-		session.beginTransaction();
-		
-		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
-		
-		Categoria categoria = categoriaDAO.selecionar(1);
-		
-		assertNotNull(categoria);
-		
-		categoria.setNome("Nome Teste");
-		
-		assertTrue(categoriaDAO.atualizar(categoria));
+		assertTrue(utensilioDAO.incluir(utensilio));
 		
 		session.getTransaction().rollback();
 		session.close();
 	}
 	
 	@Test
-	void testExcluirCategoria() {
+	void testAtualizarUtensilio() {
 		Session session = Utils.getSession();
 		session.beginTransaction();
 		
-		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
 		
-		Categoria categoria = categoriaDAO.selecionar(1);
+		Utensilio utensilio = utensilioDAO.selecionar(1);
 		
-		assertNotNull(categoria);
+		assertNotNull(utensilio);
 		
-		assertTrue(categoriaDAO.remover(categoria));
+		utensilio.setNome("Nome Teste");
+		
+		assertTrue(utensilioDAO.atualizar(utensilio));
 		
 		session.getTransaction().rollback();
 		session.close();
 	}
 	
 	@Test
-	void testListarCategoria() {
+	void testExcluirUtensilio() {
 		Session session = Utils.getSession();
 		session.beginTransaction();
 		
-		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
 		
-		List<Categoria> categorias = categoriaDAO.listar();
+		Utensilio utensilio = utensilioDAO.selecionar(1);
 		
-		assertNotNull(categorias);
+		assertNotNull(utensilio);
 		
-		assertTrue(categorias.size() > 0);
+		assertTrue(utensilioDAO.remover(utensilio));
 		
 		session.getTransaction().rollback();
 		session.close();
 	}
 	
 	@Test
-	void testSelecionarCategoria() {
+	void testListarUtensilio() {
 		Session session = Utils.getSession();
 		session.beginTransaction();
 		
-		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
 		
-		Categoria categoria = categoriaDAO.selecionar(1);
+		List<Utensilio> utensilios = utensilioDAO.listar();
 		
-		assertNotNull(categoria);
+		assertNotNull(utensilios);
+		
+		assertTrue(utensilios.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testSelecionarUtensilio() {
+		Session session = Utils.getSession();
+		session.beginTransaction();
+		
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
+		
+		Utensilio utensilio = utensilioDAO.selecionar(1);
+		
+		assertNotNull(utensilio);
 		
 		session.getTransaction().rollback();
 		session.close();
@@ -153,13 +151,13 @@ class CategoriaPersistenceTest {
 		Session session = Utils.getSession();
 		session.beginTransaction();
 		
-		CategoriaDAO categoriaDAO = new CategoriaDAO(session);
+		UtensilioDAO utensilioDAO = new UtensilioDAO(session);
 		
-		Categoria categoria = categoriaDAO.selecionar(2);
+		Utensilio utensilio = utensilioDAO.selecionar(2);
 		
-		assertNotNull(categoria);
+		assertNotNull(utensilio);
 		
-		Set<Receita> receitas = categoria.getReceitas();
+		Set<Receita> receitas = utensilio.getReceitas();
 		
 		assertNotNull(receitas);
 		
