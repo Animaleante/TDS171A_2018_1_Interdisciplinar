@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -274,11 +273,6 @@ class ReceitaPersistenceTest {
 		
 		assertNotNull(pontuacoes);
 		
-		Iterator<Pontuacao> itr = pontuacoes.iterator();
-		while(itr.hasNext()) {
-			System.out.println(itr.next().getQty());
-		}
-		
 		assertTrue(pontuacoes.size() > 0);
 		
 		session.getTransaction().rollback();
@@ -301,11 +295,6 @@ class ReceitaPersistenceTest {
 		comentarios = receita.getComentarios();
 		
 		assertNotNull(comentarios);
-		
-		Iterator<Comentario> itr = comentarios.iterator();
-		while(itr.hasNext()) {
-			System.out.println(itr.next().getBody());
-		}
 		
 		assertTrue(comentarios.size() > 0);
 		
