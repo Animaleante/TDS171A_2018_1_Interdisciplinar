@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.enterprise.util.Nonbinding;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
@@ -69,6 +71,7 @@ public class Usuario implements Serializable, Cloneable {
 	@Column(name = "NOTIFICACAO_EMAIL", precision = 1, nullable = false)
 	private boolean notificacaoEmail;
 	
+	@Transient
 	private String senhaConfirmacao;
 	
 	// FOREIGN KEYS --------------------------------------------------------------
@@ -79,11 +82,11 @@ public class Usuario implements Serializable, Cloneable {
 
 	// REFERENCED IN FOREIGN KEYS --------------------------------------------------------------
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	@OneToMany(fetch=FetchType.LAZY, cascade= {CascadeType.REMOVE}, mappedBy="usuario")
 	private Set<Receita> receitas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-	@Where(clause="aprovado = true")
+	@Where(clause="aprovado = 1")
 	private Set<Receita> receitasAprovadas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
