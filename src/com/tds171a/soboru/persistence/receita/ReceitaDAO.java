@@ -130,4 +130,30 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorUsuario(int userId) {
+		return this.session.createCriteria(Receita.class)
+				.add(Restrictions.eq("aprovado", true))
+//			    .add(Restrictions.eq("usuario", userId))
+				.add(Restrictions.sqlRestriction("id_usuario = " + userId))
+				.addOrder(Order.asc("nome"))
+				.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorFavoritosDeUsuario(int userId) {
+		try {
+			return this.session.createCriteria(Receita.class, "receita")
+				.createAlias("receita.usuariosQueFavoritaram", "usuarioQueFavoritou")
+				.add(Restrictions.eq("usuarioQueFavoritou.id", userId))
+				.add(Restrictions.eq("aprovado", true))
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }

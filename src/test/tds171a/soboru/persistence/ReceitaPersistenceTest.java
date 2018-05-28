@@ -510,4 +510,42 @@ class ReceitaPersistenceTest {
 		session.getTransaction().rollback();
 		session.close();
 	}
+	
+	@Test
+	void testGetPorUsuario() {
+		System.out.println("testGetPorUsuario");
+		
+		Session session = Utils.getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		List<Receita> receitas = receitaDAO.selecionarPorUsuario(2);
+
+		assertNotNull(receitas);
+		
+		assertTrue(receitas.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testGetPorFavoritoDeUsuario() {
+		System.out.println("testGetPorFavoritoDeUsuario");
+		
+		Session session = Utils.getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		List<Receita> receitas = receitaDAO.selecionarPorFavoritosDeUsuario(2);
+
+		assertNotNull(receitas);
+		
+		assertTrue(receitas.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
 }

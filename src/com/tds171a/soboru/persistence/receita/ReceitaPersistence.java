@@ -64,14 +64,12 @@ public class ReceitaPersistence implements IDAO<Receita> {
 		return dao.selecionarPorIngredientes(lista);
 	}
 
-	public List<Receita> selecionarPorUsuario(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Receita> selecionarPorUsuario(int userId) {
+		return dao.selecionarPorUsuario(userId);
 	}
 
-	public List<Receita> selecionarPorFavoritosDeUsuario(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Receita> selecionarPorFavoritosDeUsuario(int userId) {
+		return dao.selecionarPorFavoritosDeUsuario(userId);
 	}
 
 }
