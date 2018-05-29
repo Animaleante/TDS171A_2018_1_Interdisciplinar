@@ -61,6 +61,8 @@ class ReceitaPersistenceTest {
 		
 		session.createSQLQuery("drop sequence receita_seq").executeUpdate();
 		
+		session.createSQLQuery("create sequence receita_seq start with 5 nocache").executeUpdate();
+		
 		session.getTransaction().commit();
 		
 		session.close();
