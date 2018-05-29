@@ -520,7 +520,7 @@ class ReceitaPersistenceTest {
 
 		ReceitaDAO receitaDAO = new ReceitaDAO(session);
 		
-		List<Receita> receitas = receitaDAO.selecionarPorUsuario(2);
+		List<Receita> receitas = receitaDAO.selecionarPorUsuario(1);
 
 		assertNotNull(receitas);
 		
