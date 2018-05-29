@@ -1,5 +1,8 @@
 package com.tds171a.soboru.utils;
 
+import org.hibernate.Cache;
+import org.hibernate.Session;
+
 import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
 import com.tds171a.soboru.persistence.comentario.ComentarioPersistence;
 import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;

@@ -2,6 +2,7 @@ package com.tds171a.soboru.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -37,17 +38,17 @@ public class PesquisaBean implements Serializable {
 	/**
 	 * Controlador de Receita
 	 */
-	private ReceitaPersistence receitaPersistence;
+//	private ReceitaPersistence receitaPersistence;
 	
 	/**
 	 * Controlador de Ingrediente
 	 */
-	private IngredientePersistence ingredientePersistence;
+//	private IngredientePersistence ingredientePersistence;
 	
 	/**
 	 * Controlador de categoria
 	 */
-	private CategoriaPersistence categoriaPersistence;
+//	private CategoriaPersistence categoriaPersistence;
 	
 	/**
 	 * Ingrediente a ser adicionado a pesquisa
@@ -90,17 +91,15 @@ public class PesquisaBean implements Serializable {
 	 * null
 	 */
 	public PesquisaBean() {
-		receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
-		ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
-		
 		setSerAdicionado(0);
 		setLista(new ArrayList<Ingrediente>());
 		setTermoBusca("");
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
 //		setListaIngredientes(ingredientePersistence.listar());
+		setListaIngredientes(new ArrayList<Ingrediente>());
 //		setListaCategorias(categoriaPersistence.listar());
+		setListaCategorias(new ArrayList<Categoria>());
 	}
 	
 	/**
@@ -115,8 +114,8 @@ public class PesquisaBean implements Serializable {
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
 
-		ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
+		IngredientePersistence ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
+		CategoriaPersistence categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
 		
 		setListaIngredientes(ingredientePersistence.listar());
 		setListaCategorias(categoriaPersistence.listar());
@@ -163,7 +162,7 @@ public class PesquisaBean implements Serializable {
 		if(serAdicionado != 0)
 			adicionar();
 
-		receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
+		ReceitaPersistence receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
 		
 		if(!getTermoBusca().isEmpty() && getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorNomeEIngredientes(getTermoBusca(), getLista()));
@@ -172,7 +171,16 @@ public class PesquisaBean implements Serializable {
 		} else if(getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorIngredientes(getLista()));
 		}
-
+		
+		Iterator<Receita> itr = resultados.iterator();
+		Receita receita;
+		while(itr.hasNext()) {
+			// Puta gambiarra - E aparentemente esse é um jeito normal de fazer isso...
+			receita = itr.next();
+			receita.getComentarios().size();
+			receita.getUsuariosQueFavoritaram().size();
+		}
+		
 		return ROUTE_BASE+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
 	}
 	

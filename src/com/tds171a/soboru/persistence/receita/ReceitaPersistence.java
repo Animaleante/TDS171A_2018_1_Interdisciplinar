@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.IDAO;
 
 /**
@@ -70,6 +71,18 @@ public class ReceitaPersistence implements IDAO<Receita> {
 
 	public List<Receita> selecionarPorFavoritosDeUsuario(int userId) {
 		return dao.selecionarPorFavoritosDeUsuario(userId);
+	}
+
+	public boolean receitaJaFoiReportada(Receita model, Usuario usuario) {
+		return dao.receitaJaFoiReportada(model, usuario);
+	}
+
+	public boolean receitaJaFoiPontuada(Receita model, Usuario usuario) {
+		return dao.receitaJaFoiPontuada(model, usuario);
+	}
+
+	public boolean receitaFavoritada(Receita model, Usuario usuario) {
+		return dao.receitaFavoritada(model, usuario);
 	}
 
 }

@@ -2,7 +2,7 @@ package com.tds171a.soboru.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -82,25 +82,25 @@ public class Usuario implements Serializable, Cloneable {
 	// REFERENCED IN FOREIGN KEYS --------------------------------------------------------------
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade= {CascadeType.REMOVE}, mappedBy="usuario")
-	private Set<Receita> receitas;
+	private List<Receita> receitas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
 	@Where(clause="aprovado = 1")
-	private Set<Receita> receitasAprovadas;
+	private List<Receita> receitasAprovadas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-	private Set<Pontuacao> pontuacoes;
+	private List<Pontuacao> pontuacoes;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-	private Set<Comentario> comentarios;
+	private List<Comentario> comentarios;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinTable(name = "reports", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
-	private Set<Receita> receitasReportadas;
+	private List<Receita> receitasReportadas;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinTable(name = "receitas_fav", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
-	private Set<Receita> receitasFavoritadas;
+	private List<Receita> receitasFavoritadas;
 
 	/**
 	 * @return the id
@@ -231,70 +231,70 @@ public class Usuario implements Serializable, Cloneable {
 	/**
 	 * @return the receitas
 	 */
-	public Set<Receita> getReceitas() {
+	public List<Receita> getReceitas() {
 		return receitas;
 	}
 
 	/**
 	 * @param receitas the receitas to set
 	 */
-	public void setReceitas(Set<Receita> receitas) {
+	public void setReceitas(List<Receita> receitas) {
 		this.receitas = receitas;
 	}
 
 	/**
 	 * @return the pontuacoes
 	 */
-	public Set<Pontuacao> getPontuacoes() {
+	public List<Pontuacao> getPontuacoes() {
 		return pontuacoes;
 	}
 
 	/**
 	 * @param pontuacoes the pontuacoes to set
 	 */
-	public void setPontuacoes(Set<Pontuacao> pontuacoes) {
+	public void setPontuacoes(List<Pontuacao> pontuacoes) {
 		this.pontuacoes = pontuacoes;
 	}
 
 	/**
 	 * @return the comentarios
 	 */
-	public Set<Comentario> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
 	/**
 	 * @param comentarios the comentarios to set
 	 */
-	public void setComentarios(Set<Comentario> comentarios) {
+	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 
 	/**
 	 * @return the receitasReportadas
 	 */
-	public Set<Receita> getReceitasReportadas() {
+	public List<Receita> getReceitasReportadas() {
 		return receitasReportadas;
 	}
 
 	/**
 	 * @param receitasReportadas the receitasReportadas to set
 	 */
-	public void setReceitasReportadas(Set<Receita> receitasReportadas) {
+	public void setReceitasReportadas(List<Receita> receitasReportadas) {
 		this.receitasReportadas = receitasReportadas;
 	}
 
 	/**
 	 * @return the receitasFavoritadas
 	 */
-	public Set<Receita> getReceitasFavoritadas() {
+	public List<Receita> getReceitasFavoritadas() {
 		return receitasFavoritadas;
 	}
 
 	/**
 	 * @param receitasFavoritadas the receitasFavoritadas to set
 	 */
-	public void setReceitasFavoritadas(Set<Receita> receitasFavoritadas) {
+	public void setReceitasFavoritadas(List<Receita> receitasFavoritadas) {
 		this.receitasFavoritadas = receitasFavoritadas;
 	}
 }

@@ -5,9 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
@@ -226,6 +225,11 @@ class ReceitaPersistenceTest {
 		assertNotNull(listaReceita);
 		assertTrue(listaReceita.size() > 0);
 		
+		Iterator<Receita> itr = listaReceita.iterator();
+		while(itr.hasNext()) {
+			System.out.println("Pontuacao Media: " + itr.next().getPontuacaoMedia());
+		}
+		
 		session.getTransaction().rollback();
 		session.close();
 	}
@@ -260,7 +264,7 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testGetPontuacao() {
-		Set<Pontuacao> pontuacoes = new HashSet<Pontuacao>();
+		List<Pontuacao> pontuacoes = new ArrayList<Pontuacao>();
 		
 		Session session = Utils.getSession();
 		session.beginTransaction();
@@ -283,7 +287,7 @@ class ReceitaPersistenceTest {
 
 	@Test
 	void testGetComentario() {
-		Set<Comentario> comentarios = new HashSet<Comentario>();
+		List<Comentario> comentarios = new ArrayList<Comentario>();
 		
 		Session session = Utils.getSession();
 		session.beginTransaction();
@@ -353,7 +357,7 @@ class ReceitaPersistenceTest {
 
 		assertNotNull(receita);
 		
-		Set<ReceitaIngrediente> receitaIngredientes = receita.getReceitaIngredientes();
+		List<ReceitaIngrediente> receitaIngredientes = receita.getReceitaIngredientes();
 		
 		assertNotNull(receitaIngredientes);
 		
@@ -374,7 +378,7 @@ class ReceitaPersistenceTest {
 
 		assertNotNull(receita);
 		
-		Set<ReceitaIngrediente> receitaIngredientes = receita.getReceitaIngredientes();
+		List<ReceitaIngrediente> receitaIngredientes = receita.getReceitaIngredientes();
 		
 		assertNotNull(receitaIngredientes);
 		
@@ -422,7 +426,7 @@ class ReceitaPersistenceTest {
 
 		assertNotNull(receita);
 		
-		Set<Usuario> usuariosFavoritaram = receita.getUsuariosQueFavoritaram();
+		List<Usuario> usuariosFavoritaram = receita.getUsuariosQueFavoritaram();
 		
 		assertNotNull(usuariosFavoritaram);
 		
@@ -443,7 +447,7 @@ class ReceitaPersistenceTest {
 
 		assertNotNull(receita);
 		
-		Set<Usuario> usuariosReportaram = receita.getUsuariosQueReportaram();
+		List<Usuario> usuariosReportaram = receita.getUsuariosQueReportaram();
 		
 		assertNotNull(usuariosReportaram);
 		
@@ -464,7 +468,7 @@ class ReceitaPersistenceTest {
 
 		assertNotNull(receita);
 		
-		Set<Utensilio> utensilios = receita.getUtensilios();
+		List<Utensilio> utensilios = receita.getUtensilios();
 		
 		assertNotNull(utensilios);
 		
@@ -485,7 +489,7 @@ class ReceitaPersistenceTest {
 
 		assertNotNull(receita);
 		
-		Set<Utensilio> utensilios = receita.getUtensilios();
+		List<Utensilio> utensilios = receita.getUtensilios();
 		
 		assertNotNull(utensilios);
 		

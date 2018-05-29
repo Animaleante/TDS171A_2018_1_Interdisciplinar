@@ -15,6 +15,7 @@ import org.hibernate.type.StandardBasicTypes;
 
 import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.IDAO;
 
 /**
@@ -109,7 +110,7 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	public List<Receita> selecionarPorNome(String termoBusca) {
 		return this.session.createCriteria(Receita.class)
 				.add(Restrictions.eq("aprovado", true))
-			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING) )
+			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING))
 				.addOrder(Order.asc("nome"))
 				.list();
 	}
@@ -134,7 +135,6 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	public List<Receita> selecionarPorUsuario(int userId) {
 		return this.session.createCriteria(Receita.class)
 				.add(Restrictions.eq("aprovado", true))
-//			    .add(Restrictions.eq("usuario", userId))
 				.add(Restrictions.sqlRestriction("id_usuario = " + userId))
 				.addOrder(Order.asc("nome"))
 				.list();
@@ -156,4 +156,18 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 		return null;
 	}
 
+	public boolean receitaJaFoiReportada(Receita model, Usuario usuario) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean receitaJaFoiPontuada(Receita model, Usuario usuario) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean receitaFavoritada(Receita model, Usuario usuario) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

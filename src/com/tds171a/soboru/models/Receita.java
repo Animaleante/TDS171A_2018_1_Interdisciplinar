@@ -1,7 +1,7 @@
 package com.tds171a.soboru.models;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -60,14 +60,11 @@ public class Receita implements Serializable, Cloneable {
 	@Column(name = "IMG_PATH", length=80, nullable = true)
 	private String imgPath;
 
-	@Column(name = "PONTUACAO_MEDIA", precision=11 , scale=2, nullable = false)
+	@Column(name = "PONTUACAO_MEDIA", precision=11 , scale=0, nullable = false)
 	private double pontuacaoMedia;
 
 	@Column(name = "VIEWS", precision= 11, nullable = false)
 	private int views;
-
-	@Column(name = "FAVS", precision= 11, nullable = false)
-	private int favs;
 
 	@Column(name = "SLUG", length=80, nullable = false)
 	private String slug;
@@ -89,23 +86,23 @@ public class Receita implements Serializable, Cloneable {
 	// REFERENCED IN FOREIGN KEYS --------------------------------------------------------------
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="receita")
-	private Set<ReceitaIngrediente> receitaIngredientes;
+	private List<ReceitaIngrediente> receitaIngredientes;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="receita")
-	private Set<Comentario> comentarios;
+	private List<Comentario> comentarios;
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="receita")
-	private Set<Pontuacao> pontuacoes;
+	private List<Pontuacao> pontuacoes;
 	
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy = "receitasReportadas")
-	private Set<Usuario> usuariosQueReportaram;
+	private List<Usuario> usuariosQueReportaram;
 
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy = "receitasFavoritadas")
-	private Set<Usuario> usuariosQueFavoritaram;
+	private List<Usuario> usuariosQueFavoritaram;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinTable(name="receitas_utensilios", joinColumns={ @JoinColumn(name="id_receita") }, inverseJoinColumns={ @JoinColumn(name="id_utensilio") })
-	private Set<Utensilio> utensilios;
+	private List<Utensilio> utensilios;
 
 	/**
 	 * @return the id
@@ -222,20 +219,6 @@ public class Receita implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the favs
-	 */
-	public int getFavs() {
-		return favs;
-	}
-
-	/**
-	 * @param favs the favs to set
-	 */
-	public void setFavs(int favs) {
-		this.favs = favs;
-	}
-
-	/**
 	 * @return the slug
 	 */
 	public String getSlug() {
@@ -294,84 +277,84 @@ public class Receita implements Serializable, Cloneable {
 	/**
 	 * @return the receitaIngredientes
 	 */
-	public Set<ReceitaIngrediente> getReceitaIngredientes() {
+	public List<ReceitaIngrediente> getReceitaIngredientes() {
 		return receitaIngredientes;
 	}
 
 	/**
 	 * @param receitaIngredientes the receitaIngredientes to set
 	 */
-	public void setReceitaIngredientes(Set<ReceitaIngrediente> receitaIngredientes) {
+	public void setReceitaIngredientes(List<ReceitaIngrediente> receitaIngredientes) {
 		this.receitaIngredientes = receitaIngredientes;
 	}
 
 	/**
 	 * @return the comentarios
 	 */
-	public Set<Comentario> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
 	/**
 	 * @param comentarios the comentarios to set
 	 */
-	public void setComentarios(Set<Comentario> comentarios) {
+	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 
 	/**
 	 * @return the pontuacoes
 	 */
-	public Set<Pontuacao> getPontuacoes() {
+	public List<Pontuacao> getPontuacoes() {
 		return pontuacoes;
 	}
 
 	/**
 	 * @param pontuacoes the pontuacoes to set
 	 */
-	public void setPontuacoes(Set<Pontuacao> pontuacoes) {
+	public void setPontuacoes(List<Pontuacao> pontuacoes) {
 		this.pontuacoes = pontuacoes;
 	}
 
 	/**
 	 * @return the usuariosQueReportaram
 	 */
-	public Set<Usuario> getUsuariosQueReportaram() {
+	public List<Usuario> getUsuariosQueReportaram() {
 		return usuariosQueReportaram;
 	}
 
 	/**
 	 * @param usuariosQueReportaram the usuariosQueReportaram to set
 	 */
-	public void setUsuariosQueReportaram(Set<Usuario> usuariosQueReportaram) {
+	public void setUsuariosQueReportaram(List<Usuario> usuariosQueReportaram) {
 		this.usuariosQueReportaram = usuariosQueReportaram;
 	}
 
 	/**
 	 * @return the usuariosQueFavoritaram
 	 */
-	public Set<Usuario> getUsuariosQueFavoritaram() {
+	public List<Usuario> getUsuariosQueFavoritaram() {
 		return usuariosQueFavoritaram;
 	}
 
 	/**
 	 * @param usuariosQueFavoritaram the usuariosQueFavoritaram to set
 	 */
-	public void setUsuariosQueFavoritaram(Set<Usuario> usuariosQueFavoritaram) {
+	public void setUsuariosQueFavoritaram(List<Usuario> usuariosQueFavoritaram) {
 		this.usuariosQueFavoritaram = usuariosQueFavoritaram;
 	}
 
 	/**
 	 * @return the utensilios
 	 */
-	public Set<Utensilio> getUtensilios() {
+	public List<Utensilio> getUtensilios() {
 		return utensilios;
 	}
 
 	/**
 	 * @param utensilios the utensilios to set
 	 */
-	public void setUtensilios(Set<Utensilio> utensilios) {
+	public void setUtensilios(List<Utensilio> utensilios) {
 		this.utensilios = utensilios;
 	}
 }
