@@ -108,11 +108,17 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<Receita> selecionarPorNome(String termoBusca) {
-		return this.session.createCriteria(Receita.class)
+		try {
+			return this.session.createCriteria(Receita.class)
 				.add(Restrictions.eq("aprovado", true))
 			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING))
 				.addOrder(Order.asc("nome"))
 				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -133,11 +139,17 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<Receita> selecionarPorUsuario(int userId) {
-		return this.session.createCriteria(Receita.class)
+		try {
+			return this.session.createCriteria(Receita.class)
 				.add(Restrictions.eq("aprovado", true))
 				.add(Restrictions.sqlRestriction("id_usuario = " + userId))
 				.addOrder(Order.asc("nome"))
 				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
