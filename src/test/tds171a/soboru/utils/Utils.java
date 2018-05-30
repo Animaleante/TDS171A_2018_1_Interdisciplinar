@@ -56,6 +56,7 @@ public class Utils {
 		configuration.setProperty("hibernate.c3p0.max_statements", "50");
 		configuration.setProperty("hibernate.c3p0.min_size", "5");
 		configuration.setProperty("hibernate.c3p0.timeout", "300");
+		configuration.setProperty("c3p0.checkoutTimeout", "500");
 		
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		return sessionFactory.openSession();

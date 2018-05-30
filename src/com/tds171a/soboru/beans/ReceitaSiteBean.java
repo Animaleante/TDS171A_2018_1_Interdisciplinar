@@ -120,8 +120,10 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			setIngredientes(ingredientePersistence.listar());
 			setMedidas(medidaPersistence.listar());
 			setUtensilios(utensilioPersistence.listar());
+			
 			return super.criar();
 		}
+		
 		return "/login/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
 	}
 
@@ -190,6 +192,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 //				((ReceitaPersistence) controller).registrarUtensilios(receitaId, getListaUtensilios());
 				getModel().setReceitaIngredientes(getListaIngredientes());
 				getModel().setUtensilios(getListaUtensilios());
+				
+				controller.atualizar(getModel());
 	    	} catch (Exception e) {
 				e.printStackTrace();
 			}
