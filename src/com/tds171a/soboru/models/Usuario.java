@@ -75,7 +75,7 @@ public class Usuario implements Serializable, Cloneable {
 	
 	// FOREIGN KEYS --------------------------------------------------------------
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_role")
 	private Role role;
 

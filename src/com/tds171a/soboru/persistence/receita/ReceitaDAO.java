@@ -169,17 +169,44 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	}
 
 	public boolean receitaJaFoiReportada(Receita model, Usuario usuario) {
-		// TODO Auto-generated method stub
+		Object result = this.session.createSQLQuery("select * from reports where id_receita = :idReceita and id_usuario = :idUsuario")
+				.addScalar("id_receita", StandardBasicTypes.LONG)
+				.addScalar("id_usuario", StandardBasicTypes.LONG)
+				.setInteger("idReceita", model.getId())
+				.setInteger("idUsuario", usuario.getId())
+				.uniqueResult();
+		if(result != null) {
+			return true;
+		}
+		
 		return false;
 	}
 
 	public boolean receitaJaFoiPontuada(Receita model, Usuario usuario) {
-		// TODO Auto-generated method stub
+		Object result = this.session.createSQLQuery("select * from pontuacoes where id_receita = :idReceita and id_usuario = :idUsuario")
+				.addScalar("id_receita", StandardBasicTypes.LONG)
+				.addScalar("id_usuario", StandardBasicTypes.LONG)
+				.setInteger("idReceita", model.getId())
+				.setInteger("idUsuario", usuario.getId())
+				.uniqueResult();
+		if(result != null) {
+			return true;
+		}
+		
 		return false;
 	}
 
 	public boolean receitaFavoritada(Receita model, Usuario usuario) {
-		// TODO Auto-generated method stub
+		Object result = this.session.createSQLQuery("select * from receitas_fav where id_receita = :idReceita and id_usuario = :idUsuario")
+				.addScalar("id_receita", StandardBasicTypes.LONG)
+				.addScalar("id_usuario", StandardBasicTypes.LONG)
+				.setInteger("idReceita", model.getId())
+				.setInteger("idUsuario", usuario.getId())
+				.uniqueResult();
+		if(result != null) {
+			return true;
+		}
+		
 		return false;
 	}
 }

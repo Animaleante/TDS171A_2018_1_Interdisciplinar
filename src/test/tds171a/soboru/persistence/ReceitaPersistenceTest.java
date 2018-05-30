@@ -1,6 +1,7 @@
 package test.tds171a.soboru.persistence;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -550,6 +551,31 @@ class ReceitaPersistenceTest {
 		assertNotNull(receitas);
 		
 		assertTrue(receitas.size() > 0);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testGetJaFoiReportada() {
+		System.out.println("testGetPorFavoritoDeUsuario");
+		
+		Session session = Utils.getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		assertNotNull(receita);
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO(session);
+		
+		Usuario usuario = usuarioDAO.selecionar(1);
+		
+		boolean result = receitaDAO.receitaJaFoiReportada(receita, usuario);
+		
+		assertFalse(result);
 		
 		session.getTransaction().rollback();
 		session.close();
