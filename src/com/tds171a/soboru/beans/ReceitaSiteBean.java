@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -82,6 +83,25 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		setMedidas(new ArrayList<Medida>());
 		
 		setComentario(new Comentario());
+	}
+	
+	@Override
+	public String listar() {
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
+		setLista(controller.listar());
+		
+		Iterator<Receita> itr = getLista().iterator();
+		Receita receita;
+		while(itr.hasNext()) {
+			// Puta gambiarra - E aparentemente esse é um jeito normal de fazer isso...
+			receita = itr.next();
+			receita.getComentarios().size();
+			receita.getUsuariosQueFavoritaram().size();
+		}
+
+//		return route_base + INDEX_PAGE;
+		return getRoute(INDEX_PAGE);
 	}
 
 	/**

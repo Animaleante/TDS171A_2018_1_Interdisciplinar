@@ -53,8 +53,8 @@
 										<div class="actions">
 											<div>
 												<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(receita.pontuacaoMedia)}" /></a></div>
-												<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.favs}" /></a></div>
-												<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.numComentarios}" /></a></div>
+												<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.usuariosQueFavoritaram.size()}" /></a></div>
+												<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.comentarios.size()}" /></a></div>
 											</div>
 										</div>
 									</div>
