@@ -84,8 +84,7 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Usuario());
 	}
 
 	/**

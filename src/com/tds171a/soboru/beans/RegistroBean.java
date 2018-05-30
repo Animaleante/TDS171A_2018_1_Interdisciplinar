@@ -231,8 +231,7 @@ public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Usuario());
 	}
 
 }

@@ -75,7 +75,6 @@ public class IngredienteBean extends BeanBase<Ingrediente> {
 	}
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Ingrediente());
 	}
 }

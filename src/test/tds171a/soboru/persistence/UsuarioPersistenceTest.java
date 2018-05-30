@@ -174,43 +174,43 @@ class UsuarioPersistenceTest {
 
 	@Test
 	void testGetRole() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitas() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitasAprovadas() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetPontuacoes() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetComentarios() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitasReportadas() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	
 	@Test
 	void testGetReceitasFavoritadas() {
-		// TODO
+		// TODO - Implement
 		fail("Not yet implemented");
 	}
 	

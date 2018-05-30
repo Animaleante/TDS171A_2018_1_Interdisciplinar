@@ -149,9 +149,11 @@ public class PesquisaBean implements Serializable {
 		
 		if(!getTermoBusca().isEmpty() && getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorNomeEIngredientes(getTermoBusca(), getLista()));
-		} else if(!getTermoBusca().isEmpty()) {
+		} 
+		else if(!getTermoBusca().isEmpty()) {
 			setResultados(receitaPersistence.selecionarPorNome(getTermoBusca()));
-		} else if(getLista().size() > 0) {
+		} 
+		else if(getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorIngredientes(getLista()));
 		}
 		

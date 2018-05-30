@@ -77,7 +77,6 @@ public class MedidaBean extends BeanBase<Medida> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Medida());
 	}
 }

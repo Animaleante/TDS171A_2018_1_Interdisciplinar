@@ -238,8 +238,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Receita());
 	}
 
 	public String isAprovado(Receita receita) {

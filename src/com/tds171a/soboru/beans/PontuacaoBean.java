@@ -55,7 +55,6 @@ public class PontuacaoBean extends BeanBase<Pontuacao> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Pontuacao());
 	}
 }

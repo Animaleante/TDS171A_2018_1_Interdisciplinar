@@ -362,7 +362,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 				PontuacaoPersistence pontuacaoPersistence = PersistenceFactory.getPontuacaoPersistenceFactory();
 				pontuacaoPersistence.incluir(pontuacao);
 			} else {
-				// TODO - Informar que usuario ja pontuou essa receita
+				// TODO - Informar que usuario ja pontuou essa receita, ou verificar pq o botao de pontuar estava disponivel se ele ja pontuou essa receita
 			}
 			
 			return exibir(getModel());

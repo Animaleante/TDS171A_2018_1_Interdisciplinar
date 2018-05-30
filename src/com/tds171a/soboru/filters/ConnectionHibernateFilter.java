@@ -83,9 +83,6 @@ public class ConnectionHibernateFilter implements Filter {
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
+	public void destroy() {	}
 
 }
