@@ -14,6 +14,8 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
 
 import com.tds171a.soboru.models.Ingrediente;
+import com.tds171a.soboru.models.Pontuacao;
+import com.tds171a.soboru.models.PontuacaoId;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.IDAO;
@@ -194,6 +196,15 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 		}
 		
 		return false;
+	}
+
+	public Double pegarPontuacaoDadaSeExistir(Receita model, Usuario usuario) {
+		Pontuacao pontuacao = (Pontuacao) this.session.get(Pontuacao.class, new PontuacaoId(model.getId(), usuario.getId()));
+		if(pontuacao != null) {
+			return pontuacao.getQty();
+		}
+		
+		return null;
 	}
 
 	public boolean receitaFavoritada(Receita model, Usuario usuario) {

@@ -1,6 +1,7 @@
 package test.tds171a.soboru.persistence;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -558,6 +559,91 @@ class ReceitaPersistenceTest {
 	
 	@Test
 	void testGetJaFoiReportada() {
+		System.out.println("testGetPorFavoritoDeUsuario");
+		
+		Session session = Utils.getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		assertNotNull(receita);
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO(session);
+		
+		Usuario usuario = usuarioDAO.selecionar(1);
+		
+		boolean result = receitaDAO.receitaJaFoiReportada(receita, usuario);
+		
+		assertFalse(result);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testGetJaFoiPontuada() {
+		System.out.println("testGetPorFavoritoDeUsuario");
+		
+		Session session = Utils.getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+		
+		assertNotNull(receita);
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO(session);
+		
+		Usuario usuario = usuarioDAO.selecionar(1);
+		
+		boolean result = receitaDAO.receitaJaFoiReportada(receita, usuario);
+		
+		assertFalse(result);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testGetPontuacaoDadaSeExistir() {
+		System.out.println("testGetPontuacaoDadaSeExistir");
+		
+		Session session = Utils.getSession();
+		session.beginTransaction();
+
+		ReceitaDAO receitaDAO = new ReceitaDAO(session);
+		
+		Receita receita = receitaDAO.selecionar(1);
+//		Receita receita = receitaDAO.selecionar(3);
+		
+		assertNotNull(receita);
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO(session);
+		
+		Usuario usuario = usuarioDAO.selecionar(2);
+		
+		Double result = receitaDAO.pegarPontuacaoDadaSeExistir(receita, usuario);
+		
+		if(result != null)
+			System.out.println("Resultado: " + result);
+		else
+			System.out.println("Resultado nulo");
+		
+		assertNotNull(result);
+//		assertNull(result);
+		
+		assertEquals(new Double(3.0), result);
+//		assertEquals(new Double(5.0), result);
+		
+		session.getTransaction().rollback();
+		session.close();
+	}
+	
+	@Test
+	void testGetJaFoiFavoritada() {
 		System.out.println("testGetPorFavoritoDeUsuario");
 		
 		Session session = Utils.getSession();

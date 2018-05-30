@@ -140,7 +140,6 @@ public class PesquisaBean implements Serializable {
 	 * por nome e retorna a rota para a pesquisa.
 	 */
 	public String pesquisar() {
-		
 		setResultados(new ArrayList<Receita>());
 		if(serAdicionado != 0)
 			adicionar();

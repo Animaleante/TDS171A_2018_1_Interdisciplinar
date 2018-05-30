@@ -81,6 +81,10 @@ public class ReceitaPersistence implements IDAO<Receita> {
 		return dao.receitaJaFoiPontuada(model, usuario);
 	}
 
+	public Double pegarPontuacaoDadaSeExistir(Receita model, Usuario usuario) {
+		return dao.pegarPontuacaoDadaSeExistir(model, usuario);
+	}
+
 	public boolean receitaFavoritada(Receita model, Usuario usuario) {
 		return dao.receitaFavoritada(model, usuario);
 	}

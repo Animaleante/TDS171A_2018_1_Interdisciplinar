@@ -61,6 +61,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	
 	private boolean reportou = false;
 	private boolean pontuou = false;
+	private Double pontuacaoDada = null;
 	private boolean favoritou = false;
 	
 	/**
@@ -206,7 +207,9 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			
 //			setReportou(vo.getUsuariosQueReportaram().contains(usuario)); // Ja resolve?
 			setReportou(((ReceitaPersistence) controller).receitaJaFoiReportada(vo, usuario));
-			setPontuou(((ReceitaPersistence) controller).receitaJaFoiPontuada(vo, usuario));
+//			setPontuou(((ReceitaPersistence) controller).receitaJaFoiPontuada(vo, usuario));
+			setPontuacaoDada(((ReceitaPersistence) controller).pegarPontuacaoDadaSeExistir(vo, usuario));
+			setPontuou(pontuacaoDada != null);
 //			setFavoritou(vo.getUsuariosQueFavoritaram().contains(usuario)); // Ja resolve?
 			setFavoritou(((ReceitaPersistence) controller).receitaFavoritada(vo, usuario));
 		}
@@ -272,10 +275,9 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	
 	/**
 	 * Método que inclui um novo comentario nessa receita com o usuario logado
-	 * @param receitaId
 	 * @return
 	 */
-	public String incluirComentario(int receitaId) {
+	public String incluirComentario() {
 		getComentario().setUsuario(SessionContext.getInstance().getUsuarioLogado());
 		getComentario().setReceita(getModel());
 
@@ -552,5 +554,19 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public void setFavoritou(boolean favoritou) {
 		this.favoritou = favoritou;
+	}
+
+	/**
+	 * @return the pontuacaoDada
+	 */
+	public Double getPontuacaoDada() {
+		return pontuacaoDada;
+	}
+
+	/**
+	 * @param pontuacaoDada the pontuacaoDada to set
+	 */
+	public void setPontuacaoDada(Double pontuacaoDada) {
+		this.pontuacaoDada = pontuacaoDada;
 	}
 }
