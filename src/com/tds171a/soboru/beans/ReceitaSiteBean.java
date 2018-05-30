@@ -73,7 +73,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public ReceitaSiteBean() {
 		route_base = "/receita/";
-//		controller = PersistenceFactory.getReceitaPersistenceFactory();
+
 		setModel(new Receita());
 		
 		setListaIngredientes(new ArrayList<ReceitaIngrediente>());
@@ -110,7 +110,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public void adicionarReceitaIngrediente() {
 		listaIngredientes.add(new ReceitaIngrediente());
-		
 	}
 
 	/**
@@ -127,7 +126,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public void adicionarUtensilio() {
 		listaUtensilios.add(new Utensilio());
-		
 	}
 
 	/**
@@ -206,10 +204,10 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		if (SessionContext.getInstance().isLogado()) {
 			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
 			
-//			setReportou(vo.getUsuariosQueReportaram().contains(usuario));
+//			setReportou(vo.getUsuariosQueReportaram().contains(usuario)); // Ja resolve?
 			setReportou(((ReceitaPersistence) controller).receitaJaFoiReportada(vo, usuario));
 			setPontuou(((ReceitaPersistence) controller).receitaJaFoiPontuada(vo, usuario));
-//			setFavoritou(vo.getUsuariosQueFavoritaram().contains(usuario));
+//			setFavoritou(vo.getUsuariosQueFavoritaram().contains(usuario)); // Ja resolve?
 			setFavoritou(((ReceitaPersistence) controller).receitaFavoritada(vo, usuario));
 		}
 		

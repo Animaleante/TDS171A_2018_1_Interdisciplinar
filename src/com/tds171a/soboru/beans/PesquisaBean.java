@@ -36,21 +36,6 @@ public class PesquisaBean implements Serializable {
 	private static final String ROUTE_BASE = "/pesquisa/";
 	
 	/**
-	 * Controlador de Receita
-	 */
-//	private ReceitaPersistence receitaPersistence;
-	
-	/**
-	 * Controlador de Ingrediente
-	 */
-//	private IngredientePersistence ingredientePersistence;
-	
-	/**
-	 * Controlador de categoria
-	 */
-//	private CategoriaPersistence categoriaPersistence;
-	
-	/**
 	 * Ingrediente a ser adicionado a pesquisa
 	 */
 	private int serAdicionado;
@@ -96,9 +81,7 @@ public class PesquisaBean implements Serializable {
 		setTermoBusca("");
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
-//		setListaIngredientes(ingredientePersistence.listar());
 		setListaIngredientes(new ArrayList<Ingrediente>());
-//		setListaCategorias(categoriaPersistence.listar());
 		setListaCategorias(new ArrayList<Categoria>());
 	}
 	

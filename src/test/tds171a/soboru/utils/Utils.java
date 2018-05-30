@@ -49,6 +49,14 @@ public class Utils {
 		configuration.setProperty("hibernate.use_sql_comments", "true");
 		configuration.setProperty("hibernate.format_sql", "true");
 		
+		configuration.setProperty("hibernate.current_session_context_class", "thread");
+		configuration.setProperty("hibernate.generate_statistics", "true");
+		configuration.setProperty("hibernate.c3p0.idle_test_period", "3000");
+		configuration.setProperty("hibernate.c3p0.max_size", "20");
+		configuration.setProperty("hibernate.c3p0.max_statements", "50");
+		configuration.setProperty("hibernate.c3p0.min_size", "5");
+		configuration.setProperty("hibernate.c3p0.timeout", "300");
+		
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		return sessionFactory.openSession();
 	}
