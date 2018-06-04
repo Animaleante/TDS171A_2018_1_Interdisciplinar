@@ -138,7 +138,7 @@
 					<c:choose>
 						<c:when test="#{not loginBean.logado}">
 							<div class="comment-respond" id="respond">
-								<h2>Leave a reply</h2>
+								<h2>Deixe um comentário</h2>
 								<div class="container">
 									<h:form>
 									<p>
@@ -153,7 +153,7 @@
 						</c:when>
 						<c:otherwise>
 						<div class="comment-respond" id="respond">
-							<h2>Leave a reply</h2>
+							<h2>Deixe um comentário</h2>
 							<div class="container">
 								<p>
 									<strong>Note:</strong> Comentários estão ligados a sua conta, por favor
@@ -278,22 +278,25 @@
 						</h:form>
 					</div>
 
-					<div class="widget members">
-						<h3>Usuario que gostaram dessa receita</h3>
-						<ul class="boxed">
-							<c:forEach items="#{receitaSiteBean.model.usuariosQueFavoritaram}"
-								var="usuario">
-								<li>
-									<div class="avatar">
-										<a href="#"> <h:graphicImage
-												value="#{resource['images:avatar1.jpg']}" /> <span><h:outputText
-													value="#{usuario.nome}" /></span>
-										</a>
-									</div>
-								</li>
-							</c:forEach>
-						</ul>
-					</div>
+					<c:choose>
+						<c:when test="#{receitaSiteBean.model.usuariosQueFavoritaram.size() > 0}">
+							<div class="widget members">
+								<h3>Usuarios que gostaram dessa receita</h3>
+								<ul class="boxed">
+									<c:forEach items="#{receitaSiteBean.model.usuariosQueFavoritaram}" var="usuario">
+										<li>
+											<div class="avatar">
+												<a href="#"> 
+													<h:graphicImage value="#{resource['images:avatar1.jpg']}" />
+													<span><h:outputText value="#{usuario.nome}" /></span>
+												</a>
+											</div>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</c:when>
+					</c:choose>
 				</aside>
 				<!--//right sidebar-->
 			</div>

@@ -167,9 +167,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	public String incluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		getModel().setUsuario(SessionContext.getInstance().getUsuarioLogado());
-		getModel().setAprovado(false);
-
 		try (InputStream input = imgFile.getInputStream()) {
 			File file = File.createTempFile("receita_", ".jpg", Utils.getImagerDir());
 			Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -180,6 +177,12 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 					"Ocorreu um erro ao tentar fazer upload da imagem: " + e.getMessage(), null));
 			return route_base + CRIAR_PAGE;
 		}
+
+		getModel().setUsuario(SessionContext.getInstance().getUsuarioLogado());
+		getModel().setAprovado(false);
+		
+		getModel().setReceitaIngredientes(getListaIngredientes());
+		getModel().setUtensilios(getListaUtensilios());
 		
 	    if(!validarDados())
 	    	return route_base + CRIAR_PAGE;
@@ -187,17 +190,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
 
 	    if(controller.incluir(getModel())) {
-	    	try {
-//				receitaIngredientePersistence.incluirLista(receitaId, getListaIngredientes());
-//				((ReceitaPersistence) controller).registrarUtensilios(receitaId, getListaUtensilios());
-				getModel().setReceitaIngredientes(getListaIngredientes());
-				getModel().setUtensilios(getListaUtensilios());
-				
-				controller.atualizar(getModel());
-	    	} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
@@ -280,6 +272,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 			return false;
 		}
+		
+		// TODO - O que mais precisa ser validado na receita?
 
 		return true;
 	}
@@ -316,8 +310,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 //	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
 //			return exibir(getModel());
 	    }
-	    
-//	    setComentario(new Comentario());
 		
 		return exibir(getModel());
 	}

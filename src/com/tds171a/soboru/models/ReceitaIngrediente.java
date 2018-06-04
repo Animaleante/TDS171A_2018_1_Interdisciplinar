@@ -49,11 +49,11 @@ public class ReceitaIngrediente implements Serializable, Cloneable {
 	
 	// FOREIGN KEYS --------------------------------------------------------------
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_medida")
 	private Medida medida;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_ingrediente")
 	private Ingrediente ingrediente;
 
