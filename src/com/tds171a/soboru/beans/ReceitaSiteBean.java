@@ -110,21 +110,20 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String criar() {
-		if(SessionContext.getInstance().isLogado()) {
-			CategoriaPersistence categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
-			IngredientePersistence ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
-			MedidaPersistence medidaPersistence = PersistenceFactory.getMedidaPersistenceFactory();
-			UtensilioPersistence utensilioPersistence = PersistenceFactory.getUtensilioPersistenceFactory();
-			
-			setCategorias(categoriaPersistence.listarSelecionaveis());
-			setIngredientes(ingredientePersistence.listar());
-			setMedidas(medidaPersistence.listar());
-			setUtensilios(utensilioPersistence.listar());
-			
-			return super.criar();
-		}
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
 		
-		return "/login/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
+		CategoriaPersistence categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
+		IngredientePersistence ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
+		MedidaPersistence medidaPersistence = PersistenceFactory.getMedidaPersistenceFactory();
+		UtensilioPersistence utensilioPersistence = PersistenceFactory.getUtensilioPersistenceFactory();
+		
+		setCategorias(categoriaPersistence.listarSelecionaveis());
+		setIngredientes(ingredientePersistence.listar());
+		setMedidas(medidaPersistence.listar());
+		setUtensilios(utensilioPersistence.listar());
+		
+		return super.criar();
 	}
 
 	/**
@@ -165,6 +164,9 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String incluir() {
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		try (InputStream input = imgFile.getInputStream()) {
@@ -175,7 +177,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro ao tentar fazer upload da imagem: " + e.getMessage(), null));
-			return route_base + CRIAR_PAGE;
+			return getRoute(CRIAR_PAGE);
 		}
 
 		getModel().setUsuario(SessionContext.getInstance().getUsuarioLogado());
@@ -185,7 +187,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		getModel().setUtensilios(getListaUtensilios());
 		
 	    if(!validarDados())
-	    	return route_base + CRIAR_PAGE;
+	    	return getRoute(CRIAR_PAGE);
 
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
 
@@ -193,7 +195,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
-            return route_base + CRIAR_PAGE;
+            return getRoute(CRIAR_PAGE);
 	    }
 
 	    limparModel();
@@ -243,11 +245,19 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String deletar() {
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if (getModel().getId() == -1) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
-			return route_base + DELETAR_PAGE;
+			return getRoute(DELETAR_PAGE);
+		}
+		
+		if(getModel().getUsuario() != SessionContext.getInstance().getUsuarioLogado()) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario não pode deletar receita que não foi criada por ele!", null));
+			return getRoute(DELETAR_PAGE);
 		}
 
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
@@ -256,43 +266,12 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));
-			return route_base + DELETAR_PAGE;
+			return getRoute(DELETAR_PAGE);
 		}
 
 		limparModel();
 
 		return listar();
-	}
-
-	/**
-	 * Verifica os dados da pagina de interação e se faltar algum dado informa ao
-	 * cliente.
-	 */
-	@Override
-	public boolean validarDados() {
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if (getModel().getNome().isEmpty()) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
-			return false;
-		}
-		
-		// TODO - O que mais precisa ser validado na receita?
-
-		return true;
-	}
-
-	/**
-	 * Cria uma nova vo para limpar os campos para um novo registro sem
-	 * interferencia de dados cadastrados anteriormente.
-	 */
-	@Override
-	public void limparModel() {
-		setModel(new Receita());
-		setListaIngredientes(new ArrayList<ReceitaIngrediente>());
-		adicionarReceitaIngrediente();
-		setListaUtensilios(new ArrayList<Utensilio>());
-		adicionarUtensilio();
 	}
 	
 	/**
@@ -327,22 +306,24 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 * @return
 	 */
 	public String favoritar() {
-		if (SessionContext.getInstance().isLogado()) {
-			UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
-			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
-			
-			if(!isFavoritou()) {
-				usuario.getReceitasFavoritadas().add(getModel());
-			} else {
-				usuario.getReceitasFavoritadas().remove(getModel());
-			}
-			
-			usuarioPersistence.atualizar(usuario);
-
-			return exibir(getModel());
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+		Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
+		
+		if(!isFavoritou()) {
+			usuario.getReceitasFavoritadas().add(getModel());
+			getModel().getUsuariosQueFavoritaram().add(usuario);
+		} else {
+			usuario.getReceitasFavoritadas().remove(getModel());
+			getModel().getUsuariosQueFavoritaram().remove(usuario);
 		}
+		
+		usuarioPersistence.atualizar(usuario);
 
-		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+//		return exibir(getModel());
+		return super.exibir(getModel());
 	}
 
 	/**
@@ -351,21 +332,23 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 * @return
 	 */
 	public String reportar() {
-		if (SessionContext.getInstance().isLogado()) {
-			if(!isReportou()) {
-				UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
-				Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
-				
-				usuario.getReceitasReportadas().add(getModel());
-				usuarioPersistence.atualizar(usuario);
-			} else {
-				// TODO - Informar usuario que ele ja reportou, ou verificar pq o botao de reportar estava disponivel se ele ja reportou essa receita
-			}
+		if (SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		if(!isReportou()) {
+			UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
 			
-			return exibir(getModel());
+			usuario.getReceitasReportadas().add(getModel());
+			getModel().getUsuariosQueReportaram().add(usuario);
+			
+			usuarioPersistence.atualizar(usuario);
+		} else {
+			// TODO - Informar usuario que ele ja reportou, ou verificar pq o botao de reportar estava disponivel se ele ja reportou essa receita
 		}
-
-		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+//		return exibir(getModel());
+		return super.exibir(getModel());
 	}
 
 	/**
@@ -375,24 +358,58 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 * @return
 	 */
 	public String pontuar(int pontos) {
-		if (SessionContext.getInstance().isLogado()) {
-			if(!isPontuou()) {
-				Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
-	
-				Pontuacao pontuacao = new Pontuacao();
-				pontuacao.setReceita(getModel());
-				pontuacao.setUsuario(usuario);
-				
-				PontuacaoPersistence pontuacaoPersistence = PersistenceFactory.getPontuacaoPersistenceFactory();
-				pontuacaoPersistence.incluir(pontuacao);
-			} else {
-				// TODO - Informar que usuario ja pontuou essa receita, ou verificar pq o botao de pontuar estava disponivel se ele ja pontuou essa receita
-			}
-			
-			return exibir(getModel());
-		}
+		if (SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		if(!isPontuou()) {
+			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
 
-		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+			Pontuacao pontuacao = new Pontuacao();
+			pontuacao.setReceita(getModel());
+			pontuacao.setUsuario(usuario);
+			
+			PontuacaoPersistence pontuacaoPersistence = PersistenceFactory.getPontuacaoPersistenceFactory();
+			pontuacaoPersistence.incluir(pontuacao);
+			
+			getModel().getPontuacoes().add(pontuacao);
+			usuario.getPontuacoes().add(pontuacao);
+		} else {
+			// TODO - Informar que usuario ja pontuou essa receita, ou verificar pq o botao de pontuar estava disponivel se ele ja pontuou essa receita
+		}
+		
+//		return exibir(getModel());
+		return super.exibir(getModel());
+	}
+
+	/**
+	 * Verifica os dados da pagina de interação e se faltar algum dado informa ao
+	 * cliente.
+	 */
+	@Override
+	public boolean validarDados() {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if (getModel().getNome().isEmpty()) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
+			return false;
+		}
+		
+		// TODO - O que mais precisa ser validado na receita?
+
+		return true;
+	}
+
+	/**
+	 * Cria uma nova vo para limpar os campos para um novo registro sem
+	 * interferencia de dados cadastrados anteriormente.
+	 */
+	@Override
+	public void limparModel() {
+		setModel(new Receita());
+		setListaIngredientes(new ArrayList<ReceitaIngrediente>());
+		adicionarReceitaIngrediente();
+		setListaUtensilios(new ArrayList<Utensilio>());
+		adicionarUtensilio();
 	}
 	
 	/**
