@@ -206,31 +206,35 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 * receita ao cliente.
 	 */
 	@Override
-	public String exibir(Receita vo) {
+	public String exibir(Receita receita) {
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
 		
-		vo = controller.selecionar(vo.getId());
+		receita = controller.selecionar(receita.getId());
 		
-		vo.getCategoria();
-		vo.getUsuario();
-		vo.getUtensilios();
-		vo.getReceitaIngredientes();
-		vo.getComentarios();
-		vo.getUsuariosQueFavoritaram();
+		receita.getCategoria();
+		receita.getUsuario();
+		receita.getUtensilios();
+		receita.getReceitaIngredientes();
+		receita.getComentarios();
+		receita.getUsuariosQueFavoritaram();
 
 		if (SessionContext.getInstance().isLogado()) {
 			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
 			
-//			setReportou(vo.getUsuariosQueReportaram().contains(usuario)); // Ja resolve?
-			setReportou(((ReceitaPersistence) controller).receitaJaFoiReportada(vo, usuario));
-//			setPontuou(((ReceitaPersistence) controller).receitaJaFoiPontuada(vo, usuario));
-			setPontuacaoDada(((ReceitaPersistence) controller).pegarPontuacaoDadaSeExistir(vo, usuario));
+//			setReportou(receita.getUsuariosQueReportaram().contains(usuario)); // Ja resolve?
+			setReportou(((ReceitaPersistence) controller).receitaJaFoiReportada(receita, usuario));
+			
+//			setPontuou(((ReceitaPersistence) controller).receitaJaFoiPontuada(receita, usuario));
+			setPontuacaoDada(((ReceitaPersistence) controller).pegarPontuacaoDadaSeExistir(receita, usuario));
 			setPontuou(pontuacaoDada != null);
-//			setFavoritou(vo.getUsuariosQueFavoritaram().contains(usuario)); // Ja resolve?
-			setFavoritou(((ReceitaPersistence) controller).receitaFavoritada(vo, usuario));
+			
+//			setFavoritou(receita.getUsuariosQueFavoritaram().contains(usuario)); // Ja resolve?
+			setFavoritou(((ReceitaPersistence) controller).receitaFavoritada(receita, usuario));
 		}
 		
-		return super.exibir(vo);
+		// TODO - Aumentar o numero de visualizações dessa receita no banco
+		
+		return super.exibir(receita);
 	}
 
 	/**
@@ -304,6 +308,7 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		ComentarioPersistence comentarioPersistence = PersistenceFactory.getComentarioPersistenceFactory();
 
 	    if(comentarioPersistence.incluir(getComentario())) {
+	    	getModel().getComentarios().add(getComentario());
 		    setComentario(new Comentario());
 //	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
 	    } else {
@@ -311,7 +316,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 //			return exibir(getModel());
 	    }
 		
-		return exibir(getModel());
+//		return exibir(getModel());
+		return super.exibir(getModel());
 	}
 
 	/**
