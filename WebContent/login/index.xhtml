@@ -13,27 +13,19 @@
 	                    <div class="modal-soboru container">
 	                        <h3>Login</h3>
 	                        
-	                        <h:form styleClass="form-horizontal">
-								<h:messages globalOnly="true" errorClass="error"/>
-									
+	                        <form class="form-horizontal" method="post" action="#{request.contextPath}/j_spring_security_check">
 	                        	<div class="f-row">
-	                        		<h:inputText id="email"  value="#{loginBean.email}" size="80"
-									             required="true" a:placeholder="E-mail"
-									             requiredMessage="E-mail é obrigatório">
-									</h:inputText>
+									<input type="text" name="j_username"/>
 	                        	</div>
 	                        	
 	                        	<div class="f-row">
-	                        		<h:inputSecret id="senha"  value="#{loginBean.senha}" size="80"
-									             required="true" a:placeholder="Senha" 
-									             requiredMessage="Senha é obrigatório">
-									</h:inputSecret>
+									<input type="text" name="j_password"/>
 	                        	</div>
 	                        	
 	                            <div class="f-row bwrap">
-									<h:commandButton action="#{loginBean.login()}" value="Log In" />
+									<button type="submit" value="Log In"/>
 	                            </div>
-	                        </h:form>
+	                        </form>
 	
 <!-- 	                        <p><a href="#">Esqueceu sua senha?</a></p> -->
 							<h:form>

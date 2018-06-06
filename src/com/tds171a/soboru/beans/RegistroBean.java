@@ -104,6 +104,7 @@ public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 			usuario.setSexo(sexo);
 			usuario.setRole(rolePersistence.selecionar(2));
 			usuario.setNotificacaoEmail(notificacaoEmail);
+			usuario.setAtivo(true);
 			
 			if(controller.incluir(usuario)) {
 				setNome("");

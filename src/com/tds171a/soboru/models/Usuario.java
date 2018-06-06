@@ -70,6 +70,9 @@ public class Usuario implements Serializable, Cloneable {
 	@Column(name = "NOTIFICACAO_EMAIL", precision = 1, nullable = false)
 	private boolean notificacaoEmail;
 	
+	@Column(name = "ATIVO", precision = 1, nullable = false)
+	private boolean ativo;
+	
 	@Transient
 	private String senhaConfirmacao;
 	
@@ -296,5 +299,13 @@ public class Usuario implements Serializable, Cloneable {
 	 */
 	public void setReceitasFavoritadas(List<Receita> receitasFavoritadas) {
 		this.receitasFavoritadas = receitasFavoritadas;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	<http>
+		<intercept-url pattern="/cadastro/**" access="Admin" />
+		
+		<form-login login-page="/login/index.jsf"
+			always-use-default-target="true" default-target-url="/index.jsf"
+			authentication-failure-url="/login/index.jsf?login_error=1" />
+		<logout />
+		<remember-me />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="soboruDataSource"
+				authorities-by-username-query="SELECT u.email, r.nome 
+											 FROM usuarios u
+											INNER JOIN roles r 
+											ON u.id_role = r.id 
+											  AND u.email = ?"
+				users-by-username-query="SELECT email, senha, ativo 
+									   FROM usuarios 
+									  WHERE email = ?" />
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>

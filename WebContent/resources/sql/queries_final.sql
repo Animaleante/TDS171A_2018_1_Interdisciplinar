@@ -27,6 +27,7 @@ CREATE TABLE usuarios (
     id_role NUMBER(11) NOT NULL,
     notificacao_email NUMBER(1) NOT NULL,
     avatar_path VARCHAR2(80) NULL,
+    ativo NUMBER(1) NOT NULL,
     CONSTRAINT usuario_pk PRIMARY KEY (id),
     CONSTRAINT usuario_email_unique UNIQUE (email)
 );
@@ -183,10 +184,10 @@ CREATE TABLE pontuacoes (
 insert into roles(id, nome, is_admin) values(role_seq.NEXTVAL, 'Admin', 1);
 insert into roles(id, nome, is_admin) values(role_seq.NEXTVAL, 'Usuario', 0);
 
-insert into usuarios(id, nome, email, senha, nasc, sexo, id_role, notificacao_email, avatar_path) 
-	values(usuario_seq.NEXTVAL, 'Admin Teste', 'admin@teste.com', '123456', TO_DATE('28-02-1990', 'DD_MM_YYYY'), 3, 1, 1, null);
-insert into usuarios(id, nome, email, senha, nasc, sexo, id_role, notificacao_email, avatar_path) 
-	values(usuario_seq.NEXTVAL, 'Usuario Teste', 'teste@teste.com', '123456', TO_DATE('07-11-1988', 'DD_MM_YYYY'), 3, 2, 1, null);
+insert into usuarios(id, nome, email, senha, nasc, sexo, id_role, notificacao_email, avatar_path, ativo) 
+	values(usuario_seq.NEXTVAL, 'Admin Teste', 'admin@teste.com', '123456', TO_DATE('28-02-1990', 'DD_MM_YYYY'), 3, 1, 1, null, 1);
+insert into usuarios(id, nome, email, senha, nasc, sexo, id_role, notificacao_email, avatar_path, ativo) 
+	values(usuario_seq.NEXTVAL, 'Usuario Teste', 'teste@teste.com', '123456', TO_DATE('07-11-1988', 'DD_MM_YYYY'), 3, 2, 1, null, 1);
 
 ----------------------------------
 
