@@ -85,3 +85,23 @@ begin
     end loop;
 end;
 /
+
+
+create trigger receita_pontuacao_calculo 
+after insert 
+on pontuacoes
+for each row
+declare
+    Pragma Autonomous_Transaction;
+    soma number(11);
+    linhas number(11);
+    average number(5,2);
+begin
+    select sum(qty)+:new.qty into soma from pontuacoes where id_receita = :new.id_receita;
+    select count(id_receita)+1 into linhas from pontuacoes where id_receita = :new.id_receita;
+    select soma/linhas into average from dual;
+    dbms_output.put_line(average);
+    update receitas set pontuacao_media = average where id = :new.id_receita;
+    commit;
+end;
+/

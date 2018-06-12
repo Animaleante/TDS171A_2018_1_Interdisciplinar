@@ -29,7 +29,7 @@
 								<h:graphicImage value="#{resource['images:avatar4.jpg']}"/>
 							</figure>
 							<div class="container">
-								<h2><h:outputText value="#{usuarioSiteBean.vo.nome}" /></h2> 
+								<h2><h:outputText value="#{usuarioSiteBean.model.nome}" /></h2> 
 							</div>
 						</div>
 						<!--//profile left part-->
@@ -49,7 +49,8 @@
 										<!--item-->
 										<div class="entry one-third">
 											<figure>
-												<h:graphicImage value="/images/#{receita.imgPath}" />
+												<h:graphicImage value="/images/#{receita.imgPath}" style="width: 100%;" rendered="#{receita.imgPath != null}" />
+												<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receita.imgPath == null}" />
 												<figcaption>
 													<h:form>
 														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
@@ -68,8 +69,9 @@
 												</h2> 
 												<div class="actions">
 													<div>
-														<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.favs}" /></a></div>
-														<div class="comments"><i class="fa fa-comment"></i><a href="recipe.html#comments"><h:outputText value="#{receita.numComentarios}" /></a></div>
+														<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(receita.pontuacaoMedia)}" /></a></div>
+														<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.usuariosQueFavoritaram.size()}" /></a></div>
+														<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.comentarios.size()}" /></a></div>
 													</div>
 												</div>
 											</div>
@@ -88,16 +90,29 @@
 										<!--item-->
 										<div class="entry one-third">
 											<figure>
-												<h:graphicImage value="/images/#{receita.imgPath}" />
-												<figcaption><a href="recipe.html"><i class="icon icon-themeenergy_eye2"></i> <span>View recipe</span></a></figcaption>
+												<h:graphicImage value="/images/#{receita.imgPath}" style="width: 100%;" rendered="#{receita.imgPath != null}" />
+												<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receita.imgPath == null}" />
+												<figcaption>
+													<h:form>
+														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+															<i class="icon icon-themeenergy_eye2"></i> <span>Ver receita</span>
+														</h:commandLink>
+													</h:form>
+												</figcaption>
 											</figure>
 											<div class="container">
-												<h2><a href="recipe.html">Thai fried rice with fruit and vegetables</a></h2> 
+												<h2>
+													<h:form>
+														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+															<h:outputText value="#{receita.nome}" />
+														</h:commandLink>
+													</h:form>
+												</h2> 
 												<div class="actions">
 													<div>
-														<div class="difficulty"><i class="ico i-medium"></i><a href="#">medium</a></div>
-														<div class="likes"><i class="fa fa-heart" aria-hidden="true"></i><a href="#">10</a></div>
-														<div class="comments"><i class="fa fa-comment" aria-hidden="true"></i><a href="recipe.html#comments">27</a></div>
+														<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(receita.pontuacaoMedia)}" /></a></div>
+														<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.usuariosQueFavoritaram.size()}" /></a></div>
+														<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.comentarios.size()}" /></a></div>
 													</div>
 												</div>
 											</div>
