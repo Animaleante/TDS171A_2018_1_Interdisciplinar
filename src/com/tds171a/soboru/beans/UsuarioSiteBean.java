@@ -10,8 +10,6 @@ import javax.inject.Named;
 
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.Usuario;
-import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
-import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("usuarioSiteBean")
 @SessionScoped
@@ -56,16 +54,13 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 * Passando o tipo de usuário e os dados.
 	 */
 	@Override
-	public String exibir(Usuario vo) {
-		vo = controller.selecionar(vo.getId());
+	public String exibir(Usuario usuario) {
+		setModel(controller.selecionar(usuario.getId()));
 
-		controller = PersistenceFactory.getUsuarioPersistenceFactory();
-		ReceitaPersistence receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
+		setListaReceitas(getModel().getReceitas());
+		setListaFavoritos(getModel().getReceitasFavoritadas());
 		
-		setListaReceitas(receitaPersistence.selecionarPorUsuario(vo.getId()));
-		setListaFavoritos(receitaPersistence.selecionarPorFavoritosDeUsuario(vo.getId()));
-		
-		return super.exibir(vo);
+		return super.exibir(getModel());
 	}
 
 	/**
