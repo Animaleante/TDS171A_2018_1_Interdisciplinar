@@ -29,7 +29,7 @@
 								<h:graphicImage value="#{resource['images:avatar4.jpg']}"/>
 							</figure>
 							<div class="container">
-								<h2><h:outputText value="#{usuarioSiteBean.vo.nome}" /></h2> 
+								<h2><h:outputText value="#{usuarioSiteBean.model.nome}" /></h2> 
 							</div>
 						</div>
 						<!--//profile left part-->
@@ -49,7 +49,8 @@
 										<!--item-->
 										<div class="entry one-third">
 											<figure>
-												<h:graphicImage value="/images/#{receita.imgPath}" />
+												<h:graphicImage value="/images/#{receita.imgPath}" style="width: 100%;" rendered="#{receita.imgPath != null}" />
+												<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receita.imgPath == null}" />
 												<figcaption>
 													<h:form>
 														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
@@ -88,7 +89,8 @@
 										<!--item-->
 										<div class="entry one-third">
 											<figure>
-												<h:graphicImage value="/images/#{receita.imgPath}" />
+												<h:graphicImage value="/images/#{receita.imgPath}" style="width: 100%;" rendered="#{receita.imgPath != null}" />
+												<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receita.imgPath == null}" />
 												<figcaption><a href="recipe.html"><i class="icon icon-themeenergy_eye2"></i> <span>View recipe</span></a></figcaption>
 											</figure>
 											<div class="container">

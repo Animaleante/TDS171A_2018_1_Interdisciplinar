@@ -13,22 +13,28 @@
 	                    <div class="modal-soboru container">
 	                        <h3>Login</h3>
 	                        
-	                        <form class="form-horizontal" method="post" action="#{request.contextPath}/j_spring_security_check">
+	                        <form class="form-horizontal" id="formLogin" method="post" action="#{request.contextPath}/j_spring_security_check">
 	                        	<div class="f-row">
-									<input type="text" name="j_username"/>
+									<input id="email" type="text" name="j_username"/>
 	                        	</div>
 	                        	
 	                        	<div class="f-row">
-									<input type="text" name="j_password"/>
+									<input id="senha" type="password" name="j_password"/>
 	                        	</div>
+	                        	
+								<div class="f-row">
+									<div class="checker"><span><input type="checkbox" /></span></div>
+									<label>Remember me next time</label>
+								</div>
 	                        	
 	                            <div class="f-row bwrap">
-									<button type="submit" value="Log In"/>
+									<input type="submit" value="Log In" />
 	                            </div>
 	                        </form>
 	
 <!-- 	                        <p><a href="#">Esqueceu sua senha?</a></p> -->
 							<h:form>
+	                        	<p><h:commandLink action="#{registroBean.index()}" value="">Esqueceu sua senha?</h:commandLink></p>
 	                        	<p>Ainda não tem uma conta? <h:commandLink action="#{registroBean.index()}" value="">Se registre!</h:commandLink></p>
 	                        </h:form>
 	                    </div>

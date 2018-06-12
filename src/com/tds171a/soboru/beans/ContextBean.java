@@ -10,8 +10,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import cadastro.web.persistencia.usuario.PersistenciaUsuario;
-import cadastro.web.vo.usuario.Usuario;
+import com.tds171a.soboru.models.Usuario;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 /**
  * Classe de contexto para identificar o usuário logado.
@@ -59,17 +60,12 @@ public class ContextBean implements Serializable {
 
 		ExternalContext external = context.getExternalContext();
 
-		String login = external.getRemoteUser();
+		String email = external.getRemoteUser();
 
-		if (this.usuarioLogado == null
-				|| !login.equals(this.usuarioLogado.getLogin())) {
-
-			if (login != null) {
-
-				PersistenciaUsuario persistenciaUsuario = PersistenciaFactory
-						.getPersistenciaUsuarioFactory();
-
-				this.usuarioLogado = persistenciaUsuario.pesquisar(login);
+		if (this.usuarioLogado == null || !email.equals(this.usuarioLogado.getEmail())) {
+			if (email != null) {
+				UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+				this.usuarioLogado = usuarioPersistence.selecionarPorEmail(email);
 
 			}
 		}

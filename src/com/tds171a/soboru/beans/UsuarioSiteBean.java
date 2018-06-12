@@ -11,6 +11,7 @@ import javax.inject.Named;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.utils.ContextUtil;
 import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("usuarioSiteBean")
@@ -49,6 +50,22 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 		if(usuario != null)
 			return exibir(usuario);
 		return "/login/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
+	}
+	
+	public String exibirProprioPerfil() {
+		Usuario usuario = ContextUtil.getContextBean().getUsuarioLogado();
+		if(usuario != null) {
+			setModel(usuario);
+
+//			controller = PersistenceFactory.getUsuarioPersistenceFactory();
+//			ReceitaPersistence receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
+			
+//			setListaReceitas(receitaPersistence.selecionarPorUsuario(usuario.getId()));
+//			setListaFavoritos(receitaPersistence.selecionarPorFavoritosDeUsuario(usuario.getId()));
+			setListaReceitas(usuario.getReceitas());
+			setListaFavoritos(usuario.getReceitasFavoritadas());
+		}
+		return route_base+BeanBase.EXIBIR_PAGE+BeanBase.FACES_REDIRECT;
 	}
 	
 	/**

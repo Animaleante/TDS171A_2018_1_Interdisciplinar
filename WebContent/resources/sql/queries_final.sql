@@ -181,8 +181,8 @@ CREATE TABLE pontuacoes (
 
 ----------------------------------
 
-insert into roles(id, nome, is_admin) values(role_seq.NEXTVAL, 'Admin', 1);
-insert into roles(id, nome, is_admin) values(role_seq.NEXTVAL, 'Usuario', 0);
+insert into roles(id, nome, is_admin) values(role_seq.NEXTVAL, 'ROLE_ADMIN', 1);
+insert into roles(id, nome, is_admin) values(role_seq.NEXTVAL, 'ROLE_USUARIO', 0);
 
 insert into usuarios(id, nome, email, senha, nasc, sexo, id_role, notificacao_email, avatar_path, ativo) 
 	values(usuario_seq.NEXTVAL, 'Admin Teste', 'admin@teste.com', '123456', TO_DATE('28-02-1990', 'DD_MM_YYYY'), 3, 1, 1, null, 1);

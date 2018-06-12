@@ -94,4 +94,15 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable {
 		return null;
 	}
 
+	public Usuario selecionarPorEmail(String email) {
+		try {
+			return (Usuario) this.session.createCriteria(Usuario.class)
+					.add(Restrictions.eq("email", email))
+					.uniqueResult();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
