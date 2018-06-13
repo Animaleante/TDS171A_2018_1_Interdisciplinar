@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:util="http://java.sun.com/jsf/composite/components/util" 
 	template="/templates/_layout.xhtml">
 	<ui:define name="content">
 		<main class="main" role="main">
@@ -48,33 +49,7 @@
 									<c:forEach items="#{usuarioSiteBean.listaReceitas}" var="receita">
 										<!--item-->
 										<div class="entry one-third">
-											<figure>
-												<h:graphicImage value="/images/#{receita.imgPath}" style="width: 100%;" rendered="#{receita.imgPath != null}" />
-												<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receita.imgPath == null}" />
-												<figcaption>
-													<h:form>
-														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
-															<i class="icon icon-themeenergy_eye2"></i> <span>Ver receita</span>
-														</h:commandLink>
-													</h:form>
-												</figcaption>
-											</figure>
-											<div class="container">
-												<h2>
-													<h:form>
-														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
-															<h:outputText value="#{receita.nome}" />
-														</h:commandLink>
-													</h:form>
-												</h2> 
-												<div class="actions">
-													<div>
-														<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(receita.pontuacaoMedia)}" /></a></div>
-														<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.usuariosQueFavoritaram.size()}" /></a></div>
-														<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.comentarios.size()}" /></a></div>
-													</div>
-												</div>
-											</div>
+											<util:receitathumb receita="#{receita}" />
 										</div>
 										<!--item-->
 									</c:forEach>
@@ -89,33 +64,7 @@
 									<c:forEach items="#{usuarioSiteBean.listaFavoritos}" var="receita">
 										<!--item-->
 										<div class="entry one-third">
-											<figure>
-												<h:graphicImage value="/images/#{receita.imgPath}" style="width: 100%;" rendered="#{receita.imgPath != null}" />
-												<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receita.imgPath == null}" />
-												<figcaption>
-													<h:form>
-														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
-															<i class="icon icon-themeenergy_eye2"></i> <span>Ver receita</span>
-														</h:commandLink>
-													</h:form>
-												</figcaption>
-											</figure>
-											<div class="container">
-												<h2>
-													<h:form>
-														<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
-															<h:outputText value="#{receita.nome}" />
-														</h:commandLink>
-													</h:form>
-												</h2> 
-												<div class="actions">
-													<div>
-														<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(receita.pontuacaoMedia)}" /></a></div>
-														<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{receita.usuariosQueFavoritaram.size()}" /></a></div>
-														<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{receita.comentarios.size()}" /></a></div>
-													</div>
-												</div>
-											</div>
+											<util:receitathumb receita="#{receita}" />
 										</div>
 										<!--item-->
 									</c:forEach>

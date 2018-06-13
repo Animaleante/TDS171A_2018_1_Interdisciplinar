@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+	
+	<composite:interface>
+		<composite:attribute name="receita" />
+	</composite:interface>
+	
+	<composite:implementation>
+		<figure>
+			<h:graphicImage value="/images/#{cc.attrs.receita.imgPath}" style="width: 100%;" rendered="#{cc.attrs.receita.imgPath != null}" />
+			<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{cc.attrs.receita.imgPath == null}" />
+			<figcaption>
+				<h:form>
+					<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+						<i class="icon icon-themeenergy_eye2"></i> <span>Ver receita</span>
+					</h:commandLink>
+				</h:form>
+			</figcaption>
+		</figure>
+		<div class="container">
+			<h2>
+				<h:form>
+					<h:commandLink action="#{receitaSiteBean.exibir(receita)}" value="">
+						<h:outputText value="#{cc.attrs.receita.nome}" />
+					</h:commandLink>
+				</h:form>
+			</h2> 
+			<div class="actions">
+				<div>
+					<div class="score"><i class="fa fa-star"></i><a href="#"><h:outputText value="#{pesquisaBean.formatDouble(cc.attrs.receita.pontuacaoMedia)}" /></a></div>
+					<div class="likes"><i class="fa fa-heart"></i><a href="#"><h:outputText value="#{cc.attrs.receita.usuariosQueFavoritaram.size()}" /></a></div>
+					<div class="comments"><i class="fa fa-comment"></i><a href="#"><h:outputText value="#{cc.attrs.receita.comentarios.size()}" /></a></div>
+				</div>
+			</div>
+		</div>
+	</composite:implementation>
+</html>
