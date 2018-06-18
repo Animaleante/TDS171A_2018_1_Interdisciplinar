@@ -41,8 +41,8 @@
 							            <tbody>
 							            	<c:forEach items="#{pontuacaoBean.lista}" var="pontuacao">
 							                    <tr>
-							                        <td>#{pontuacao.receitaNome}</td>
-							                        <td>#{pontuacao.usuarioNome}</td>
+							                        <td>#{pontuacao.receita.nome}</td>
+							                        <td>#{pontuacao.usuario.nome}</td>
 							                        <td>#{pontuacao.qty}</td>
 							                        <td>
 														<h:form>

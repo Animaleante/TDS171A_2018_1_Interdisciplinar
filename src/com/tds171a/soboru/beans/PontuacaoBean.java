@@ -1,11 +1,14 @@
 package com.tds171a.soboru.beans;
 
+import java.util.Iterator;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.tds171a.soboru.models.Pontuacao;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("pontuacaoBean")
 @SessionScoped
@@ -27,6 +30,26 @@ public class PontuacaoBean extends BeanBase<Pontuacao> {
 		route_base = "/cadastro/pontuacao/";
 		setModel(new Pontuacao());
 	}
+	
+	@Override
+	public String listar() {
+		limparModel();
+		
+		controller = PersistenceFactory.getPontuacaoPersistenceFactory();
+
+		setLista(controller.listar());
+		
+		Iterator<Pontuacao> itr = getLista().iterator();
+		Pontuacao pontuacao;
+		while(itr.hasNext()) {
+			// Puta gambiarra - E aparentemente esse é um jeito normal de fazer isso...
+			pontuacao = itr.next();
+			pontuacao.getReceita();
+			pontuacao.getUsuario();
+		}
+
+		return getRoute(INDEX_PAGE);
+	}
 
 	/**
 	 * Override do método deletar
@@ -37,6 +60,8 @@ public class PontuacaoBean extends BeanBase<Pontuacao> {
 	public String deletar() {
         FacesContext context = FacesContext.getCurrentInstance();
 
+		controller = PersistenceFactory.getPontuacaoPersistenceFactory();
+		
         if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {
