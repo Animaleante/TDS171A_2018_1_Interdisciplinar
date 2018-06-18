@@ -40,6 +40,15 @@ public class UsuarioBean extends BeanBase<Usuario> {
 		route_base = "/cadastro/usuario/";
 		setModel(new Usuario());
 	}
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getUsuarioPersistenceFactory();
+    	return super.listar();
+    }
 
 	/**
 	 * Método GEt onde cria uma lista dos 

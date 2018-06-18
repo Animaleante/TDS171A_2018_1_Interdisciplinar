@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.tds171a.soboru.models.Ingrediente;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("ingredienteBean")
 @RequestScoped
@@ -31,6 +32,15 @@ public class IngredienteBean extends BeanBase<Ingrediente> {
 //		controller = new IngredienteController();
 		setModel(new Ingrediente());
 	}
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getIngredientePersistenceFactory();
+    	return super.listar();
+    }
 
 	/**
      * Override do deletar, onde verifica a sessao, 

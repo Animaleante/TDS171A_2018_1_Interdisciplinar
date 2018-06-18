@@ -33,6 +33,15 @@ public class RoleBean extends BeanBase<Role> {
 		controller = PersistenceFactory.getRolePersistenceFactory();
 		setModel(new Role());
 	}
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getRolePersistenceFactory();
+    	return super.listar();
+    }
 
 	/**
      * Override do deletar, onde verifica a sessao, 

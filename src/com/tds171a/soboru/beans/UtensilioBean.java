@@ -30,6 +30,15 @@ public class UtensilioBean extends BeanBase<Utensilio> {
         controller = PersistenceFactory.getUtensilioPersistenceFactory();
         setModel(new Utensilio());
     }
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getUtensilioPersistenceFactory();
+    	return super.listar();
+    }
 
     /**
      * Override do deletar, onde verifica a sessao, 
