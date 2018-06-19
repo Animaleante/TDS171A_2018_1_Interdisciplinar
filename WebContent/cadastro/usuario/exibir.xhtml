@@ -27,7 +27,7 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.id}
+	                            #{usuarioBean.model.id}
 	                        </dd>
 	                    </dl>
 	                    
@@ -37,7 +37,7 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.nome}
+	                            #{usuarioBean.model.nome}
 	                        </dd>
 	                    </dl>
 	                    
@@ -47,7 +47,7 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.email}
+	                            #{usuarioBean.model.email}
 	                        </dd>
 	                    </dl>
 	                    
@@ -57,7 +57,7 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.nasc}
+	                            #{usuarioBean.model.nasc}
 	                        </dd>
 	                    </dl>
 	                    
@@ -67,7 +67,7 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.sexo}
+	                            #{usuarioBean.model.sexo}
 	                        </dd>
 	                    </dl>
 	                    
@@ -77,7 +77,7 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.tipo}
+	                            #{usuarioBean.model.role.nome}
 	                        </dd>
 	                    </dl>
 	                    
@@ -87,14 +87,14 @@
 	                        </dt>
 	
 	                        <dd>
-	                            #{usuarioBean.vo.notificacaoEmail}
+	                            #{usuarioBean.model.notificacaoEmail}
 	                        </dd>
 	                    </dl>
 	
 	                    <div class="bwrap">
 							<h:form>
-								<h:commandButton action="#{usuarioBean.editar(usuarioBean.vo)}" value="Editar"></h:commandButton>
-									<h:commandButton immediate="true" action="#{usuarioBean.listar()}" value="Voltar" />
+								<h:commandButton action="#{usuarioBean.editar(usuarioBean.model)}" value="Editar"></h:commandButton>
+								<h:commandButton immediate="true" action="#{usuarioBean.listar()}" value="Voltar" />
 							</h:form>
 	                    </div>
 		            </section>

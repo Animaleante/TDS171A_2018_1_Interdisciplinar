@@ -28,7 +28,7 @@
 
 							<div class="f-row">
 							<h:message for="nome" errorClass="error"/>
-								<h:inputText id="nome" value="#{usuarioBean.vo.nome}" size="80"
+								<h:inputText id="nome" value="#{usuarioBean.model.nome}" size="80"
 									required="true" a:placeholder="Nome"
 									validatorMessage="Nome deve ter no máximo 80 caracteres"
 									requiredMessage="Nome é obrigatório">
@@ -38,7 +38,7 @@
 
 							<div class="f-row">
 							<h:message for="email" errorClass="error"/>
-								<h:inputText id="email" value="#{usuarioBean.vo.email}"
+								<h:inputText id="email" value="#{usuarioBean.model.email}"
 									required="true" a:placeholder="E-mail"
 									requiredMessage="E-mail é obrigatório">
 								</h:inputText>
@@ -46,7 +46,7 @@
 
 							<div class="f-row">
 							<h:message for="senha" errorClass="error"/>
-								<h:inputSecret id="senha" value="#{usuarioBean.vo.senha}"
+								<h:inputSecret id="senha" value="#{usuarioBean.model.senha}"
 									required="true" a:placeholder="Senha"
 									requiredMessage="Senha é obrigatório">
 								</h:inputSecret>
@@ -55,7 +55,7 @@
 							<div class="f-row">
 							<h:message for="senhaConfirmacao" errorClass="error"/>
 								<h:inputSecret id="senhaConfirmacao"
-									value="#{usuarioBean.vo.senhaConfirmacao}" required="true"
+									value="#{usuarioBean.model.senhaConfirmacao}" required="true"
 									a:placeholder="Repetir Senha"
 									requiredMessage="Confirmacao da Senha é obrigatório">
 								</h:inputSecret>
@@ -73,7 +73,7 @@
 							<div class="f-row">
 								<label>Sexo:</label>
 								<h:message for="sexo" errorClass="error"/>
-								<h:selectOneRadio value="#{usuarioBean.vo.sexo}" required="true">
+								<h:selectOneRadio value="#{usuarioBean.model.sexo}" required="true">
 									<f:selectItem itemValue="1" itemLabel="Feminino" />
 									<f:selectItem itemValue="2" itemLabel="Masculino" />
 									<f:selectItem itemValue="3" itemLabel="Indefinido" />
@@ -82,13 +82,13 @@
 
 							<div class="f-row">
 								<label> Receber notificações por e-mail: <h:selectBooleanCheckbox
-										value="#{usuarioBean.vo.notificacaoEmail}"></h:selectBooleanCheckbox>
+										value="#{usuarioBean.model.notificacaoEmail}"></h:selectBooleanCheckbox>
 								</label> 
 								</div>
 								<div class="f-row">
 								<div> 
-								<h:message for="#{usuarioBean.vo.role}" errorClass="error"/>
-									<h:selectOneMenu value="#{usuarioBean.vo.roleId}" required="true">
+								<h:message for="#{usuarioBean.model.role}" errorClass="error"/>
+									<h:selectOneMenu value="#{usuarioBean.model.roleId}" required="true">
 											<f:selectItem itemValue="0" itemLabel="Tipo do usuário" a:disabled="disabled" a:selected="selected"/>
 											<f:selectItems value="#{usuarioBean.roles}" />
 									</h:selectOneMenu>

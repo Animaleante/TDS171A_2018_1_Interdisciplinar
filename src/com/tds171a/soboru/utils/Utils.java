@@ -20,6 +20,11 @@ public class Utils {
 	private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
 	private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 	
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public static String toSlug(String input) {
 		String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
 		String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
@@ -36,6 +41,11 @@ public class Utils {
 		return dest;
 	}
 	
+	/**
+	 * 
+	 * @param num
+	 * @return
+	 */
 	public static String formatDouble(Double num) {
 		NumberFormat nf = new DecimalFormat("##.##");
 		return nf.format(num);
@@ -50,12 +60,23 @@ public class Utils {
 		return new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
 
+	/**
+	 * 
+	 * @param dataFormatoString
+	 * @return
+	 * @throws ParseException
+	 */
     public static Date formataData(String dataFormatoString) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
         return sdf.parse(dataFormatoString);
     }
 
+    /**
+     * 
+     * @param dataFormatoDate
+     * @return
+     */
     public static String formataData(Date dataFormatoDate) {
         return new SimpleDateFormat("dd/MM/yyyy EEE").format(dataFormatoDate);
     }

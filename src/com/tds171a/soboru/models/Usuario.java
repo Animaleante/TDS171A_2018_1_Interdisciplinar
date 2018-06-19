@@ -81,24 +81,26 @@ public class Usuario implements Serializable, Cloneable {
 
 	// REFERENCED IN FOREIGN KEYS --------------------------------------------------------------
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade= {CascadeType.REMOVE}, mappedBy="usuario")
+	@OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.REMOVE}, mappedBy="usuario")
 	private List<Receita> receitas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
 	@Where(clause="aprovado = 1")
 	private List<Receita> receitasAprovadas;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario", cascade=CascadeType.REMOVE)
 	private List<Pontuacao> pontuacoes;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario", cascade=CascadeType.REMOVE)
 	private List<Comentario> comentarios;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "reports", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
 	private List<Receita> receitasReportadas;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "receitas_fav", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
 	private List<Receita> receitasFavoritadas;
 

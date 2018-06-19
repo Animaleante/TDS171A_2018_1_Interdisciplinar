@@ -51,7 +51,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
     }
 
 	/**
-	 * Método GEt onde cria uma lista dos 
+	 * Método GET onde cria uma lista dos 
 	 * perfis de usuário disponíveis e
 	 * gera a tela de criação
 	 */
@@ -62,19 +62,6 @@ public class UsuarioBean extends BeanBase<Usuario> {
 		
 		setRoles(rolePersistence.listar());
 		return super.criar();
-	}
-	
-	/**
-	 * Cria uma lista de perfis disponíveis
-	 * e abre a tela de editar.
-	 */
-	@Override
-	public String editar(Usuario vo) {
-		controller = PersistenceFactory.getUsuarioPersistenceFactory();
-		RolePersistence rolePersistence = PersistenceFactory.getRolePersistenceFactory();
-		
-		setRoles(rolePersistence.listar());
-		return super.editar(vo);
 	}
 	/**
 	 * Método POST onde verifica os dados
@@ -116,6 +103,27 @@ public class UsuarioBean extends BeanBase<Usuario> {
 
 		return route_base + "index";
 	}
+	
+	/**
+	 * Cria uma lista de perfis disponíveis
+	 * e abre a tela de editar.
+	 */
+	@Override
+	public String editar(Usuario vo) {
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		RolePersistence rolePersistence = PersistenceFactory.getRolePersistenceFactory();
+		
+		setRoles(rolePersistence.listar());
+		return super.editar(vo);
+	}
+	
+	@Override
+	public String editar() {
+		// TODO - Arrumar puta gambiarra no cadastro/usuario/editar por causa da timezone
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		
+		return super.editar();
+	}
 
 	/**
 	 * Override do deletar, onde verifica a sessao, se existe um ítem válido e
@@ -142,6 +150,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 
 		return listar();
 	}
+	
 
 	/**
 	 * Verifica os dados da pagina de interação e se faltar algum dado informa
