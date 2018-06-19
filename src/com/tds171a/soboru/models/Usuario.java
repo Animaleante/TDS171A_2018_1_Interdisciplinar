@@ -73,6 +73,9 @@ public class Usuario implements Serializable, Cloneable {
 	@Transient
 	private String senhaConfirmacao;
 	
+	@Transient
+	private String dataNasc;
+	
 	// FOREIGN KEYS --------------------------------------------------------------
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -203,20 +206,6 @@ public class Usuario implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the senhaConfirmacao
-	 */
-	public String getSenhaConfirmacao() {
-		return senhaConfirmacao;
-	}
-
-	/**
-	 * @param senhaConfirmacao the senhaConfirmacao to set
-	 */
-	public void setSenhaConfirmacao(String senhaConfirmacao) {
-		this.senhaConfirmacao = senhaConfirmacao;
-	}
-
-	/**
 	 * @return the role
 	 */
 	public Role getRole() {
@@ -298,5 +287,33 @@ public class Usuario implements Serializable, Cloneable {
 	 */
 	public void setReceitasFavoritadas(List<Receita> receitasFavoritadas) {
 		this.receitasFavoritadas = receitasFavoritadas;
+	}
+
+	/**
+	 * @return the senhaConfirmacao
+	 */
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	/**
+	 * @param senhaConfirmacao the senhaConfirmacao to set
+	 */
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
+	}
+
+	/**
+	 * @return the dataNasc
+	 */
+	public String getDataNasc() {
+		return dataNasc;
+	}
+
+	/**
+	 * @param dataNasc the dataNasc to set
+	 */
+	public void setDataNasc(String dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 }

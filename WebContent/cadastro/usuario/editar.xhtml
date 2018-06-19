@@ -48,10 +48,10 @@
 								<h:message for="nasc" errorClass="error" />
 								
 								<br /> <label> Data de Nascimento: </label><br />
-								<h:inputText id="nasc" value="#{usuarioBean.model.nasc}" a:type="date"
+<!-- 								<h:inputText id="nasc" value="#{usuarioBean.model.nasc}" a:type="date" -->
+								<h:inputText id="nasc" value="#{usuarioBean.model.dataNasc}" a:type="date"
 									a:placeholder="Data de Nascimento" required="true"
 									requiredMessage="Data de Nascimento é obrigatória">
-									<f:convertDateTime pattern="yyyy-MM-dd" timeZone="GMT-3" />
 								</h:inputText>
 							</div>
 

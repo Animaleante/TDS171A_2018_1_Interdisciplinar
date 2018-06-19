@@ -110,6 +110,8 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 */
 	@Override
 	public String editar(Usuario vo) {
+		vo.setDataNasc(Utils.dateToOracleDate(vo.getNasc()));
+		
 		controller = PersistenceFactory.getUsuarioPersistenceFactory();
 		RolePersistence rolePersistence = PersistenceFactory.getRolePersistenceFactory();
 		
@@ -119,7 +121,13 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	
 	@Override
 	public String editar() {
-		// TODO - Arrumar puta gambiarra no cadastro/usuario/editar por causa da timezone
+		try {
+			getModel().setNasc(Utils.formataData(getModel().getDataNasc()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "";
+		}
+		
 		controller = PersistenceFactory.getUsuarioPersistenceFactory();
 		
 		return super.editar();
@@ -139,6 +147,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 		}
 
 		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		
 		if (controller.remover(getModel())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
