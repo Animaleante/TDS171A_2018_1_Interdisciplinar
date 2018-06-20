@@ -68,7 +68,7 @@
 										</div>
 										<div class="third">
 										<h:message for="categoria" errorClass="error"/><br/>
-											<h:selectOneMenu id="categoria" value="#{receitaBean.model.categoriaId}" required="true">
+											<h:selectOneMenu id="categoria" value="#{receitaBean.model.categoria.id}" required="true">
    												<f:selectItem itemValue="0" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
 												<f:selectItems value="#{receitaBean.categorias}" />
 											</h:selectOneMenu>

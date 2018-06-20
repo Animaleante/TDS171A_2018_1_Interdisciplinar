@@ -3,7 +3,6 @@ package com.tds171a.soboru.models;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -100,9 +99,14 @@ public class Receita implements Serializable, Cloneable {
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy = "receitasFavoritadas")
 	private List<Usuario> usuariosQueFavoritaram;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="receitas_utensilios", joinColumns={ @JoinColumn(name="id_receita") }, inverseJoinColumns={ @JoinColumn(name="id_utensilio") })
 	private List<Utensilio> utensilios;
+	
+	public Receita() {
+		categoria = new Categoria();
+		usuario = new Usuario();
+	}
 
 	/**
 	 * @return the id

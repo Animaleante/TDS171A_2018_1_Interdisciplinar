@@ -72,7 +72,7 @@ public class ReceitaBean extends BeanBase<Receita> {
 		
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
 		
-		setLista(((ReceitaPersistence) controller).listar());
+		setLista(((ReceitaPersistence) controller).listarAdmin());
 		return route_base + INDEX_PAGE + FACES_REDIRECT;
 	}
 
@@ -154,7 +154,13 @@ public class ReceitaBean extends BeanBase<Receita> {
 
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
 		
-		return super.editar(vo);
+		//return super.editar(vo);
+		
+		setModel(controller.selecionar(vo.getId()));
+		
+		System.out.println("id: " + getModel().getCategoria().getId());
+		
+		return getRoute(EDITAR_PAGE);
 	}
 
 	/**

@@ -62,6 +62,13 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 				.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Receita> listarAdmin() {
+		return this.session.createCriteria(Receita.class)
+				.addOrder(Order.asc("nome"))
+				.list();
+	}
+
 	@Override
 	public boolean atualizar(Receita model) {
 		try {

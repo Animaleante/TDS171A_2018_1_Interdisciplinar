@@ -60,7 +60,12 @@ public class ReceitaIngrediente implements Serializable, Cloneable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_receita")
 	private Receita receita;
-
+	
+	public ReceitaIngrediente() {
+		ingrediente = new Ingrediente();
+		medida = new Medida();
+	}
+	
 	/**
 	 * @return the id
 	 */

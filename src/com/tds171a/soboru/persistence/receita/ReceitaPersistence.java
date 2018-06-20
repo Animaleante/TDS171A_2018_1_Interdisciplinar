@@ -38,6 +38,10 @@ public class ReceitaPersistence implements IDAO<Receita> {
 		return dao.listar();
 	}
 
+	public List<Receita> listarAdmin() {
+		return dao.listarAdmin();
+	}
+
 	@Override
 	public boolean atualizar(Receita model) {
 		return dao.atualizar(model);
