@@ -183,6 +183,18 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		getModel().setUsuario(SessionContext.getInstance().getUsuarioLogado());
 		getModel().setAprovado(false);
 		
+		Iterator<ReceitaIngrediente> itr = listaIngredientes.iterator();
+		while(itr.hasNext()) {
+			if(itr.next().getId() == 0)
+				itr.remove();
+		}
+
+		Iterator<Utensilio> itr2 = listaUtensilios.iterator();
+		while(itr2.hasNext()) {
+			if(itr2.next().getId() == 0)
+				itr2.remove();
+		}
+		
 		getModel().setReceitaIngredientes(getListaIngredientes());
 		getModel().setUtensilios(getListaUtensilios());
 		
