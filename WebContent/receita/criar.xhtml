@@ -73,7 +73,7 @@
 										<div class="f-row ingredient">
 											<h:message for="ingrediente" errorClass="error"/>
 											<div class="large">
-												<h:selectOneMenu value="#{recIng.ingrediente.id}" required="true">
+												<h:selectOneMenu value="#{recIng.ingrediente.id}">
 													<f:selectItem itemValue="0"
 														itemLabel="Selecione o ingrediente" a:disabled="disabled"
 														a:selected="selected" />
@@ -90,7 +90,7 @@
 											</div>
 <!-- 											<div class="small" style="width:22%;"> -->
 											<div class="third">
-												<h:selectOneMenu value="#{recIng.medida.id}" required="true">
+												<h:selectOneMenu value="#{recIng.medida.id}">
 													<f:selectItem itemValue="0" itemLabel="Selecione a Medida"
 														a:disabled="disabled" a:selected="selected" />
 													<f:selectItems value="#{receitaSiteBean.medidas}" />

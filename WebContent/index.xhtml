@@ -41,12 +41,12 @@
 								</div>
 								<h:form>
 									<div class="f-row">
-										<h:inputText value="#{pesquisaBean.termoBusca}" a:placeholder="Entre com seu termo de busca" />
+										<h:inputText value="#{pesquisaBean.termoBuscaHome}" a:placeholder="Entre com seu termo de busca" />
 									</div>
 									
 									
 									<div class="f-row bwrap">
-										<h:commandButton action="#{pesquisaBean.pesquisar()}" value="Comece a cozinhar!" />
+										<h:commandButton action="#{pesquisaBean.pesquisar(pesquisaBean.termoBuscaHome)}" value="Comece a cozinhar!" />
 									</div>
 								</h:form>
 							</div>

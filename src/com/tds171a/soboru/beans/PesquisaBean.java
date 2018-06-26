@@ -51,6 +51,11 @@ public class PesquisaBean implements Serializable {
 	private String termoBusca;
 	
 	/**
+	 * Recebe os termos usados para pesquisar na home do site
+	 */
+	private String termoBuscaHome;
+	
+	/**
 	 * Recebe o id da categoria para pesquisar
 	 */
 	private int categoriaId;
@@ -133,6 +138,21 @@ public class PesquisaBean implements Serializable {
 	 */
 	public void remover(Ingrediente ingrediente) {
 		lista.remove(ingrediente);
+	}
+	
+	/**
+	 * Recebe a pesquisa vindo da home do site
+	 * @param termoBusca
+	 * @return
+	 */
+	public String pesquisar(String termoBusca) {
+		if(!getTermoBuscaHome().isEmpty()) {
+			setTermoBusca(getTermoBuscaHome());
+			setTermoBuscaHome("");
+			return pesquisar();
+		}
+		
+		return "";
 	}
 	
 	/**
@@ -281,6 +301,20 @@ public class PesquisaBean implements Serializable {
 	 */
 	public void setSerAdicionado(int serAdicionado) {
 		this.serAdicionado = serAdicionado;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getTermoBuscaHome() {
+		return termoBuscaHome;
+	}
+
+	/**
+	 * @param termoBuscaHome
+	 */
+	public void setTermoBuscaHome(String termoBuscaHome) {
+		this.termoBuscaHome = termoBuscaHome;
 	}
 
 }

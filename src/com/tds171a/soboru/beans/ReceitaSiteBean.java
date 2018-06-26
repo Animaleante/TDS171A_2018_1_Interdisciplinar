@@ -31,6 +31,7 @@ import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
 import com.tds171a.soboru.persistence.medida.MedidaPersistence;
 import com.tds171a.soboru.persistence.pontuacao.PontuacaoPersistence;
 import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.persistence.receitaingrediente.ReceitaIngredientePersistence;
 import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.persistence.utensilio.UtensilioPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
@@ -184,9 +185,13 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		getModel().setAprovado(false);
 		
 		Iterator<ReceitaIngrediente> itr = listaIngredientes.iterator();
+		ReceitaIngrediente ri = null;
 		while(itr.hasNext()) {
-			if(itr.next().getId() == 0)
+			ri = itr.next();
+			if(ri.getIngrediente().getId() == 0)
 				itr.remove();
+			else
+				ri.setReceita(getModel());
 		}
 
 		Iterator<Utensilio> itr2 = listaUtensilios.iterator();
@@ -204,6 +209,14 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		controller = PersistenceFactory.getReceitaPersistenceFactory();
 
 	    if(controller.incluir(getModel())) {
+	    	ReceitaIngredientePersistence receitaIngredientePersistence = PersistenceFactory.getReceitaIngredientePersistenceFactory();
+	    	itr = listaIngredientes.iterator();
+			ri = null;
+			while(itr.hasNext()) {
+				ri = itr.next();
+				receitaIngredientePersistence.incluir(ri);
+			}
+			
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
