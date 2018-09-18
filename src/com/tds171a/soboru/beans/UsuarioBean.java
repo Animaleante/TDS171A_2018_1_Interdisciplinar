@@ -13,7 +13,7 @@ import javax.inject.Named;
 
 import com.tds171a.soboru.models.Role;
 import com.tds171a.soboru.models.Usuario;
-import com.tds171a.soboru.persistence.role.RolePersistance;
+import com.tds171a.soboru.persistence.role.RolePersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
 
@@ -31,7 +31,6 @@ public class UsuarioBean extends BeanBase<Usuario> {
 
 	//Declaração de variáveis
 	private String nasc;
-	private RolePersistance rolePersistence;
 	private List<Role> roles;
 
 	/**
@@ -39,30 +38,30 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 */
 	public UsuarioBean() {
 		route_base = "/cadastro/usuario/";
-		controller = PersistenceFactory.getUsuarioPersistanceFactory();
-		rolePersistence = PersistenceFactory.getRolePersistanceFactory();
 		setModel(new Usuario());
 	}
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getUsuarioPersistenceFactory();
+    	return super.listar();
+    }
 
 	/**
-	 * Método GEt onde cria uma lista dos 
+	 * Método GET onde cria uma lista dos 
 	 * perfis de usuário disponíveis e
 	 * gera a tela de criação
 	 */
 	@Override
 	public String criar() {
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		RolePersistence rolePersistence = PersistenceFactory.getRolePersistenceFactory();
+		
 		setRoles(rolePersistence.listar());
 		return super.criar();
-	}
-	
-	/**
-	 * Cria uma lista de perfis disponíveis
-	 * e abre a tela de editar.
-	 */
-	@Override
-	public String editar(Usuario vo) {
-		setRoles(rolePersistence.listar());
-		return super.editar(vo);
 	}
 	/**
 	 * Método POST onde verifica os dados
@@ -75,6 +74,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senhas nao sao identicas!", null));
 		} else {
 			Date formattedDate;
+			
 			try {
 				formattedDate = Utils.formataData(getNasc());
 			} catch (ParseException e) {
@@ -85,10 +85,11 @@ public class UsuarioBean extends BeanBase<Usuario> {
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel registrar um usuario!", null));
 				return listar();
 			}
+			
 			getModel().setNasc(formattedDate);
 
+			controller = PersistenceFactory.getUsuarioPersistenceFactory();
 			if (controller.incluir(getModel())) {
-				
 				limparModel();
 
 				return listar();
@@ -101,6 +102,35 @@ public class UsuarioBean extends BeanBase<Usuario> {
 		}
 
 		return route_base + "index";
+	}
+	
+	/**
+	 * Cria uma lista de perfis disponíveis
+	 * e abre a tela de editar.
+	 */
+	@Override
+	public String editar(Usuario vo) {
+		vo.setDataNasc(Utils.dateToOracleDate(vo.getNasc()));
+		
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		RolePersistence rolePersistence = PersistenceFactory.getRolePersistenceFactory();
+		
+		setRoles(rolePersistence.listar());
+		return super.editar(vo);
+	}
+	
+	@Override
+	public String editar() {
+		try {
+			getModel().setNasc(Utils.formataData(getModel().getDataNasc()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "";
+		}
+		
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		
+		return super.editar();
 	}
 
 	/**
@@ -116,6 +146,8 @@ public class UsuarioBean extends BeanBase<Usuario> {
 			return route_base + CRIAR_PAGE;
 		}
 
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
+		
 		if (controller.remover(getModel())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
@@ -127,6 +159,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 
 		return listar();
 	}
+	
 
 	/**
 	 * Verifica os dados da pagina de interação e se faltar algum dado informa
@@ -149,7 +182,7 @@ public class UsuarioBean extends BeanBase<Usuario> {
 	 * interferencia de dados cadastrados anteriormente.
 	 */
 	@Override
-	public void limparModel() {		
+	public void limparModel() {
 	}
 
 	/**

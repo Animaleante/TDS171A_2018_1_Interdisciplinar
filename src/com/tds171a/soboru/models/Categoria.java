@@ -12,6 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
+import com.tds171a.soboru.utils.Utils;
+
 /**
  * Classe de ValueObject do Categoria
  * @author Diogo
@@ -65,7 +69,11 @@ public class Categoria implements Serializable, Cloneable {
 	@Column(name = "slug", length = 80, nullable = false)
     private String slug;
 	
+	/**
+	 * 
+	 */
 	@OneToMany(mappedBy="categoria")
+	@Where(clause = "aprovado=1")
 	private Set<Receita> receitas;
 
     /**
@@ -91,6 +99,8 @@ public class Categoria implements Serializable, Cloneable {
      */
     public void setNome(String nome) {
         this.nome = nome;
+        
+        this.setSlug(Utils.toSlug(this.nome));
     }
 
 	/**

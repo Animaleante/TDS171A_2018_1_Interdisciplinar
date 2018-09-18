@@ -19,7 +19,6 @@ import com.tds171a.soboru.models.Categoria;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
 import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
-import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
 
@@ -39,10 +38,13 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 * Instância da controller Categoria
 	 */
 	private CategoriaPersistence categoriaPersistence;
+	
 	/**
 	 * Intância da controller Usuario
 	 */
-	private UsuarioPersistence usuarioPersistence;
+//	private UsuarioPersistence usuarioPersistence;
+	
+	private List<Categoria> categorias;
 
 	/**
 	 * Variável que recebe o arquivo de imagem
@@ -56,8 +58,6 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	public ReceitaBean() {
 		route_base = "/cadastro/receita/";
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
-		usuarioPersistence = PersistenceFactory.getUsuarioPersistanceFactory();
 		setModel(new Receita());
 	}
 
@@ -68,9 +68,11 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String listar() {
-
 		limparModel();
-		setLista(((ReceitaPersistence) controller).listar());
+		
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
+		setLista(((ReceitaPersistence) controller).listarAdmin());
 		return route_base + INDEX_PAGE + FACES_REDIRECT;
 	}
 
@@ -81,6 +83,9 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String criar() {
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
+		
 		setCategorias(categoriaPersistence.listar());
 
 		return super.criar();
@@ -109,6 +114,8 @@ public class ReceitaBean extends BeanBase<Receita> {
 			return route_base + CRIAR_PAGE;
 		}
 
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+
 		return super.incluir();
 	}
 
@@ -118,12 +125,19 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String exibir(Receita vo) {
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
+//		usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+		
 		if (vo.getCategoria() == null)
-			vo.setCategoria(categoriaPersistence.selecionar(vo.getCategoriaId()));
+//			vo.setCategoria(categoriaPersistence.selecionar(vo.getCategoriaId()));
+			vo.setCategoria(vo.getCategoria());
 
 		if (vo.getUsuario() == null)
-			vo.setUsuario(usuarioPersistence.selecionar(vo.getUsuarioId()));
+//			vo.setUsuario(usuarioPersistence.selecionar(vo.getUsuarioId()));
+			vo.setUsuario(vo.getUsuario());
 
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
 		return super.exibir(vo);
 	}
 
@@ -134,10 +148,19 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String editar(Receita vo) {
+		categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
 
 		setCategorias(categoriaPersistence.listar());
 
-		return super.editar(vo);
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
+		//return super.editar(vo);
+		
+		setModel(controller.selecionar(vo.getId()));
+		
+		System.out.println("id: " + getModel().getCategoria().getId());
+		
+		return getRoute(EDITAR_PAGE);
 	}
 
 	/**
@@ -165,6 +188,9 @@ public class ReceitaBean extends BeanBase<Receita> {
 				return route_base + CRIAR_PAGE;
 			}
 		}
+
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
 		return super.editar();
 	}
 
@@ -180,6 +206,8 @@ public class ReceitaBean extends BeanBase<Receita> {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
 			return route_base + DELETAR_PAGE;
 		}
+
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
 
 		if (controller.remover(getModel())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
@@ -216,12 +244,11 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Receita());
 	}
 
 	public String isAprovado(Receita receita) {
-		if (!receita.getAprovado())
+		if (!receita.isAprovado())
 			return "Não";
 		return "Sim";
 	}
@@ -231,7 +258,8 @@ public class ReceitaBean extends BeanBase<Receita> {
 	 */
 	public List<SelectItem> getCategorias() {
 		List<SelectItem> items = new ArrayList<SelectItem>();
-		for (Categoria c : categoriaPersistence.listar()) {
+//		for (Categoria c : categoriaPersistence.listar()) {
+		for (Categoria c : categorias) {
 			items.add(new SelectItem(c.getId(), c.getNome()));
 		}
 		return items;

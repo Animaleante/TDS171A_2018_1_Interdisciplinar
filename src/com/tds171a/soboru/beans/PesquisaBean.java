@@ -2,6 +2,7 @@ package com.tds171a.soboru.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -35,21 +36,6 @@ public class PesquisaBean implements Serializable {
 	private static final String ROUTE_BASE = "/pesquisa/";
 	
 	/**
-	 * Controlador de Receita
-	 */
-	private ReceitaPersistence receitaPersistence;
-	
-	/**
-	 * Controlador de Ingrediente
-	 */
-	private IngredientePersistence ingredientePersistence;
-	
-	/**
-	 * Controlador de categoria
-	 */
-	private CategoriaPersistence categoriaPersistence;
-	
-	/**
 	 * Ingrediente a ser adicionado a pesquisa
 	 */
 	private int serAdicionado;
@@ -63,6 +49,11 @@ public class PesquisaBean implements Serializable {
 	 * Recebe os termos usados para pesquisar
 	 */
 	private String termoBusca;
+	
+	/**
+	 * Recebe os termos usados para pesquisar na home do site
+	 */
+	private String termoBuscaHome;
 	
 	/**
 	 * Recebe o id da categoria para pesquisar
@@ -90,17 +81,13 @@ public class PesquisaBean implements Serializable {
 	 * null
 	 */
 	public PesquisaBean() {
-		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
-		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
-		
 		setSerAdicionado(0);
 		setLista(new ArrayList<Ingrediente>());
 		setTermoBusca("");
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
-//		setListaIngredientes(ingredientePersistence.listar());
-//		setListaCategorias(categoriaPersistence.listar());
+		setListaIngredientes(new ArrayList<Ingrediente>());
+		setListaCategorias(new ArrayList<Categoria>());
 	}
 	
 	/**
@@ -115,8 +102,8 @@ public class PesquisaBean implements Serializable {
 		setCategoriaId(0);
 		setResultados(new ArrayList<Receita>());
 
-		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
+		IngredientePersistence ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
+		CategoriaPersistence categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
 		
 		setListaIngredientes(ingredientePersistence.listar());
 		setListaCategorias(categoriaPersistence.listar());
@@ -154,25 +141,50 @@ public class PesquisaBean implements Serializable {
 	}
 	
 	/**
+	 * Recebe a pesquisa vindo da home do site
+	 * @param termoBusca
+	 * @return
+	 */
+	public String pesquisar(String termoBusca) {
+		if(!getTermoBuscaHome().isEmpty()) {
+			setTermoBusca(getTermoBuscaHome());
+			setTermoBuscaHome("");
+			return pesquisar();
+		}
+		
+		return "";
+	}
+	
+	/**
 	 * Recebe os parâmetros para pesquisa
 	 * por nome e retorna a rota para a pesquisa.
 	 */
 	public String pesquisar() {
-		
 		setResultados(new ArrayList<Receita>());
 		if(serAdicionado != 0)
 			adicionar();
 
-		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
+		ReceitaPersistence receitaPersistence = PersistenceFactory.getReceitaPersistenceFactory();
 		
 		if(!getTermoBusca().isEmpty() && getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorNomeEIngredientes(getTermoBusca(), getLista()));
-		} else if(!getTermoBusca().isEmpty()) {
+		} 
+		else if(!getTermoBusca().isEmpty()) {
 			setResultados(receitaPersistence.selecionarPorNome(getTermoBusca()));
-		} else if(getLista().size() > 0) {
+		} 
+		else if(getLista().size() > 0) {
 			setResultados(receitaPersistence.selecionarPorIngredientes(getLista()));
 		}
-
+		
+		Iterator<Receita> itr = resultados.iterator();
+		Receita receita;
+		while(itr.hasNext()) {
+			// Puta gambiarra - E aparentemente esse é um jeito normal de fazer isso...
+			receita = itr.next();
+			receita.getComentarios().size();
+			receita.getUsuariosQueFavoritaram().size();
+		}
+		
 		return ROUTE_BASE+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
 	}
 	
@@ -289,6 +301,20 @@ public class PesquisaBean implements Serializable {
 	 */
 	public void setSerAdicionado(int serAdicionado) {
 		this.serAdicionado = serAdicionado;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getTermoBuscaHome() {
+		return termoBuscaHome;
+	}
+
+	/**
+	 * @param termoBuscaHome
+	 */
+	public void setTermoBuscaHome(String termoBuscaHome) {
+		this.termoBuscaHome = termoBuscaHome;
 	}
 
 }

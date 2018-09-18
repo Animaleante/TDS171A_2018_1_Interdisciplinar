@@ -1,5 +1,6 @@
 package com.tds171a.soboru.beans;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -9,10 +10,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.tds171a.soboru.models.Usuario;
-import com.tds171a.soboru.persistence.usuario.UsuarioPersistance;
+import com.tds171a.soboru.persistence.role.RolePersistence;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
-import java.io.Serializable;
 
 @Named("registroBean")
 @SessionScoped
@@ -35,7 +36,7 @@ public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 	/**
 	 * controller do usuário 
 	 */
-	private UsuarioPersistance controller;
+	private UsuarioPersistence controller;
 	
 	//Declaração de variáveis
 	private String nome;
@@ -89,15 +90,19 @@ public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 				return route_base + "index";
 			}
 			
-			controller = PersistenceFactory.getUsuarioPersistanceFactory();
-			return super. incluir();
+			controller = PersistenceFactory.getUsuarioPersistenceFactory();
 			
-		/*	usuario.setNome(nome);
+			RolePersistence rolePersistence = PersistenceFactory.getRolePersistenceFactory();
+			
+//			return super. incluir();
+
+			Usuario usuario = new Usuario();
+			usuario.setNome(nome);
 			usuario.setEmail(email);
 			usuario.setSenha(senha);
 			usuario.setNasc(formattedDate);
 			usuario.setSexo(sexo);
-			usuario.setRoleId(1);
+			usuario.setRole(rolePersistence.selecionar(2));
 			usuario.setNotificacaoEmail(notificacaoEmail);
 			
 			if(controller.incluir(usuario)) {
@@ -114,7 +119,7 @@ public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 				setSenha("");
 				setSenhaConfirmacao("");
 		        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel registrar um usuario!", null));
-			}*/
+			}
 		}
 		
 		return route_base + "index";
@@ -226,8 +231,7 @@ public class RegistroBean extends BeanBase<Usuario> implements Serializable {
 
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Usuario());
 	}
 
 }

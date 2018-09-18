@@ -28,7 +28,7 @@
 									<h:messages globalOnly="true" errorClass="error"/>
 									
 									<div class="f-row">
-					                        <h:inputText id="nome"  value="#{categoriaBean.vo.nome}" size="80"
+					                        <h:inputText id="nome"  value="#{categoriaBean.model.nome}" size="80"
 											             required="true" a:placeholder="Nome"
 											             validatorMessage="Nome deve ter no máximo 80 caracteres"
 											             requiredMessage="Nome é obrigatório">
@@ -39,12 +39,12 @@
 									<div class="f-row">
 		                                <label>
 		                                	É uma subcategoria:
-											<h:selectBooleanCheckbox value="#{categoriaBean.vo.selecionavel}" />
+											<h:selectBooleanCheckbox value="#{categoriaBean.model.selecionavel}" />
 		                                </label>
 				                    </div>
 				                    
 				                    <div class="f-row">
-										<h:selectOneMenu value="#{categoriaBean.vo.idSuperCategoria}">
+										<h:selectOneMenu value="#{categoriaBean.model.idSuperCategoria}">
   											<f:selectItem itemValue="0" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
 											<f:selectItems value="#{categoriaBean.categorias}" />
 										</h:selectOneMenu>

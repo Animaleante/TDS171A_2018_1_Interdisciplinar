@@ -17,7 +17,7 @@ import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
 import com.tds171a.soboru.utils.Utils;
 
-@Named("CategoriaBean")
+@Named("categoriaBean")
 @RequestScoped
 /**
  * Criação do bean herando de beanbase passando
@@ -34,16 +34,26 @@ public class CategoriaBean extends BeanBase<Categoria> {
      */
     
 
-	private List<Categoria> Categorias;
+	private List<Categoria> categorias;
 	
     /**
      *Construtor setando a rota e qual
      *será passado para o navegador.
      */
     public CategoriaBean() {
-    	route_base = "/cadastro/Categoria/";
+    	route_base = "/cadastro/categoria/";
         setModel(new Categoria());
     }
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getCategoriaPersistenceFactory();
+    	return super.listar();
+    }
+    
     /**
      * Override do método criar(GET)
      * efetuando cast da basecontroller para CategoriaController
@@ -51,11 +61,10 @@ public class CategoriaBean extends BeanBase<Categoria> {
      */
     @Override
     public String criar() {
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	setCategorias(((CategoriaPersistence) controller).listarGrupos());
 
-//    	return route_base + CRIAR_PAGE + FACES_REDIRECT;
-	    return route_base + CRIAR_PAGE;
+	    return getRoute(CRIAR_PAGE);
     }
     
     /**
@@ -70,7 +79,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     	if(!getModel().getSelecionavel())
     		getModel().setIdSuperCategoria(-1);
 
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	return super.incluir();
     }
     
@@ -81,7 +90,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
      */
     @Override
     public String editar(Categoria vo) {
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	setCategorias(((CategoriaPersistence) controller).listarGrupos());
     	
     	return super.editar(vo);
@@ -99,7 +108,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
     	if(!getModel().getSelecionavel())
     		getModel().setIdSuperCategoria(-1);
 
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
     	return super.editar();
     }
 
@@ -117,7 +126,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	        return route_base + CRIAR_PAGE;
 	    }
 
-        controller = PersistenceFactory.getCategoriaPersistanceFactory();
+        controller = PersistenceFactory.getCategoriaPersistenceFactory();
 		if(controller.remover(getModel())) {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 	    } else {
@@ -177,7 +186,7 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	 */
 	public List<SelectItem> getCategorias() {
 		List<SelectItem> items = new ArrayList<SelectItem>();
-	    for (Categoria c : this.Categorias) {
+	    for (Categoria c : this.categorias) {
 	        items.add(new SelectItem(c.getId(), c.getNome()));
 	    }
 	    return items;
@@ -187,6 +196,6 @@ public class CategoriaBean extends BeanBase<Categoria> {
 	 * @param Categorias the Categorias to set
 	 */
 	public void setCategorias(List<Categoria> Categorias) {
-		this.Categorias = Categorias;
+		this.categorias = Categorias;
 	}
 }

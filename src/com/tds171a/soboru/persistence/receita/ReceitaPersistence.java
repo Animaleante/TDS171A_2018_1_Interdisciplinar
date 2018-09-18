@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.IDAO;
 
 /**
@@ -37,6 +38,10 @@ public class ReceitaPersistence implements IDAO<Receita> {
 		return dao.listar();
 	}
 
+	public List<Receita> listarAdmin() {
+		return dao.listarAdmin();
+	}
+
 	@Override
 	public boolean atualizar(Receita model) {
 		return dao.atualizar(model);
@@ -62,6 +67,30 @@ public class ReceitaPersistence implements IDAO<Receita> {
 
 	public List<Receita> selecionarPorIngredientes(List<Ingrediente> lista) {
 		return dao.selecionarPorIngredientes(lista);
+	}
+
+	public List<Receita> selecionarPorUsuario(int userId) {
+		return dao.selecionarPorUsuario(userId);
+	}
+
+	public List<Receita> selecionarPorFavoritosDeUsuario(int userId) {
+		return dao.selecionarPorFavoritosDeUsuario(userId);
+	}
+
+	public boolean receitaJaFoiReportada(Receita model, Usuario usuario) {
+		return dao.receitaJaFoiReportada(model, usuario);
+	}
+
+	public boolean receitaJaFoiPontuada(Receita model, Usuario usuario) {
+		return dao.receitaJaFoiPontuada(model, usuario);
+	}
+
+	public Double pegarPontuacaoDadaSeExistir(Receita model, Usuario usuario) {
+		return dao.pegarPontuacaoDadaSeExistir(model, usuario);
+	}
+
+	public boolean receitaFavoritada(Receita model, Usuario usuario) {
+		return dao.receitaFavoritada(model, usuario);
 	}
 
 }

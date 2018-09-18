@@ -7,10 +7,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import com.tds171a.soboru.models.Login;
-import com.tds171a.soboru.persistence.login.LoginPersistence;
+import com.tds171a.soboru.models.Usuario;
+import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
-import com.tds171a.soboru.utils.Utils;
 
 @ManagedBean(eager = true)
 @SessionScoped
@@ -41,6 +40,11 @@ public class LoginBean implements Serializable {
 	private String senha;
 
 	/**
+	 * Instancia de persistencia de Usuario
+	 */
+	private UsuarioPersistence controller;
+
+	/**
 	 * contrutor que cria um novo usuário controller
 	 * para manipulação dos dados.
 	 */
@@ -65,7 +69,7 @@ public class LoginBean implements Serializable {
 	 */
 	public String login() {
 		
-		controller = PersistenceFactory.getLoginPersistanceFactory();
+		controller = PersistenceFactory.getUsuarioPersistenceFactory();
 		Usuario usuario = controller.loginUsuario(getEmail(), getSenha());
 		
 		if(usuario == null) {

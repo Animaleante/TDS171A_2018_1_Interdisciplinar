@@ -49,7 +49,7 @@ public class PontuacaoDAO implements IDAO<Pontuacao>, Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Pontuacao> listar() {
-		return this.session.createCriteria(Pontuacao.class).addOrder(Order.asc("nome")).list();
+		return this.session.createCriteria(Pontuacao.class).addOrder(Order.asc("receita.id")).list();
 	}
 
 	@Override

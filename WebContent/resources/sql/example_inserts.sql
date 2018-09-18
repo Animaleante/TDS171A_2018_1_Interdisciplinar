@@ -78,25 +78,25 @@ insert into categorias values(categoria_seq.NEXTVAL, 'Petit gateau', 2, 1, 'Peti
 --receitas
 --insert into receitas values (receita_seq.NEXTVAL, 'NOME RECEITA', 2, 1, 2, 2, 'Modo de Preparo', null, 0, 0, 0, 'receita1', 1);
 
-insert into receitas (id, nome, id_categoria, id_usuario, porcao, tempo_preparo, modo_preparo, img_path, pontuacao_media, views, favs, slug, aprovado) 
+insert into receitas (id, nome, id_categoria, id_usuario, porcao, tempo_preparo, modo_preparo, img_path, pontuacao_media, views, slug, aprovado) 
 values (receita_seq.NEXTVAL, 'Arroz de Lentilha', 4, 1, 5, 20, 'Numa panela com água fervente em fogo médio coloque a lentilha, tempere com sal, tampe a panela e cozinhe por 20 minutos.
 <br/> Escorra a lentilha, reserve a água do cozimento e a lentilha.
 <br/> Depois de refogar bem o alho no azeite e o arroz, tempere com sal, coloque a água do cozimento da lentilha, tampe a panela e cozinhe por +/- 15 minutos.
-<br/> Depois misture o arroz cozido com a lentilha cozida e reserve.', null, 0, 0, 0, 'arroz-de-lentilha', 1);
+<br/> Depois misture o arroz cozido com a lentilha cozida e reserve.', null, 0, 0, 'arroz-de-lentilha', 1);
 
 insert into receitas values (receita_seq.NEXTVAL, 'Cebola Frita', 3, 1, 3, 19, 'Com uma faca afiada corte as cebolas em fatias bem finas e seque bem com um papel absorvente.
 Numa tigela com a farinha de trigo tempere com sal a gosto, passe as fatias de cebola nessa mistura, retire o excesso de farinha de trigo e frite as fatias em óleo quente até dourar.
-Retire do óleo com a ajuda de uma escumadeira e coloque em papel absorvente.', null, 0, 0, 0, 'cebola-frita', 1);
+Retire do óleo com a ajuda de uma escumadeira e coloque em papel absorvente.', null, 0, 0, 'cebola-frita', 1);
 
 insert into receitas values (receita_seq.NEXTVAL, 'Torta a Portuguesa', 2, 1, 5, 160, 'Misture numa tigela ¼ xícara (chá) de azeite, ¼ xícara (chá) de pimentão verde bem picadinho, ¼ xícara (chá) de cebola picada, 1 colher (sopa) de pimenta dedo-de-moça sem semente picadinha, 2 ovos, 1 xícara (chá) de muçarela ralada no ralo grosso, ½ copo de iogurte natural e salsinha picadinha a gosto. Adicione 1 xícara (chá) de farinha de trigo, ½ colher (sopa) de sal, ½ colher (sopa) de fermento em pó e mexa bem.
 Espalhe a massa numa forma para pizza redonda (30 cm de diâmetro) untada com manteiga e enfarinhada. Leve para assar em forno pré-aquecido a 200° C por 15 minutos.
 Retire do forno e sobre a massa assada distribua muçarela ralada no ralo grosso, rodelas de tomate, fatias de ovo cozido, linguiça calabresa refogada e fatiada e azeitona verde fatiada a gosto. Regue o azeite e leve ao forno a 200° C por 15 minutos ou até derreter o queijo. Retire do forno e sirva em seguida.',
-null, 0, 0, 0, 'torta-a-portuguesa', 1);
+null, 0, 0, 'torta-a-portuguesa', 1);
 
 insert into receitas values (receita_seq.NEXTVAL, 'Petit gateau de queijo', 6, 1, 1, 80, 'Misture o queijo com o cream cheese, o parmesão, a manteiga, os ovos e as gemas e leve ao banho-maria, mexendo sempre, até ficar homogêneo.
 Fora do fogo, acrescente a farinha e sal a gosto e misture bem até obter um creme. Cubra com filme plástico e leve à geladeira por no mínimo 1 hora.
 Distribua em forminhas de petit gâteau ou de empada untadas com manteiga, sem encher totalmente, e leve ao forno quente preaquecido (250°C) por 7 a 10 minutos ou até a borda ficar firme e o centro, molinho. 
-Desenforme e sirva em seguida.', null, 0, 0, 0, 'petit-gateau-de-queijo', 1);
+Desenforme e sirva em seguida.', null, 0, 0, 'petit-gateau-de-queijo', 1);
 
 --receitasIngredientes
 --insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, ID_RECEITA, ID_INGREDIENTE, ID_MEDIDA, 'SUB-SESSAO', QUANTIDADE);
@@ -144,6 +144,15 @@ insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 24,
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 8, 8, null, 2);
 insert into receitas_ingredientes values(receita_ingrediente_seq.NEXTVAL, 4, 6, 5, null, 0);
 
+--receitas com utensilios
+--insert into receitas_utensilios values(1, 1)
+insert into receitas_utensilios values(1, 1);
+insert into receitas_utensilios values(1, 2);
+
+insert into receitas_utensilios values(2, 2);
+insert into receitas_utensilios values(2, 3);
+insert into receitas_utensilios values(2, 5);
+
 --comentarios
 --insert into comentarios values(comentario_seq.NEXTVAL, ID_RECEITA, ID_USUARIO, 'BODY');
 insert into comentarios values(comentario_seq.NEXTVAL, 1, 2, 'Isso � um coment�rio de teste!');
@@ -152,7 +161,9 @@ insert into comentarios values(comentario_seq.NEXTVAL, 2, 2, 'Qualquer besteira 
 --pontuacoes
 --insert into pontuacoes values(ID_RECEITA, ID_USUARIO, QTY);
 insert into pontuacoes values(1, 2, 3);
+update receitas set pontuacao_media = 3 where id = 1;
 insert into pontuacoes values(2, 2, 5);
+update receitas set pontuacao_media = 5 where id = 2;
 
 --reports
 --insert into reports values(ID_USUARIO, ID_RECEITA);

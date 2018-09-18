@@ -14,7 +14,10 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
 
 import com.tds171a.soboru.models.Ingrediente;
+import com.tds171a.soboru.models.Pontuacao;
+import com.tds171a.soboru.models.PontuacaoId;
 import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.Usuario;
 import com.tds171a.soboru.persistence.IDAO;
 
 /**
@@ -55,6 +58,13 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 	public List<Receita> listar() {
 		return this.session.createCriteria(Receita.class)
 				.add(Restrictions.eq("aprovado", true))
+				.addOrder(Order.asc("nome"))
+				.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Receita> listarAdmin() {
+		return this.session.createCriteria(Receita.class)
 				.addOrder(Order.asc("nome"))
 				.list();
 	}
@@ -107,11 +117,17 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<Receita> selecionarPorNome(String termoBusca) {
-		return this.session.createCriteria(Receita.class)
+		try {
+			return this.session.createCriteria(Receita.class)
 				.add(Restrictions.eq("aprovado", true))
-			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING) )
+			    .add(Restrictions.sqlRestriction("lower({alias}.nome) like lower(?)", "%"+termoBusca+"%", StandardBasicTypes.STRING))
 				.addOrder(Order.asc("nome"))
 				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -130,4 +146,85 @@ public class ReceitaDAO implements IDAO<Receita>, Serializable {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorUsuario(int userId) {
+		try {
+			return this.session.createCriteria(Receita.class)
+				.add(Restrictions.eq("aprovado", true))
+				.add(Restrictions.sqlRestriction("id_usuario = " + userId))
+				.addOrder(Order.asc("nome"))
+				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Receita> selecionarPorFavoritosDeUsuario(int userId) {
+		try {
+			return this.session.createCriteria(Receita.class, "receita")
+				.createAlias("receita.usuariosQueFavoritaram", "usuarioQueFavoritou")
+				.add(Restrictions.eq("usuarioQueFavoritou.id", userId))
+				.add(Restrictions.eq("aprovado", true))
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+				.list();
+		} catch(HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public boolean receitaJaFoiReportada(Receita model, Usuario usuario) {
+		Object result = this.session.createSQLQuery("select * from reports where id_receita = :idReceita and id_usuario = :idUsuario")
+				.addScalar("id_receita", StandardBasicTypes.LONG)
+				.addScalar("id_usuario", StandardBasicTypes.LONG)
+				.setInteger("idReceita", model.getId())
+				.setInteger("idUsuario", usuario.getId())
+				.uniqueResult();
+		if(result != null) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	public boolean receitaJaFoiPontuada(Receita model, Usuario usuario) {
+		Object result = this.session.createSQLQuery("select * from pontuacoes where id_receita = :idReceita and id_usuario = :idUsuario")
+				.addScalar("id_receita", StandardBasicTypes.LONG)
+				.addScalar("id_usuario", StandardBasicTypes.LONG)
+				.setInteger("idReceita", model.getId())
+				.setInteger("idUsuario", usuario.getId())
+				.uniqueResult();
+		if(result != null) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	public Double pegarPontuacaoDadaSeExistir(Receita model, Usuario usuario) {
+		Pontuacao pontuacao = (Pontuacao) this.session.get(Pontuacao.class, new PontuacaoId(model.getId(), usuario.getId()));
+		if(pontuacao != null) {
+			return pontuacao.getQty();
+		}
+		
+		return null;
+	}
+
+	public boolean receitaFavoritada(Receita model, Usuario usuario) {
+		Object result = this.session.createSQLQuery("select * from receitas_fav where id_receita = :idReceita and id_usuario = :idUsuario")
+				.addScalar("id_receita", StandardBasicTypes.LONG)
+				.addScalar("id_usuario", StandardBasicTypes.LONG)
+				.setInteger("idReceita", model.getId())
+				.setInteger("idUsuario", usuario.getId())
+				.uniqueResult();
+		if(result != null) {
+			return true;
+		}
+		
+		return false;
+	}
 }

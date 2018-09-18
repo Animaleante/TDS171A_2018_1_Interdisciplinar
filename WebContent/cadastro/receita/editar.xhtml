@@ -32,7 +32,7 @@
 									<div class="f-row full">
 		                                <label>
 		                                	<strong>Aprovado  </strong>
-		                                    <h:selectBooleanCheckbox value="#{receitaBean.vo.aprovado}"></h:selectBooleanCheckbox>
+		                                    <h:selectBooleanCheckbox value="#{receitaBean.model.aprovado}"></h:selectBooleanCheckbox>
 		                                </label>
 									</div>
 								</section>
@@ -40,7 +40,7 @@
 									<div class="f-row">
 					                    <div class="full">
 					                    <h:message for="nome" errorClass="error"/><br/>
-					                        <h:inputText id="nome"  value="#{receitaBean.vo.nome}" size="80"
+					                        <h:inputText id="nome"  value="#{receitaBean.model.nome}" size="80"
 											             required="true" a:placeholder="Nome da Receita"
 											             validatorMessage="Nome deve ter no máximo 80 caracteres"
 											             requiredMessage="Nome é obrigatório">
@@ -52,7 +52,7 @@
 				                    <div class="f-row">
 										<div class="third">
 										<h:message for="tempo_preparo" errorClass="error"/><br/>
-					                        <h:inputText id="tempo_preparo"  value="#{receitaBean.vo.tempoPreparo}" size="80"
+					                        <h:inputText id="tempo_preparo"  value="#{receitaBean.model.tempoPreparo}" size="80"
 											             required="true" a:placeholder="Tempo de preparo"
 											             validatorMessage="Nome deve ter no máximo 80 caracteres"
 											             requiredMessage="Tempo de preparo é obrigatório">
@@ -61,14 +61,14 @@
 										</div>
 										<div class="third">
 										<h:message for="porcao" errorClass="error"/><br/>
-					                        <h:inputText id="porcao"  value="#{receitaBean.vo.porcao}" size="80"
+					                        <h:inputText id="porcao"  value="#{receitaBean.model.porcao}" size="80"
 											             required="true" a:placeholder="Serve quantas porções?"
 											             requiredMessage="Número de porções é obrigatório">
 											</h:inputText>
 										</div>
 										<div class="third">
 										<h:message for="categoria" errorClass="error"/><br/>
-											<h:selectOneMenu id="categoria" value="#{receitaBean.vo.categoriaId}" required="true">
+											<h:selectOneMenu id="categoria" value="#{receitaBean.model.categoria.id}" required="true">
    												<f:selectItem itemValue="0" itemLabel="Selecione uma categoria" a:disabled="disabled" a:selected="selected"/>
 												<f:selectItems value="#{receitaBean.categorias}" />
 											</h:selectOneMenu>
@@ -83,7 +83,7 @@
 									<div class="full">
 										<div class="f-row instruction">
 											<h:message for="modo_preparo" errorClass="error"/><br/>
-											<h:inputTextarea id="modo_preparo" value="#{receitaBean.vo.modoPreparo}"
+											<h:inputTextarea id="modo_preparo" value="#{receitaBean.model.modoPreparo}"
 											validatorMessage="Modo de preparo não pode ser vazio">
 												<f:validateLength minimum="1"></f:validateLength>
 											</h:inputTextarea>
@@ -99,7 +99,7 @@
 										<br/>
 										<br/>
 										<br/>
-										<h:graphicImage class="imgreceita" value="/images/#{receitaBean.vo.imgPath}" rendered="#{receitaBean.vo.imgPath != null}" />
+										<h:graphicImage class="imgreceita" value="/images/#{receitaBean.model.imgPath}" rendered="#{receitaBean.model.imgPath != null}" />
 									</div>
 								</section>
 								

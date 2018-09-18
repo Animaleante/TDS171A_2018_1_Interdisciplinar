@@ -30,9 +30,18 @@ public class RoleBean extends BeanBase<Role> {
      */
 	public RoleBean() {
 		route_base = "/cadastro/role/";
-		controller = PersistenceFactory.getRolePersistanceFactory();
+		controller = PersistenceFactory.getRolePersistenceFactory();
 		setModel(new Role());
 	}
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getRolePersistenceFactory();
+    	return super.listar();
+    }
 
 	/**
      * Override do deletar, onde verifica a sessao, 

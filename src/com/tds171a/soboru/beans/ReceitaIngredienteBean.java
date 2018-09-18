@@ -11,14 +11,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-import com.tds171a.soboru.controllers.IngredienteController;
-import com.tds171a.soboru.controllers.MedidaController;
-import com.tds171a.soboru.controllers.ReceitaController;
-import com.tds171a.soboru.controllers.ReceitaIngredienteController;
-import com.tds171a.soboru.vos.Ingrediente;
-import com.tds171a.soboru.vos.Medida;
-import com.tds171a.soboru.vos.Receita;
-import com.tds171a.soboru.vos.ReceitaIngrediente;
+import com.tds171a.soboru.models.Ingrediente;
+import com.tds171a.soboru.models.Medida;
+import com.tds171a.soboru.models.Receita;
+import com.tds171a.soboru.models.ReceitaIngrediente;
 
 @Named("receitaIngredienteBean")
 @SessionScoped
@@ -38,10 +34,6 @@ public class ReceitaIngredienteBean implements Serializable {
 	 * utilizadas no bean.
 	 */
 	private Receita receita;
-	private ReceitaController receitaController;
-	private IngredienteController ingredienteController;
-	private MedidaController medidaController;
-	private ReceitaIngredienteController receitaIngredienteController;
 	private List<ReceitaIngrediente> lista;
 	private List<Ingrediente> listaIngredientes;
 	private List<Medida> listaMedidas;
@@ -51,10 +43,6 @@ public class ReceitaIngredienteBean implements Serializable {
 	 * que serão utilizadas, além das listas.
 	 */
 	public ReceitaIngredienteBean() {
-		receitaController = new ReceitaController();
-		ingredienteController = new IngredienteController();
-		medidaController = new MedidaController();
-		receitaIngredienteController = new ReceitaIngredienteController();
 		setLista(new ArrayList<ReceitaIngrediente>());
 		setListaIngredientes(new ArrayList<Ingrediente>());
 		setListaMedidas(new ArrayList<Medida>());
@@ -68,10 +56,10 @@ public class ReceitaIngredienteBean implements Serializable {
 	 * @return
 	 */
 	public String criar(int receitaId) {
-		setReceita(receitaController.selecionar(receitaId));
-		setLista(receitaController.listarIngredientes(getReceita()));
-		setListaIngredientes(ingredienteController.listar());
-		setListaMedidas(medidaController.listar());
+//		setReceita(receitaController.selecionar(receitaId));
+//		setLista(receitaController.listarIngredientes(getReceita()));
+//		setListaIngredientes(ingredienteController.listar());
+//		setListaMedidas(medidaController.listar());
 
 		return "/cadastro/receita-ingrediente/criar?faces-redirect=true";
 	}
@@ -99,7 +87,7 @@ public class ReceitaIngredienteBean implements Serializable {
 	 * @return
 	 */
 	public String salvar() {
-		receitaIngredienteController.incluirLista(getReceita().getId(), getLista());
+//		receitaIngredienteController.incluirLista(getReceita().getId(), getLista());
 		return "/cadastro/receita/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
 	}
 

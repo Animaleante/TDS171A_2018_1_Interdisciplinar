@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -15,11 +16,11 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
-import com.tds171a.soboru.controllers.ReceitaIngredientePersistence;
 import com.tds171a.soboru.models.Categoria;
 import com.tds171a.soboru.models.Comentario;
 import com.tds171a.soboru.models.Ingrediente;
 import com.tds171a.soboru.models.Medida;
+import com.tds171a.soboru.models.Pontuacao;
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.ReceitaIngrediente;
 import com.tds171a.soboru.models.Usuario;
@@ -28,7 +29,9 @@ import com.tds171a.soboru.persistence.categoria.CategoriaPersistence;
 import com.tds171a.soboru.persistence.comentario.ComentarioPersistence;
 import com.tds171a.soboru.persistence.ingrediente.IngredientePersistence;
 import com.tds171a.soboru.persistence.medida.MedidaPersistence;
+import com.tds171a.soboru.persistence.pontuacao.PontuacaoPersistence;
 import com.tds171a.soboru.persistence.receita.ReceitaPersistence;
+import com.tds171a.soboru.persistence.receitaingrediente.ReceitaIngredientePersistence;
 import com.tds171a.soboru.persistence.usuario.UsuarioPersistence;
 import com.tds171a.soboru.persistence.utensilio.UtensilioPersistence;
 import com.tds171a.soboru.utils.PersistenceFactory;
@@ -47,15 +50,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	private static final long serialVersionUID = -5362181648251196256L;
 	
-	//Declaração das variáveis e controllers utilizadas.
-	private CategoriaPersistence categoriaPersistence;
-	private UsuarioPersistence usuarioPersistence;
-	private IngredientePersistence ingredientePersistence;
-	private MedidaPersistence medidaPersistence;
-	private ReceitaIngredientePersistence receitaIngredientePersistence;
-	private UtensilioPersistence utensilioPersistence;
-	private ComentarioPersistence comentarioPersistence;
-	
 	//Definição das listas utilizadas.
 	private List<ReceitaIngrediente> listaIngredientes;
 	private List<Utensilio> listaUtensilios;
@@ -67,6 +61,11 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	
 	private Comentario comentario;
 	
+	private boolean reportou = false;
+	private boolean pontuou = false;
+	private Double pontuacaoDada = null;
+	private boolean favoritou = false;
+	
 	/**
 	 * Variável de manipulação de imagem.
 	 */
@@ -77,15 +76,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public ReceitaSiteBean() {
 		route_base = "/receita/";
-		controller = PersistenceFactory.getReceitaPersistanceFactory();
-
-		categoriaPersistence = PersistenceFactory.getCategoriaPersistanceFactory();
-		usuarioPersistence = PersistenceFactory.getUsuarioPersistanceFactory();
-		ingredientePersistence = PersistenceFactory.getIngredientePersistanceFactory();
-		medidaPersistence = PersistenceFactory.getMedidaPersistanceFactory();
-		receitaIngredientePersistence = PersistenceFactory.getReceitaIngredientePersistanceFactory();
-		utensilioPersistence = PersistenceFactory.getUtensilioPersistanceFactory();
-		comentarioPersistence = PersistenceFactory.getComentarioPersistanceFactory();
 
 		setModel(new Receita());
 		
@@ -95,6 +85,25 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		
 		setComentario(new Comentario());
 	}
+	
+	@Override
+	public String listar() {
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
+		setLista(controller.listar());
+		
+		Iterator<Receita> itr = getLista().iterator();
+		Receita receita;
+		while(itr.hasNext()) {
+			// Puta gambiarra - E aparentemente esse é um jeito normal de fazer isso...
+			receita = itr.next();
+			receita.getComentarios().size();
+			receita.getUsuariosQueFavoritaram().size();
+		}
+
+//		return route_base + INDEX_PAGE;
+		return getRoute(INDEX_PAGE);
+	}
 
 	/**
 	 * recebe listas de controllers especificas para passar ao cliente e ele
@@ -102,14 +111,20 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String criar() {
-		if(SessionContext.getInstance().isLogado()) {
-			setCategorias(categoriaPersistence.listarSelecionaveis());
-			setIngredientes(ingredientePersistence.listar());
-			setMedidas(medidaPersistence.listar());
-			setUtensilios(utensilioPersistence.listar());
-			return super.criar();
-		}
-		return "/login/"+BeanBase.INDEX_PAGE+BeanBase.FACES_REDIRECT;
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		CategoriaPersistence categoriaPersistence = PersistenceFactory.getCategoriaPersistenceFactory();
+		IngredientePersistence ingredientePersistence = PersistenceFactory.getIngredientePersistenceFactory();
+		MedidaPersistence medidaPersistence = PersistenceFactory.getMedidaPersistenceFactory();
+		UtensilioPersistence utensilioPersistence = PersistenceFactory.getUtensilioPersistenceFactory();
+		
+		setCategorias(categoriaPersistence.listarSelecionaveis());
+		setIngredientes(ingredientePersistence.listar());
+		setMedidas(medidaPersistence.listar());
+		setUtensilios(utensilioPersistence.listar());
+		
+		return super.criar();
 	}
 
 	/**
@@ -118,7 +133,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public void adicionarReceitaIngrediente() {
 		listaIngredientes.add(new ReceitaIngrediente());
-		
 	}
 
 	/**
@@ -135,7 +149,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public void adicionarUtensilio() {
 		listaUtensilios.add(new Utensilio());
-		
 	}
 
 	/**
@@ -152,11 +165,10 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String incluir() {
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
 		FacesContext context = FacesContext.getCurrentInstance();
-
-		getModel().setUsuarioId(SessionContext.getInstance().getUsuarioLogado().getId());
-		getModel().setSlug(Utils.toSlug(getModel().getNome()));
-		getModel().setAprovado(false);
 
 		try (InputStream input = imgFile.getInputStream()) {
 			File file = File.createTempFile("receita_", ".jpg", Utils.getImagerDir());
@@ -166,26 +178,49 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro ao tentar fazer upload da imagem: " + e.getMessage(), null));
-			return route_base + CRIAR_PAGE;
+			return getRoute(CRIAR_PAGE);
+		}
+
+		getModel().setUsuario(SessionContext.getInstance().getUsuarioLogado());
+		getModel().setAprovado(false);
+		
+		Iterator<ReceitaIngrediente> itr = listaIngredientes.iterator();
+		ReceitaIngrediente ri = null;
+		while(itr.hasNext()) {
+			ri = itr.next();
+			if(ri.getIngrediente().getId() == 0)
+				itr.remove();
+			else
+				ri.setReceita(getModel());
+		}
+
+		Iterator<Utensilio> itr2 = listaUtensilios.iterator();
+		while(itr2.hasNext()) {
+			if(itr2.next().getId() == 0)
+				itr2.remove();
 		}
 		
+		getModel().setReceitaIngredientes(getListaIngredientes());
+		getModel().setUtensilios(getListaUtensilios());
+		
 	    if(!validarDados())
-	    	return route_base + CRIAR_PAGE;
+	    	return getRoute(CRIAR_PAGE);
+
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
 
 	    if(controller.incluir(getModel())) {
-	    	try {
-		    	int receitaId = ((ReceitaPersistence) controller).selecionarUltimoIdInserido();
-		    	System.out.println("ReceitaId: " + receitaId);
-				receitaIngredientePersistence.incluirLista(receitaId, getListaIngredientes());
-				((ReceitaPersistence) controller).registrarUtensilios(receitaId, getListaUtensilios());
-	    	} catch (Exception e) {
-				e.printStackTrace();
+	    	ReceitaIngredientePersistence receitaIngredientePersistence = PersistenceFactory.getReceitaIngredientePersistenceFactory();
+	    	itr = listaIngredientes.iterator();
+			ri = null;
+			while(itr.hasNext()) {
+				ri = itr.next();
+				receitaIngredientePersistence.incluir(ri);
 			}
 			
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
 	    } else {
 	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
-            return route_base + CRIAR_PAGE;
+            return getRoute(CRIAR_PAGE);
 	    }
 
 	    limparModel();
@@ -198,34 +233,35 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 * receita ao cliente.
 	 */
 	@Override
-	public String exibir(Receita vo) {
-		vo = controller.selecionar(vo.getId());
-
-		if (vo.getCategoria() == null)
-			vo.setCategoria(categoriaPersistence.selecionar(vo.getCategoriaId()));
-
-		if (vo.getUsuario() == null)
-			vo.setUsuario(usuarioPersistence.selecionar(vo.getUsuarioId()));
-			
-		if (vo.getUtensilios() == null)
- 			vo.setUtensilios(utensilioPersistence.selecionarPorReceita(vo.getId()));
- 
- 		if (vo.getReceitaIngredientes() == null)
- 			vo.setReceitaIngredientes(receitaIngredientePersistence.selecionarPorReceita(vo.getId()));
- 
- 		if (vo.getComentarios() == null)
- 			vo.setComentarios(comentarioPersistence.selecionarPorReceita(vo.getId()));
-
-		if (vo.getUsuariosFavoritaram() == null)
-			vo.setUsuariosFavoritaram(usuarioPersistence.selecionarUsuariosQueFavoritaram(vo.getId()));
+	public String exibir(Receita receita) {
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
+		receita = controller.selecionar(receita.getId());
+		
+		receita.getCategoria();
+		receita.getUsuario();
+		receita.getUtensilios();
+		receita.getReceitaIngredientes();
+		receita.getComentarios();
+		receita.getUsuariosQueFavoritaram();
 
 		if (SessionContext.getInstance().isLogado()) {
 			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
-			vo.setReportou(usuarioPersistence.reportou(usuario.getId(), vo.getId()));
-			vo.setPontuou(usuarioPersistence.pontuou(usuario.getId(), vo.getId()));	
+			
+//			setReportou(receita.getUsuariosQueReportaram().contains(usuario)); // Ja resolve?
+			setReportou(((ReceitaPersistence) controller).receitaJaFoiReportada(receita, usuario));
+			
+//			setPontuou(((ReceitaPersistence) controller).receitaJaFoiPontuada(receita, usuario));
+			setPontuacaoDada(((ReceitaPersistence) controller).pegarPontuacaoDadaSeExistir(receita, usuario));
+			setPontuou(pontuacaoDada != null);
+			
+//			setFavoritou(receita.getUsuariosQueFavoritaram().contains(usuario)); // Ja resolve?
+			setFavoritou(((ReceitaPersistence) controller).receitaFavoritada(receita, usuario));
 		}
 		
-		return super.exibir(vo);
+		// TODO - Aumentar o numero de visualizações dessa receita no banco
+		
+		return super.exibir(receita);
 	}
 
 	/**
@@ -234,23 +270,140 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	@Override
 	public String deletar() {
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if (getModel().getId() == -1) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Item nao pode ser vazio!", null));
-			return route_base + DELETAR_PAGE;
+			return getRoute(DELETAR_PAGE);
+		}
+		
+		if(getModel().getUsuario() != SessionContext.getInstance().getUsuarioLogado()) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario não pode deletar receita que não foi criada por ele!", null));
+			return getRoute(DELETAR_PAGE);
 		}
 
-		if (controller.remover(getModel().getId())) {
+		controller = PersistenceFactory.getReceitaPersistenceFactory();
+		
+		if (controller.remover(getModel())) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletado com sucesso!", null));
 		} else {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel deletar.", null));
-			return route_base + DELETAR_PAGE;
+			return getRoute(DELETAR_PAGE);
 		}
 
 		limparModel();
 
 		return listar();
+	}
+	
+	/**
+	 * Método que inclui um novo comentario nessa receita com o usuario logado
+	 * @return
+	 */
+	public String incluirComentario() {
+		getComentario().setUsuario(SessionContext.getInstance().getUsuarioLogado());
+		getComentario().setReceita(getModel());
+
+//		FacesContext context = FacesContext.getCurrentInstance();
+		
+		ComentarioPersistence comentarioPersistence = PersistenceFactory.getComentarioPersistenceFactory();
+
+	    if(comentarioPersistence.incluir(getComentario())) {
+	    	getModel().getComentarios().add(getComentario());
+		    setComentario(new Comentario());
+//	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
+	    } else {
+//	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
+//			return exibir(getModel());
+	    }
+		
+//		return exibir(getModel());
+		return super.exibir(getModel());
+	}
+
+	/**
+	 * Método verifica se
+	 * usuário está logado e favorita a receita
+	 * no perfil 
+	 * @return
+	 */
+	public String favoritar() {
+		if (!SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+		Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
+		
+		if(!isFavoritou()) {
+			usuario.getReceitasFavoritadas().add(getModel());
+			getModel().getUsuariosQueFavoritaram().add(usuario);
+		} else {
+			usuario.getReceitasFavoritadas().remove(getModel());
+			getModel().getUsuariosQueFavoritaram().remove(usuario);
+		}
+		
+		usuarioPersistence.atualizar(usuario);
+
+//		return exibir(getModel());
+		return super.exibir(getModel());
+	}
+
+	/**
+	 * Método que verifica o usuário logado
+	 * e cria um report.
+	 * @return
+	 */
+	public String reportar() {
+		if (SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		if(!isReportou()) {
+			UsuarioPersistence usuarioPersistence = PersistenceFactory.getUsuarioPersistenceFactory();
+			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
+			
+			usuario.getReceitasReportadas().add(getModel());
+			getModel().getUsuariosQueReportaram().add(usuario);
+			
+			usuarioPersistence.atualizar(usuario);
+		} else {
+			// TODO - Informar usuario que ele ja reportou, ou verificar pq o botao de reportar estava disponivel se ele ja reportou essa receita
+		}
+		
+//		return exibir(getModel());
+		return super.exibir(getModel());
+	}
+
+	/**
+	 * Método que verifica o ponto dado pelo cliente e 
+	 * soma na média da receita.
+	 * @param pontos
+	 * @return
+	 */
+	public String pontuar(int pontos) {
+		if (SessionContext.getInstance().isLogado())
+			return "/login/" + INDEX_PAGE + FACES_REDIRECT;
+		
+		if(!isPontuou()) {
+			Usuario usuario = SessionContext.getInstance().getUsuarioLogado();
+
+			Pontuacao pontuacao = new Pontuacao();
+			pontuacao.setReceita(getModel());
+			pontuacao.setUsuario(usuario);
+			
+			PontuacaoPersistence pontuacaoPersistence = PersistenceFactory.getPontuacaoPersistenceFactory();
+			pontuacaoPersistence.incluir(pontuacao);
+			
+			getModel().getPontuacoes().add(pontuacao);
+			usuario.getPontuacoes().add(pontuacao);
+		} else {
+			// TODO - Informar que usuario ja pontuou essa receita, ou verificar pq o botao de pontuar estava disponivel se ele ja pontuou essa receita
+		}
+		
+//		return exibir(getModel());
+		return super.exibir(getModel());
 	}
 
 	/**
@@ -265,6 +418,8 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nome nao pode ser vazio!", null));
 			return false;
 		}
+		
+		// TODO - O que mais precisa ser validado na receita?
 
 		return true;
 	}
@@ -280,104 +435,6 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 		adicionarReceitaIngrediente();
 		setListaUtensilios(new ArrayList<Utensilio>());
 		adicionarUtensilio();
-	}
-	
-	/**
-	 * Método que inclui um novo comentario nessa receita com o usuario logado
-	 * @param receitaId
-	 * @return
-	 */
-	public String incluirComentario(int receitaId) {
-		getComentario().setUsuarioId(SessionContext.getInstance().getUsuarioLogado().getId());
-		getComentario().setReceitaId(getModel().getId());
-
-//		FacesContext context = FacesContext.getCurrentInstance();
-
-	    if(comentarioPersistence.incluir(getComentario())) {
-		    setComentario(new Comentario());
-//	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com sucesso!", null));
-	    } else {
-//	        context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel fazer o cadastro!", null));
-//			return exibir(getModel());
-	    }
-	    
-//	    setComentario(new Comentario());
-		
-		return exibir(getModel());
-	}
-
-	/**
-	 * Método verifica se
-	 * usuário está logado e favorita a receita
-	 * no perfil 
-	 * @return
-	 */
-	public String favoritar() {
-		if (SessionContext.getInstance().isLogado()) {
-			if(!isReceitaFavoritada()) {
-				((ReceitaPersistence) controller).incluirFavorito(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
-				getModel().getUsuariosFavoritaram().add(SessionContext.getInstance().getUsuarioLogado());
-			} else {
-				((ReceitaPersistence) controller).removerFavorito(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
-				// TODO - check if this is working
-				getModel().getUsuariosFavoritaram().remove(SessionContext.getInstance().getUsuarioLogado());
-			}
-
-			return exibir(getModel());
-		}
-
-		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
-	}
-
-	/**
-	 * Método que verifica o usuário logado
-	 * e cria um report.
-	 * @return
-	 */
-	public String reportar() {
-		if (SessionContext.getInstance().isLogado()) {
-			((ReceitaPersistence) controller).incluirReport(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId());
-			return exibir(getModel());
-		}
-
-		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
-	}
-
-	/**
-	 * Método que verifica o ponto dado pelo cliente e 
-	 * soma na média da receita.
-	 * @param pontos
-	 * @return
-	 */
-	public String pontuar(int pontos) {
-		if (SessionContext.getInstance().isLogado()) {
-			((ReceitaPersistence) controller).incluirPontuacao(getModel().getId(), SessionContext.getInstance().getUsuarioLogado().getId(), pontos);
-			return exibir(getModel());
-		}
-
-		return "/login/" + INDEX_PAGE + FACES_REDIRECT;
-	}
-	
-	/**
-	 * Método verifica se a receita apresentada
-	 * esá favoritada e retorna verdadeiro ou falso.
-	 * @return
-	 */
-	public boolean isReceitaFavoritada() {
-		if(SessionContext.getInstance().isLogado()) {
-			boolean favoritada = false;
-			int usuarioLogadoId = SessionContext.getInstance().getUsuarioLogado().getId();
-			List<Usuario> usuariosFavoritaram = getModel().getUsuariosFavoritaram();
-			for (int i = 0; i < getModel().getUsuariosFavoritaram().size(); i++) {
-				if(usuariosFavoritaram.get(i).getId() == usuarioLogadoId) {
-					favoritada = true;
-					break;
-				}
-			}
-			
-			return favoritada;
-		}
-		return false;
 	}
 	
 	/**
@@ -519,5 +576,61 @@ public class ReceitaSiteBean extends BeanBase<Receita> {
 	 */
 	public void setComentario(Comentario comentario) {
 		this.comentario = comentario;
+	}
+
+	/**
+	 * @return the reportou
+	 */
+	public boolean isReportou() {
+		return reportou;
+	}
+
+	/**
+	 * @param reportou the reportou to set
+	 */
+	public void setReportou(boolean reportou) {
+		this.reportou = reportou;
+	}
+
+	/**
+	 * @return the pontuou
+	 */
+	public boolean isPontuou() {
+		return pontuou;
+	}
+
+	/**
+	 * @param pontuou the pontuou to set
+	 */
+	public void setPontuou(boolean pontuou) {
+		this.pontuou = pontuou;
+	}
+
+	/**
+	 * @return the favoritou
+	 */
+	public boolean isFavoritou() {
+		return favoritou;
+	}
+
+	/**
+	 * @param favoritou the favoritou to set
+	 */
+	public void setFavoritou(boolean favoritou) {
+		this.favoritou = favoritou;
+	}
+
+	/**
+	 * @return the pontuacaoDada
+	 */
+	public Double getPontuacaoDada() {
+		return pontuacaoDada;
+	}
+
+	/**
+	 * @param pontuacaoDada the pontuacaoDada to set
+	 */
+	public void setPontuacaoDada(Double pontuacaoDada) {
+		this.pontuacaoDada = pontuacaoDada;
 	}
 }

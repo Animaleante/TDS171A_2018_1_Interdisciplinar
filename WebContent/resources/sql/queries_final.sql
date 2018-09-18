@@ -99,7 +99,7 @@ CREATE TABLE receitas (
     img_path VARCHAR2(80),
     pontuacao_media DECIMAL(5,2) NOT NULL,
     views NUMBER(11) NOT NULL,
-    favs NUMBER(11) NOT NULL,
+    -- favs NUMBER(11) NOT NULL,
     slug VARCHAR2(80) NOT NULL,
     aprovado NUMBER(1) NOT NULL,
     CONSTRAINT receita_pk PRIMARY KEY (id),

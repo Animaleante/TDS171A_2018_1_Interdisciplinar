@@ -21,7 +21,6 @@ public class UtensilioDAO implements IDAO<Utensilio>, Serializable {
 
 	public UtensilioDAO(Session session) {
 		this.session = session;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

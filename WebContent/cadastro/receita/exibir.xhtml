@@ -23,27 +23,27 @@
 		            <section class="content full-width">
 		                <dl class="basic">
 	                        <dt>ID</dt>
-	                        <dd>#{receitaBean.vo.id}</dd>
+	                        <dd>#{receitaBean.model.id}</dd>
 	                    </dl>
 	                    
 		                <dl class="basic">
 	                        <dt>Nome</dt>
-	                        <dd>#{receitaBean.vo.nome}</dd>
+	                        <dd>#{receitaBean.model.nome}</dd>
 	                    </dl>
 	                    
 		                <dl class="basic">
 	                        <dt>Usuário</dt>
-	                        <dd>#{receitaBean.vo.usuario.nome}</dd>
+	                        <dd>#{receitaBean.model.usuario.nome}</dd>
 	                    </dl>
 	                    
 		                <dl class="basic">
 	                        <dt>Categoria</dt>
-	                        <dd>#{receitaBean.vo.categoria.nome}</dd>
+	                        <dd>#{receitaBean.model.categoria.nome}</dd>
 	                    </dl>
 	
 	                    <div class="bwrap">
 							<h:form>
-								<h:commandButton action="#{receitaBean.editar(receitaBean.vo)}" value="Editar"></h:commandButton>
+								<h:commandButton action="#{receitaBean.editar(receitaBean.model)}" value="Editar"></h:commandButton>
 								<h:commandButton immediate="true" action="#{receitaBean.listar()}" value="Voltar" />
 							</h:form>
 	                    </div>

@@ -2,7 +2,7 @@ package com.tds171a.soboru.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +20,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Where;
 
 /**
  * 
@@ -67,32 +70,42 @@ public class Usuario implements Serializable, Cloneable {
 	@Column(name = "NOTIFICACAO_EMAIL", precision = 1, nullable = false)
 	private boolean notificacaoEmail;
 	
+	@Transient
 	private String senhaConfirmacao;
+	
+	@Transient
+	private String dataNasc;
 	
 	// FOREIGN KEYS --------------------------------------------------------------
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_role")
 	private Role role;
 
 	// REFERENCED IN FOREIGN KEYS --------------------------------------------------------------
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-	private Set<Receita> receitas;
+	@OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.REMOVE}, mappedBy="usuario")
+	private List<Receita> receitas;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-	private Set<Pontuacao> pontuacoes;
+	@Where(clause="aprovado = 1")
+	private List<Receita> receitasAprovadas;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-	private Set<Comentario> comentarios;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario", cascade=CascadeType.REMOVE)
+	private List<Pontuacao> pontuacoes;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario", cascade=CascadeType.REMOVE)
+	private List<Comentario> comentarios;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "reports", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
-	private Set<Receita> receitasReportadas;
+	private List<Receita> receitasReportadas;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "receitas_fav", joinColumns = { @JoinColumn(name = "id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "id_receita") })
-	private Set<Receita> receitasFavoritadas;
+	private List<Receita> receitasFavoritadas;
 
 	/**
 	 * @return the id
@@ -193,20 +206,6 @@ public class Usuario implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return the senhaConfirmacao
-	 */
-	public String getSenhaConfirmacao() {
-		return senhaConfirmacao;
-	}
-
-	/**
-	 * @param senhaConfirmacao the senhaConfirmacao to set
-	 */
-	public void setSenhaConfirmacao(String senhaConfirmacao) {
-		this.senhaConfirmacao = senhaConfirmacao;
-	}
-
-	/**
 	 * @return the role
 	 */
 	public Role getRole() {
@@ -223,70 +222,98 @@ public class Usuario implements Serializable, Cloneable {
 	/**
 	 * @return the receitas
 	 */
-	public Set<Receita> getReceitas() {
+	public List<Receita> getReceitas() {
 		return receitas;
 	}
 
 	/**
 	 * @param receitas the receitas to set
 	 */
-	public void setReceitas(Set<Receita> receitas) {
+	public void setReceitas(List<Receita> receitas) {
 		this.receitas = receitas;
 	}
 
 	/**
 	 * @return the pontuacoes
 	 */
-	public Set<Pontuacao> getPontuacoes() {
+	public List<Pontuacao> getPontuacoes() {
 		return pontuacoes;
 	}
 
 	/**
 	 * @param pontuacoes the pontuacoes to set
 	 */
-	public void setPontuacoes(Set<Pontuacao> pontuacoes) {
+	public void setPontuacoes(List<Pontuacao> pontuacoes) {
 		this.pontuacoes = pontuacoes;
 	}
 
 	/**
 	 * @return the comentarios
 	 */
-	public Set<Comentario> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
 	/**
 	 * @param comentarios the comentarios to set
 	 */
-	public void setComentarios(Set<Comentario> comentarios) {
+	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 
 	/**
 	 * @return the receitasReportadas
 	 */
-	public Set<Receita> getReceitasReportadas() {
+	public List<Receita> getReceitasReportadas() {
 		return receitasReportadas;
 	}
 
 	/**
 	 * @param receitasReportadas the receitasReportadas to set
 	 */
-	public void setReceitasReportadas(Set<Receita> receitasReportadas) {
+	public void setReceitasReportadas(List<Receita> receitasReportadas) {
 		this.receitasReportadas = receitasReportadas;
 	}
 
 	/**
 	 * @return the receitasFavoritadas
 	 */
-	public Set<Receita> getReceitasFavoritadas() {
+	public List<Receita> getReceitasFavoritadas() {
 		return receitasFavoritadas;
 	}
 
 	/**
 	 * @param receitasFavoritadas the receitasFavoritadas to set
 	 */
-	public void setReceitasFavoritadas(Set<Receita> receitasFavoritadas) {
+	public void setReceitasFavoritadas(List<Receita> receitasFavoritadas) {
 		this.receitasFavoritadas = receitasFavoritadas;
+	}
+
+	/**
+	 * @return the senhaConfirmacao
+	 */
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	/**
+	 * @param senhaConfirmacao the senhaConfirmacao to set
+	 */
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
+	}
+
+	/**
+	 * @return the dataNasc
+	 */
+	public String getDataNasc() {
+		return dataNasc;
+	}
+
+	/**
+	 * @param dataNasc the dataNasc to set
+	 */
+	public void setDataNasc(String dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 }

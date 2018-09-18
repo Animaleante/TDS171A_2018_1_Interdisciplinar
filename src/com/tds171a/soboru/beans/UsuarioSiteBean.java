@@ -10,8 +10,6 @@ import javax.inject.Named;
 
 import com.tds171a.soboru.models.Receita;
 import com.tds171a.soboru.models.Usuario;
-import com.tds171a.soboru.persistence.receita.ReceitaPersistance;
-import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("usuarioSiteBean")
 @SessionScoped
@@ -27,7 +25,6 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	private static final long serialVersionUID = 9063625419454028906L;
 	
 	//Declaração de variáveis.
-	private ReceitaPersistance receitaPersistence;
 	private List<Receita> listaReceitas;
 	private List<Receita> listaFavoritos;
 
@@ -36,9 +33,6 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 */
 	public UsuarioSiteBean() {
 		route_base = "/usuario/";
-		controller = PersistenceFactory.getUsuarioPersistanceFactory();
-		
-		receitaPersistence = PersistenceFactory.getReceitaPersistanceFactory();
 		
 		setModel(new Usuario());
 	}
@@ -60,13 +54,13 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 * Passando o tipo de usuário e os dados.
 	 */
 	@Override
-	public String exibir(Usuario vo) {
-		vo = controller.selecionar(vo.getId());
+	public String exibir(Usuario usuario) {
+		setModel(controller.selecionar(usuario.getId()));
+
+		setListaReceitas(getModel().getReceitas());
+		setListaFavoritos(getModel().getReceitasFavoritadas());
 		
-		setListaReceitas(receitaPersistence.selecionarPorUsuario(vo.getId()));
-		setListaFavoritos(receitaPersistence.selecionarPorFavoritosDeUsuario(vo.getId()));
-		
-		return super.exibir(vo);
+		return super.exibir(getModel());
 	}
 
 	/**
@@ -85,8 +79,7 @@ public class UsuarioSiteBean extends BeanBase<Usuario> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Usuario());
 	}
 
 	/**

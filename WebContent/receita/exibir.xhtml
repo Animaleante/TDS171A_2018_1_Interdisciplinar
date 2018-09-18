@@ -15,7 +15,7 @@
 						<li><a href="index.html" title="Home">Home</a></li>
 						<li><a href="#" title="Receitas">Receitas</a></li>
 						<li><h:commandLink action="#"
-								value="#{receitaSiteBean.vo.categoria.nome}" /></li>
+								value="#{receitaSiteBean.model.categoria.nome}" /></li>
 						<li>Recipe</li>
 					</ul>
 				</h:form>
@@ -26,7 +26,7 @@
 			<div class="row">
 				<header class="s-title">
 					<h1>
-						<h:outputText value="#{receitaSiteBean.vo.nome}" />
+						<h:outputText value="#{receitaSiteBean.model.nome}" />
 					</h1>
 				</header>
 				<!--content-->
@@ -38,14 +38,14 @@
 							<article class="two-third">
 								<div class="image">
 									<a href="#">
-										<h:graphicImage value="/images/#{receitaSiteBean.vo.imgPath}" style="width: 100%;" rendered="#{receitaSiteBean.vo.imgPath != null}" />
-										<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receitaSiteBean.vo.imgPath == null}" />
+										<h:graphicImage value="/images/#{receitaSiteBean.model.imgPath}" style="width: 100%;" rendered="#{receitaSiteBean.model.imgPath != null}" />
+										<h:graphicImage value="http://via.placeholder.com/640x480" style="width: 100%;" rendered="#{receitaSiteBean.model.imgPath == null}" />
 									</a>
 								</div>
 								<div class="instructions">
 									<ol>
 										<li>
-											<h:outputText value="#{receitaSiteBean.vo.modoPreparo}" />
+											<h:outputText value="#{receitaSiteBean.model.modoPreparo}" />
 										</li>
 									</ol>
 								</div>
@@ -57,39 +57,40 @@
 								<dl class="basic">
 									<dt>Tempo de preparo</dt>
 									<dd>
-										<h:outputText value="#{receitaSiteBean.formatDouble(receitaSiteBean.vo.tempoPreparo)}" /> hora<c:if test="#{receitaSiteBean.vo.tempoPreparo > 1}">s</c:if>
+										<h:outputText value="#{receitaSiteBean.formatDouble(receitaSiteBean.model.tempoPreparo)}" /> hora<c:if test="#{receitaSiteBean.model.tempoPreparo > 1}">s</c:if>
 									</dd>
 									<dt>Serve</dt>
 									<dd>
-										<h:outputText value="#{receitaSiteBean.vo.porcao}" /> pessoa<c:if test="#{receitaSiteBean.vo.porcao>1}">s</c:if>
+										<h:outputText value="#{receitaSiteBean.model.porcao}" /> pessoa<c:if test="#{receitaSiteBean.model.porcao>1}">s</c:if>
 									</dd>
 								</dl>
 
 								<dl class="user">
 									<dt>Categoria</dt>
 									<dd>
-										<h:outputText value="#{receitaSiteBean.vo.categoria.nome}" />
+										<h:outputText value="#{receitaSiteBean.model.categoria.nome}" />
 									</dd>
 									<dt>Postada por</dt>
 									<dd>
 										<h:form>
-											<h:commandLink
-												action="#{usuarioSiteBean.exibir(receitaSiteBean.vo.usuario)}">
-												<h:outputText value="#{receitaSiteBean.vo.usuario.nome}" />
+											<h:commandLink action="#{usuarioSiteBean.exibir(receitaSiteBean.model.usuario)}">
+												<h:outputText value="#{receitaSiteBean.model.usuario.nome}" />
 											</h:commandLink>
 										</h:form>
 									</dd>
 								</dl>
 
 								<dl class="ingredients">
-									<c:forEach items="#{receitaSiteBean.vo.receitaIngredientes}"
+									<c:forEach items="#{receitaSiteBean.model.receitaIngredientes}"
 										var="receitaIngrediente">
 										<dd>
 											<h:outputText value="#{receitaIngrediente.ingrediente.nome}" />
 										</dd>
 										<dt>
-											<c:if test="#{receitaIngrediente.qty > 0}"><h:outputText value="#{receitaSiteBean.formatDouble(receitaIngrediente.qty)}" />
-											<span> </span></c:if>
+											<c:if test="#{receitaIngrediente.qty > 0}">
+												<h:outputText value="#{receitaSiteBean.formatDouble(receitaIngrediente.qty)}" />
+												<span> </span>
+											</c:if>
 											<h:outputText value="#{receitaIngrediente.medida.abreviacao}" />
 										</dt>
 									</c:forEach>
@@ -104,11 +105,11 @@
 					<div class="comments" id="comments">
 						<!-- 	                            <h2>5 comments</h2> -->
 						<h2>
-							<h:outputText value="#{receitaSiteBean.vo.comentarios.size()}" /> comentário<c:if test="#{receitaSiteBean.vo.comentarios.size()==0 || receitaSiteBean.vo.comentarios.size()>1}">s</c:if>
+							<h:outputText value="#{receitaSiteBean.model.comentarios.size()}" /> comentário<c:if test="#{receitaSiteBean.model.comentarios.size()==0 || receitaSiteBean.model.comentarios.size()>1}">s</c:if>
 						</h2>
 						<ol class="comment-list">
 							<!--comment-->
-							<c:forEach items="#{receitaSiteBean.vo.comentarios}" var="comentario">
+							<c:forEach items="#{receitaSiteBean.model.comentarios}" var="comentario">
 								<li class="comment depth-1">
 									<div class="avatar">
 										<a href="my_profile.html">
@@ -137,7 +138,7 @@
 					<c:choose>
 						<c:when test="#{not loginBean.logado}">
 							<div class="comment-respond" id="respond">
-								<h2>Leave a reply</h2>
+								<h2>Deixe um comentário</h2>
 								<div class="container">
 									<h:form>
 									<p>
@@ -152,7 +153,7 @@
 						</c:when>
 						<c:otherwise>
 						<div class="comment-respond" id="respond">
-							<h2>Leave a reply</h2>
+							<h2>Deixe um comentário</h2>
 							<div class="container">
 								<p>
 									<strong>Note:</strong> Comentários estão ligados a sua conta, por favor
@@ -166,7 +167,7 @@
 
 									<div class="f-row">
 										<div class="third bwrap">
-											<h:commandButton action="#{receitaSiteBean.incluirComentario(receitaSiteBean.vo.id)}" value="Enviar" />
+											<h:commandButton action="#{receitaSiteBean.incluirComentario()}" value="Enviar" />
 										</div>
 									</div>
 								</h:form>
@@ -182,8 +183,9 @@
 				<aside class="sidebar one-fourth">
 					<div class="widget share">
 						<ul class="boxed">
-							<li class="light"><c:choose>
-									<c:when test="#{receitaSiteBean.vo.reportou}">
+							<li class="light">
+								<c:choose>
+									<c:when test="#{receitaSiteBean.reportou}">
 										<i class="fa fa-flag" aria-hidden="true"></i>
 										<span>Reportada</span>
 									</c:when>
@@ -203,11 +205,12 @@
 								<!-- 	                            	<a href="#" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i> <span>Share on Twitter</span></a> -->
 								<span></span>
 							</li>
-							<li class="dark"><h:form>
+							<li class="dark">
+								<h:form>
 									<h:commandLink action="#{receitaSiteBean.favoritar()}"
 										style="height: 90px;">
 										<c:choose>
-											<c:when test="#{receitaSiteBean.receitaFavoritada}">
+											<c:when test="#{receitaSiteBean.favoritou}">
 												<span> <i class="fa fa-heart" aria-hidden="true"></i>
 													<i class="fa fa-heart-o" aria-hidden="true"></i>
 												</span>
@@ -228,58 +231,72 @@
 					<div class="widget score">
 						<H3 style="text-align: center;">Nota</H3>
 						<h:form>
-							<div
-								style="display: flex; flex-direction: row; justify-content: space-between; padding: 0 5px;">
-								<h:commandLink action="#{receitaSiteBean.pontuar(1)}">
-									<i class="fa fa-star-o" aria-hidden="true"
-										style="font-size: 50px;"></i>
-									<i class="fa fa-star" aria-hidden="true"
-										style="font-size: 50px;"></i>
-								</h:commandLink>
-								<h:commandLink action="#{receitaSiteBean.pontuar(2)}">
-									<i class="fa fa-star-o" aria-hidden="true"
-										style="font-size: 50px;"></i>
-									<i class="fa fa-star" aria-hidden="true"
-										style="font-size: 50px;"></i>
-								</h:commandLink>
-								<h:commandLink action="#{receitaSiteBean.pontuar(3)}">
-									<i class="fa fa-star-o" aria-hidden="true"
-										style="font-size: 50px;"></i>
-									<i class="fa fa-star" aria-hidden="true"
-										style="font-size: 50px;"></i>
-								</h:commandLink>
-								<h:commandLink action="#{receitaSiteBean.pontuar(4)}">
-									<i class="fa fa-star-o" aria-hidden="true"
-										style="font-size: 50px;"></i>
-									<i class="fa fa-star" aria-hidden="true"
-										style="font-size: 50px;"></i>
-								</h:commandLink>
-								<h:commandLink action="#{receitaSiteBean.pontuar(5)}">
-									<i class="fa fa-star-o" aria-hidden="true"
-										style="font-size: 50px;"></i>
-									<i class="fa fa-star" aria-hidden="true"
-										style="font-size: 50px;"></i>
-								</h:commandLink>
+							<div style="display: flex; flex-direction: row; justify-content: space-between; padding: 0 5px;">
+								<c:choose>
+									<c:when test="#{receitaSiteBean.pontuou}">
+										<c:forEach begin="1" end="#{receitaSiteBean.pontuacaoDada}">
+											<i class="fa fa-star" aria-hidden="true" style="font-size: 50px;"></i>
+										</c:forEach>
+										<c:forEach begin="#{receitaSiteBean.pontuacaoDada+1}" end="5">
+											<i class="fa fa-star-o" aria-hidden="true" style="font-size: 50px;"></i>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<h:commandLink action="#{receitaSiteBean.pontuar(1)}">
+											<i class="fa fa-star-o" aria-hidden="true"
+												style="font-size: 50px;"></i>
+											<i class="fa fa-star" aria-hidden="true"
+												style="font-size: 50px;"></i>
+										</h:commandLink>
+										<h:commandLink action="#{receitaSiteBean.pontuar(2)}">
+											<i class="fa fa-star-o" aria-hidden="true"
+												style="font-size: 50px;"></i>
+											<i class="fa fa-star" aria-hidden="true"
+												style="font-size: 50px;"></i>
+										</h:commandLink>
+										<h:commandLink action="#{receitaSiteBean.pontuar(3)}">
+											<i class="fa fa-star-o" aria-hidden="true"
+												style="font-size: 50px;"></i>
+											<i class="fa fa-star" aria-hidden="true"
+												style="font-size: 50px;"></i>
+										</h:commandLink>
+										<h:commandLink action="#{receitaSiteBean.pontuar(4)}">
+											<i class="fa fa-star-o" aria-hidden="true"
+												style="font-size: 50px;"></i>
+											<i class="fa fa-star" aria-hidden="true"
+												style="font-size: 50px;"></i>
+										</h:commandLink>
+										<h:commandLink action="#{receitaSiteBean.pontuar(5)}">
+											<i class="fa fa-star-o" aria-hidden="true"
+												style="font-size: 50px;"></i>
+											<i class="fa fa-star" aria-hidden="true"
+												style="font-size: 50px;"></i>
+										</h:commandLink>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</h:form>
 					</div>
 
-					<div class="widget members">
-						<h3>Members who liked this recipe</h3>
-						<ul class="boxed">
-							<c:forEach items="#{receitaSiteBean.vo.usuariosFavoritaram}"
-								var="usuario">
-								<li>
-									<div class="avatar">
-										<a href="#"> <h:graphicImage
-												value="#{resource['images:avatar1.jpg']}" /> <span><h:outputText
-													value="#{usuario.nome}" /></span>
-										</a>
-									</div>
-								</li>
-							</c:forEach>
-						</ul>
-					</div>
+					<c:choose>
+						<c:when test="#{receitaSiteBean.model.usuariosQueFavoritaram.size() > 0}">
+							<div class="widget members">
+								<h3>Usuarios que gostaram dessa receita</h3>
+								<ul class="boxed">
+									<c:forEach items="#{receitaSiteBean.model.usuariosQueFavoritaram}" var="usuario">
+										<li>
+											<div class="avatar">
+												<a href="#"> 
+													<h:graphicImage value="#{resource['images:avatar1.jpg']}" />
+													<span><h:outputText value="#{usuario.nome}" /></span>
+												</a>
+											</div>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</c:when>
+					</c:choose>
 				</aside>
 				<!--//right sidebar-->
 			</div>

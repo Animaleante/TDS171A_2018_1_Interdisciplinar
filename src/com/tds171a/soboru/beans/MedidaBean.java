@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.tds171a.soboru.models.Medida;
+import com.tds171a.soboru.utils.PersistenceFactory;
 
 @Named("medidaBean")
 @SessionScoped
@@ -25,9 +26,18 @@ public class MedidaBean extends BeanBase<Medida> {
      *será passado para o navegador.
      */
 	public MedidaBean() {
-		route_base = "/medida/Medida/";
+		route_base = "/cadastro/medida/";
         setModel(new Medida());
 	}
+    
+    /**
+     * 
+     */
+    @Override
+    public String listar() {
+    	controller = PersistenceFactory.getMedidaPersistenceFactory();
+    	return super.listar();
+    }
 
 	/**
      * Override do deletar, onde verifica a sessao, 
@@ -77,7 +87,6 @@ public class MedidaBean extends BeanBase<Medida> {
 	 */
 	@Override
 	public void limparModel() {
-		// TODO Auto-generated method stub
-		
+		setModel(new Medida());
 	}
 }

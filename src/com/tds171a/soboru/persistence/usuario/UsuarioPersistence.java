@@ -50,4 +50,8 @@ public class UsuarioPersistence implements IDAO<Usuario> {
 	public Usuario selecionar(int modelId) {
 		return dao.selecionar(modelId);
 	}
+
+	public Usuario loginUsuario(String email, String senha) {
+		return dao.login(email, senha);
+	}
 }
